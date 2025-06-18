@@ -7,6 +7,9 @@
     "light": "#07C983",
     "dark": "#15803D"
   },
+  "openApi": {
+    "filePath": "api-reference/swagger.yaml"
+  },
   "favicon": "/favicon.ico",
   "logo": {
     "light": "/logo/light.svg",
