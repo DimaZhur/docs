@@ -57,11 +57,7 @@
           {
             "group": "API",
             "pages": [
-              {
-                "name": "Finsei API",
-                "type": "openapi",
-                "filePath": "api-reference/swagger.yaml"
-              }
+              "api-reference/swagger"
             ]
           }
         ]
