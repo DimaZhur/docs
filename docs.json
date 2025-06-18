@@ -33,6 +33,7 @@
             "group": "Integration",
             "pages": [
               "integration/get-sandbox-account",
+              "integration/create-sub-user",
               "integration/create-jwt-token",
               "integration/check-my-wallet",
               "integration/create-debit-to-ben",
