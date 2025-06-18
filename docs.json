@@ -12,6 +12,9 @@
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
   },
+  "openApi": {
+    "filePath": "api-reference/swagger.yaml"
+  },
   "navigation": {
     "tabs": [
       {
@@ -49,6 +52,16 @@
               "integration/create-card",
               "integration/check-my-cards",
               "integration/get-payment-webhooks"
+            ]
+          },
+          {
+            "group": "API",
+            "pages": [
+              {
+                "name": "Finsei API",
+                "type": "openapi",
+                "filePath": "api-reference/swagger.yaml"
+              }
             ]
           }
         ]
