@@ -63,6 +63,12 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "API",
+        "api": {
+          "reference": true
+        }
       }
     ]
   }
