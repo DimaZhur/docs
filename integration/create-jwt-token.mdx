@@ -62,6 +62,7 @@ JWT Token creation is only available for sub-users.
 
 11 Execute final POST /v2/auth with:
 
+```json
 {
   "signToken": "<from step 10>"
 }
@@ -74,6 +75,7 @@ JWT Token creation is only available for sub-users.
   "status": "CREATED",
   "id": "..." 
 }
+```
 
 13 Pair of accessToken and refreshToken will be sent via WebSocket
 
