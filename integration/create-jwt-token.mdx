@@ -42,7 +42,7 @@ JWT Token creation is only available for sub-users.
 
 6. Authorisation: Bearer Token with accessToken value from previous step
 
-7. Execute POST /v2/auth with body:
+7. Execute `POST /v2/auth` with body:
 
 ```json
 {
@@ -57,11 +57,11 @@ JWT Token creation is only available for sub-users.
 
 8 You'll get signId value
 
-9 Execute again POST /v2/mfa/{type}/sign/{requestId} as in step 3
+9 Execute again `POST /v2/mfa/{type}/sign/{requestId}` as in step 3
 
 10 Get signToken
 
-11 Execute final POST /v2/auth with:
+11 Execute final `POST /v2/auth` with:
 
 ```json
 {
