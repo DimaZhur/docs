@@ -15,28 +15,35 @@ JWT Token creation is only available for sub-users.
 ### 🪜 Steps
 
 1. Execute method `POST https://api.sandbox.finsei.com/v2/auth/token`  
+
 2. You will get `signId` in response  
+
 3. Execute:  
    `POST https://api.sandbox.finsei.com/v2/mfa/{type}/sign/{requestId}`  
    - `type` = `google` or `sms`  
    - `requestId` = value from step 2  
    - body:
+
      ```json
      {
        "code": "111111"
      }
      ```
+
 4. You will get `signToken` value  
-5. Execute `POST /v2/auth/token` again with body:  
+
+5. Execute `POST /v2/auth/token` again with body:
+
    ```json
    {
      "signToken": "<from previous step>"
    }
 
-6 Authorisation: Bearer Token with accessToken value from previous step
+6. Authorisation: Bearer Token with accessToken value from previous step
 
-7 Execute POST /v2/auth with body:
+7. Execute POST /v2/auth with body:
 
+```json
 {
   "id": "string",
   "allowIps": ["ip1", "ip2"],
@@ -45,6 +52,7 @@ JWT Token creation is only available for sub-users.
   "expiredAt": 1718700000,
   "app": "FinseiApp"
 }
+```
 
 8 You'll get signId value
 
@@ -57,9 +65,11 @@ JWT Token creation is only available for sub-users.
 {
   "signToken": "<from step 10>"
 }
+```
 
 12 You’ll receive response:
 
+```json
 {
   "status": "CREATED",
   "id": "..." 
