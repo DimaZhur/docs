@@ -53,14 +53,6 @@
               "integration/check-my-cards",
               "integration/get-payment-webhooks"
             ]
-          },
-          {
-            "group": "API Reference",
-            "pages": [
-              "api-reference/base-url",
-              "api-reference/changelog",
-              "api-reference/endpoints"
-            ]
           }
         ]
       },
