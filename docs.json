@@ -55,20 +55,9 @@
         ]
       },
       {
-        "name": "API",
-        "url": "/api",
+        "tab": "API",
         "api": {
-          "reference": true,
-          "baseUrl": "https://api.sandbox.altpay.uk",
-          "auth": {
-            "method": "bearer",
-            "name": "Authorization",
-            "inputPrefix": "Bearer "
-          },
-          "playground": {
-            "mode": "show"
-          },
-          "maintainOrder": true
+          "reference": true
         }
       }
     ]
