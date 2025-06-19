@@ -57,7 +57,7 @@
           {
             "group": "API",
             "pages": [
-              "api-reference/openapi"
+              "api-reference/swagger"
             ]
           }
         ]
