@@ -14,7 +14,7 @@
         "tab": "Docs",
         "groups": [
           {
-            "group": "Get Started",
+            "group": "Introduction",
             "pages": [
               "index",
               "what-is-finsei",
@@ -22,14 +22,12 @@
             ]
           },
           {
-            "group": "Essentials",
+            "group": "Core Concepts",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "core-concepts/wallets",
+              "core-concepts/cards",
+              "core-concepts/transactions",
+              "core-concepts/beneficiary"
             ]
           }
         ]
