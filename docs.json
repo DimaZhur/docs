@@ -13,7 +13,7 @@
     "dark": "/logo/dark.svg"
   },
   "openApi": {
-    "filePath": "api-reference/swagger.yaml"
+    "filePath": "api-reference/swagger.json"
   },
   "navigation": {
     "tabs": [
@@ -57,7 +57,7 @@
           {
             "group": "API",
             "pages": [
-              "api-reference/swagger"
+              "api-reference/openapi"
             ]
           }
         ]
