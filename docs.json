@@ -78,7 +78,7 @@
           "icon": "book-open-cover"
         },
         {
-          "anchor": "Our suuport team",
+          "anchor": "Our support team",
           "href": "https://finsei.freshdesk.com/support/home",
           "icon": "slack"
         }
@@ -92,8 +92,8 @@
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "label": "Our Swagger",
+        "href": "https://api.test.inside.altpay.uk"
       }
     ],
     "primary": {
