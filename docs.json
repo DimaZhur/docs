@@ -74,12 +74,12 @@
       "anchors": [
         {
           "anchor": "Our website",
-          "href": "https://finsei.com/",
+          "href": "https://finsei.com",
           "icon": "book-open-cover"
         },
         {
           "anchor": "Our suuport team",
-          "href": "https://finsei.freshdesk.com/support/home",
+          "href": "https://finsei.com",
           "icon": "slack"
         }
       ]
