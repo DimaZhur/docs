@@ -94,6 +94,10 @@
       {
         "label": "Our Swagger",
         "href": "https://api.test.inside.altpay.uk"
+      },
+      {
+        "label": "Sandbox",
+        "href": "https://bo.test.inside.altpay.uk/"
       }
     ],
     "primary": {
