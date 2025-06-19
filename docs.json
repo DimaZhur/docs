@@ -92,7 +92,7 @@
   "navbar": {
     "links": [
       {
-        "label": "Our Swagger",
+        "label": "Swagger",
         "href": "https://api.test.inside.altpay.uk"
       },
       {
