@@ -17,7 +17,6 @@
             "group": "Introduction",
             "pages": [
               "index",
-              "what-is-finsei",
               "who-is-this-for"
             ]
           },
@@ -28,6 +27,24 @@
               "core-concepts/cards",
               "core-concepts/transactions",
               "core-concepts/beneficiary"
+            ]
+          },
+          {
+            "group": "Integration",
+            "pages": [
+              "integration/get-sandbox-account",
+              "integration/create-sub-user",
+              "integration/create-jwt-token",
+              "integration/check-my-wallet",
+              "integration/create-debit-to-ben",
+              "integration/create-debit-another-finsei-wallet",
+              "integration/status-for-payment",
+              "integration/check-payment-status",
+              "integration/create-credit-payment",
+              "integration/see-wallet-payments",
+              "integration/create-card",
+              "integration/check-my-cards",
+              "integration/get-payment-webhooks"
             ]
           }
         ]
