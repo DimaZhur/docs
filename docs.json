@@ -55,10 +55,7 @@
         ]
       },
       {
-        "tab": "API",
-        "api": {
-          "reference": true
-        }
+        "tab": "API"
       }
     ]
   }
