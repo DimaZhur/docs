@@ -13,7 +13,7 @@
     "dark": "/logo/dark.svg"
   },
   "openApi": {
-    "filePath": "api-reference/swagger.json"
+    "filePath": "openapi.json"
   },
   "navigation": {
     "tabs": [
@@ -53,14 +53,14 @@
               "integration/check-my-cards",
               "integration/get-payment-webhooks"
             ]
-          },
-          {
-            "group": "API",
-            "pages": [
-              "api-reference/swagger"
-            ]
           }
         ]
+      },
+      {
+        "tab": "API",
+        "api": {
+          "reference": true
+        }
       }
     ]
   }
