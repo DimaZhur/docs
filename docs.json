@@ -99,12 +99,7 @@
         "label": "Sandbox",
         "href": "https://bo.test.inside.altpay.uk/"
       }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "SOS",
-      "href": "dina.osipova@altpay.uk"
-    }
+    ]
   },
   "footer": {
     "socials": {
