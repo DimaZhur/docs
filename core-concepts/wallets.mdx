@@ -1,6 +1,7 @@
-## Wallet Types
-
-Below are the available wallet types and their descriptions.
+---
+title: Wallet Types
+description: "Below are the available wallet types and their descriptions."
+---
 
 | Wallet Name              | Description                                                                                          | Additional Information                                                                                                                                                     |
 |--------------------------|------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -12,3 +13,14 @@ Below are the available wallet types and their descriptions.
 | **Custom Pooled - GuruPay** | One IBAN used for all wallets.                                                                       | —                                                                                                                                                                          |
 | **Nexpay**               | Available for both **Business** and **Individual** types. Can be the first wallet on company creation. | Only EUR supported.                                                                                                                                                        |
 | **TBD**                  | Temporary solution.                                                                                   | If the `reference` field equals `provider failure`, payment fails during approval. For such payments, `next_step` in DB = 2.                                               |
+
+## `isFavourite` Flag
+
+The `isFavourite` flag allows users to mark wallets as favorites. These wallets are then displayed in a separate **Favourite** section.
+
+![Favourite wallets](./images/isfavourite.png)
+
+You can update the `isFavourite` flag for any wallet, regardless of the user's role.  
+The flag can be changed using the `PATCH /v2/wallet/{id}` method.
+
+> 🔧 The permission for this action is role-independent (see [here](#) for updates).
