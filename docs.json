@@ -55,7 +55,8 @@
         ]
       },
       {
-        "tab": "API""api": {
+        "tab": "API",
+        "api": {
           "reference": true
         }
       }
