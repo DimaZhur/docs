@@ -293,20 +293,18 @@
       },
       "Login": {
         "type": "object",
-        "required": [
-          "login",
-          "password"
-        ],
         "properties": {
-          "login": {
-            "type": "string",
-            "description": "User login"
+          "username": {
+            "type": "string"
           },
           "password": {
-            "type": "string",
-            "description": "User password"
+            "type": "string"
           }
-        }
+        },
+        "required": [
+          "username",
+          "password"
+        ]
       }
     },
     "securitySchemes": {
@@ -316,43 +314,33 @@
       }
     },
     "responses": {
-      "ErrorFormResponse": {
-        "description": "Error response",
+      "Unauthorized": {
+        "description": "Unauthorized",
         "content": {
           "application/json": {
             "schema": {
               "type": "object",
               "properties": {
-                "status": {
-                  "type": "string"
-                },
                 "error": {
-                  "type": "string"
-                },
-                "message": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "Unauthorized"
                 }
               }
             }
           }
         }
       },
-      "SignFormResponse": {
-        "description": "Sign required response",
+      "ErrorFormResponse": {
+        "description": "Form error response",
         "content": {
           "application/json": {
             "schema": {
               "type": "object",
               "properties": {
-                "status": {
-                  "type": "string"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "signToken": {
-                      "type": "string"
-                    }
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
                   }
                 }
               }
@@ -360,17 +348,14 @@
           }
         }
       },
-      "Unauthorized": {
-        "description": "Unauthorized request",
+      "SignFormResponse": {
+        "description": "Sign form response",
         "content": {
           "application/json": {
             "schema": {
               "type": "object",
               "properties": {
-                "status": {
-                  "type": "string"
-                },
-                "message": {
+                "signForm": {
                   "type": "string"
                 }
               }
