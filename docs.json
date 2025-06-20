@@ -100,11 +100,11 @@
     "links": [
       {
         "label": "Swagger",
-        "href": "https://api.test.inside.altpay.uk"
+        "href": "https://api.sandbox.altpay.uk"
       },
       {
         "label": "Sandbox",
-        "href": "https://bo.test.inside.altpay.uk/"
+        "href": "https://bo.sandbox.inside.finsei.com"
       }
     ]
   },

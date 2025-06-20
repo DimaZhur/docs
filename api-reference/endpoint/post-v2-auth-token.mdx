@@ -1,0 +1,55 @@
+---
+title: "Authenticate User"
+api: "POST https://api.sandbox.altpay.uk/v2/auth/token"
+description: "Authenticates a user using Basic Auth and returns access tokens."
+---
+
+### Parameters
+
+- `validate` (query) – *(optional)* Whether to validate the user without issuing tokens.  
+  Possible values:  
+  - `0` – Issue tokens (default)  
+  - `1` – Only validate credentials, don't issue tokens  
+
+### Request Body
+
+Accepts `application/json` or `application/x-www-form-urlencoded` with the following fields:
+
+- `username` – *(required)* The user’s login name  
+- `password` – *(required)* The user’s password  
+
+> These fields are defined in the `Login` schema.
+
+### Authorization
+
+Requires Basic Authentication via the `Authorization` header (`username:password`).
+
+### Example Request
+
+```bash
+curl -X POST "https://api.test.inside.altpay.uk/v2/auth/token?validate=0" \
+  -H "Content-Type: application/json" \
+  -u username:password \
+  -d '{
+    "username": "your-username",
+    "password": "your-password"
+  }'
+```
+
+Example Response
+
+```json
+{
+  "status": "SUCCESS",
+  "data": {
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI...",
+    "refreshToken": "def50200dabb5d4a04c8c...",
+    "wsToken": "string"
+  }
+}
+```
+Error Responses
+
+- `401 Unauthorized` – If authentication fails
+- `E`rrorFormResponse` – On validation or schema errors
+- `S`ignFormResponse` – On login/signature issues
