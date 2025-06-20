@@ -16,7 +16,17 @@ JWT Token creation is only available for sub-users.
 
 1. Execute method `POST https://api.sandbox.finsei.com/v2/auth/token`  
 
-For authentication, see the [Authenticate User](/api-reference/post-v2-auth-token) endpoint.
+Use the `/v2/auth/token` endpoint to get an access token:
+
+```bash
+curl -X POST "https://api.sandbox.altpay.uk/v2/auth/token" \
+  -H "Content-Type: application/json" \
+  -u username:password \
+  -d '{
+    "username": "your-username",
+    "password": "your-password"
+  }'
+  ```
 
 2. You will get `signId` in response  
 3. Execute:  
