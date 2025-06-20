@@ -65,7 +65,8 @@
               "api-reference/endpoint/create",
               "api-reference/endpoint/delete",
               "api-reference/endpoint/webhook",
-              "api-reference/endpoint/get-auth"
+              "api-reference/endpoint/get-auth",
+              "api-reference/endpoint/post-v2-auth-token"
             ]
           },
           {

@@ -15,6 +15,9 @@ JWT Token creation is only available for sub-users.
 ### Steps
 
 1. Execute method `POST https://api.sandbox.finsei.com/v2/auth/token`  
+
+For authentication, see the [Authenticate User](/reference/post-v2-auth-token) endpoint.
+
 2. You will get `signId` in response  
 3. Execute:  
    `POST https://api.sandbox.finsei.com/v2/mfa/{type}/sign/{requestId}`  
