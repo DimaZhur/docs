@@ -75,6 +75,29 @@
         ]
       }
     ],
+    "logo": {
+      "light": "/logo/light.svg",
+      "dark": "/logo/dark.svg"
+    },
+    "navbar": {
+      "links": [
+        {
+          "label": "Swagger",
+          "href": "https://api.sandbox.altpay.uk"
+        },
+        {
+          "label": "Sandbox",
+          "href": "https://bo.sandbox.inside.finsei.com"
+        }
+      ]
+    },
+    "footer": {
+      "socials": {
+        "x": "https://x.com/mintlify",
+        "github": "https://github.com/mintlify",
+        "linkedin": "https://linkedin.com/company/mintlify"
+      }
+    },
     "global": {
       "anchors": [
         {
@@ -90,27 +113,18 @@
       ]
     }
   },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
+  "sidebar": [
+    {
+      "section": "API Reference",
+      "autogenerate": true,
+      "path": "api-reference"
+    }
+  ],
+  "openapi": {
+    "config": [
       {
-        "label": "Swagger",
-        "href": "https://api.sandbox.altpay.uk"
-      },
-      {
-        "label": "Sandbox",
-        "href": "https://bo.sandbox.inside.finsei.com"
+        "spec": "api-reference/openapi.yaml"
       }
     ]
-  },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
   }
 }

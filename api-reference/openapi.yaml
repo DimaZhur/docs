@@ -1,0 +1,66 @@
+openapi: 3.0.0
+info:
+  title: Altpay MFA API
+  version: 1.0.0
+paths:
+  /v2/mfa/{type}/sign/{requestId}:
+    post:
+      summary: Verify MFA Code
+      description: Submits an MFA verification code to retrieve a signToken.
+      parameters:
+      - name: type
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - sms
+          - google
+        description: Type of MFA method
+      - name: requestId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID returned from previous MFA request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                  maxLength: 6
+                  example: '111111'
+              required:
+              - code
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: SUCCESS
+                  data:
+                    type: object
+                    properties:
+                      signToken:
+                        type: string
+                        example: eyJhbGciOiJSUzI1NiJ9.eyJzaWduSWQiOiI5YjJjZm...
+      security:
+      - BearerAuth: []
+      - BasicAuth: []
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+    BasicAuth:
+      type: http
+      scheme: basic
