@@ -100,18 +100,4 @@
       ]
     }
   },
-  "sidebar": [
-    {
-      "section": "API Reference",
-      "autogenerate": true,
-      "path": "api-reference"
-    }
-  ],
-  "openapi": {
-    "config": [
-      {
-        "spec": "api-reference/openapi.json"
-      }
-    ]
-  }
 }
