@@ -110,7 +110,7 @@
   "openapi": {
     "config": [
       {
-        "spec": "api-reference/openapi.yaml"
+        "spec": "api-reference/openapi.json"
       }
     ]
   }
