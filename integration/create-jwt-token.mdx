@@ -25,7 +25,7 @@ curl -X POST "https://api.sandbox.altpay.uk/v2/auth/token" \
 
 2. You will get `signId` in response  
 3. Execute:  
-  [`POST /v2/mfa/{type}/sign/{requestId}`](/api-reference/endpoint/post-v2-mfa-sign-requestid) to submit the verification code and receive a `signToken`
+  [`POST /v2/mfa/{type}/sign/{requestId}`](/api-reference/endpoint/verify-mfa-code) to submit the verification code and receive a `signToken`
    - `type` = `google` or `sms`  
    - `requestId` = value from step 2  
    - body:
