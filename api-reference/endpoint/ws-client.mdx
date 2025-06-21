@@ -12,8 +12,8 @@
   let socket;
   const wsUrl = 'wss://api.sandbox.altpay.uk/ws/client';
 
-  document.getElementById('ws-connect').addEventListener('click', () => {
-    const token = prompt("Enter your wsToken (from v2/auth/token response):");
+  document.getElementById('ws-connect').addEventListener('click', function () {
+    var token = prompt("Enter your wsToken (from v2/auth/token response):");
 
     if (!token) {
       alert("Token is required to connect.");
@@ -22,29 +22,30 @@
 
     socket = new WebSocket(wsUrl + '?token=' + encodeURIComponent(token));
 
-    const status = document.getElementById('ws-connection');
-    const output = document.getElementById('ws-output');
+    var status = document.getElementById('ws-connection');
+    var output = document.getElementById('ws-output');
     output.textContent = '';
 
-    socket.onopen = () => {
+    socket.onopen = function () {
       status.textContent = 'Connected';
       status.style.color = 'green';
     };
 
-    socket.onmessage = (event) => {
-      output.textContent += "Received:\\n" + event.data + "\\n\\n";
+    socket.onmessage = function (event) {
+      output.textContent += 'Received:\n' + event.data + '\n\n';
       output.scrollTop = output.scrollHeight;
     };
 
-    socket.onerror = (err) => {
+    socket.onerror = function (err) {
       console.error('WebSocket Error', err);
-      output.textContent += "Error: " + (err.message || err) + "\\n";
+      output.textContent += 'Error: ' + (err.message || err) + '\n';
     };
 
-    socket.onclose = () => {
+    socket.onclose = function () {
       status.textContent = 'Disconnected';
       status.style.color = 'red';
     };
   });
 </script>
+
 
