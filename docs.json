@@ -50,7 +50,11 @@
               "api-reference/endpoint/v2-auth-token",
               "api-reference/endpoint/verify-mfa",
               "api-reference/endpoint/v2-auth",
-              "api-reference/endpoint/webSocket-client"
+              {
+                "name": "WebSocket client",
+                "href": "https://api.sandbox.altpay.uk/ws/client",
+                "external": true
+              }
             ]
           }
         ]
