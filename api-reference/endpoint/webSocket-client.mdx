@@ -1,12 +1,21 @@
 # WebSocket Client
 
-<script>
-  window.open("https://api.sandbox.altpay.uk/ws/client", "_blank");
-</script>
+После выполнения метода `v2/auth/token` вы получите `wsToken`, который нужен для подключения к WebSocket.
 
-> WebSocket клиент открылся в новом окне.  
-Если этого не произошло — [нажмите сюда вручную](https://api.sandbox.altpay.uk/ws/client).
+Откройте клиент по ссылке ниже и вставьте полученный токен при подключении:
 
+[Перейти к WebSocket клиенту](https://api.sandbox.altpay.uk/ws/client){target=_blank}
 
+---
 
+**Где взять токен?**
+
+Выполните метод `POST /v2/auth/token`, и в ответе будет поле:
+
+```json
+{
+  "data": {
+    "wsToken": "your-websocket-token"
+  }
+}
 
