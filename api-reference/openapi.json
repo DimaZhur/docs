@@ -217,15 +217,6 @@
       "Login": {
         "type": "object",
         "properties": {
-          "username": {
-            "type": "string",
-            "example": "user@example.com"
-          },
-          "password": {
-            "type": "string",
-            "format": "password",
-            "example": "string"
-          },
           "signToken": {
             "type": "string",
             "example": "abc123"
