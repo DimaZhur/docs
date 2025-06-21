@@ -1,52 +1,9 @@
 # WebSocket Client
 
-@custom/html
+Вы можете протестировать работу WebSocket в [внешнем клиенте](https://api.sandbox.altpay.uk/ws/client).
 
-<div id="ws-status" style="margin-bottom: 8px; font-weight: bold;">
-  WebSocket Status: <span id="ws-connection">Disconnected</span>
-</div>
-<button id="ws-connect" style="margin-bottom: 10px;">Connect WebSocket</button>
-<pre id="ws-output" style="background-color: #f3f3f3; padding: 12px; border-radius: 6px; max-height: 300px; overflow-y: auto;"></pre>
+Клиент позволяет:
+- Вставить токен (из `v2/auth/token`)
+- Установить соединение
+- Просматривать входящие сообщения в реальном времени
 
-<script>
-  var socket;
-  var wsUrl = 'wss://api.sandbox.altpay.uk/ws/client';
-
-  document.addEventListener('DOMContentLoaded', function () {
-    var connectButton = document.getElementById('ws-connect');
-    var status = document.getElementById('ws-connection');
-    var output = document.getElementById('ws-output');
-
-    connectButton.addEventListener('click', function () {
-      var token = window.prompt("Enter your wsToken (from v2/auth/token response):");
-
-      if (!token) {
-        alert("Token is required to connect.");
-        return;
-      }
-
-      socket = new WebSocket(wsUrl + '?token=' + encodeURIComponent(token));
-      output.textContent = '';
-
-      socket.onopen = function () {
-        status.textContent = 'Connected';
-        status.style.color = 'green';
-      };
-
-      socket.onmessage = function (event) {
-        output.textContent += 'Received:\n' + event.data + '\n\n';
-        output.scrollTop = output.scrollHeight;
-      };
-
-      socket.onerror = function (err) {
-        console.error('WebSocket Error', err);
-        output.textContent += 'Error: ' + (err.message || err) + '\n';
-      };
-
-      socket.onclose = function () {
-        status.textContent = 'Disconnected';
-        status.style.color = 'red';
-      };
-    });
-  });
-</script>
