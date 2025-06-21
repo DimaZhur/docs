@@ -50,7 +50,7 @@
               "api-reference/endpoint/v2-auth-token",
               "api-reference/endpoint/verify-mfa",
               "api-reference/endpoint/v2-auth",
-              "api-reference/endpoint/webSocket-client"
+              "api-reference/endpoint/websocket-client"
             ]
           }
         ]
