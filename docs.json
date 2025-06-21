@@ -46,10 +46,6 @@
           {
             "group": "Endpoint Examples",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook",
               "api-reference/endpoint/verify-mfa",
               "api-reference/endpoint/v2-auth-token"
             ]
