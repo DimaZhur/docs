@@ -184,30 +184,6 @@
             "$ref": "#/components/responses/Unauthorized"
           }
         }
-      },
-      "options": {
-        "tags": [
-          "auth"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "headers": {
-              "Allow": {
-                "schema": {
-                  "type": "string"
-                },
-                "description": "GET, OPTIONS"
-              },
-              "Access-Control-Allow-Methods": {
-                "schema": {
-                  "type": "string"
-                },
-                "description": "GET, OPTIONS"
-              }
-            }
-          }
-        }
       }
     },
     "/v2/auth": {
@@ -296,6 +272,30 @@
       "AuthV2": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "allowIps": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "ipv4"
+            }
+          },
+          "withMfa": {
+            "type": "boolean"
+          },
+          "fingerprint": {
+            "type": "string"
+          },
+          "expiredAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "app": {
+            "type": "string"
+          },
           "type": {
             "type": "string"
           },
