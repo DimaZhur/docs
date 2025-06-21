@@ -226,8 +226,8 @@
         ],
         "parameters": [
           {
-            "in": "query",
             "name": "validate",
+            "in": "query",
             "schema": {
               "default": 0,
               "type": "integer",
@@ -258,33 +258,40 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "SUCCESS"
-                    },
-                    "data": {
+                  "oneOf": [
+                    {
                       "type": "object",
                       "properties": {
-                        "accessToken": {
-                          "type": "string"
+                        "status": {
+                          "type": "string",
+                          "example": "SUCCESS"
                         },
-                        "refreshToken": {
-                          "type": "string"
-                        },
-                        "wsToken": {
-                          "type": "string"
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "accessToken": {
+                              "type": "string"
+                            },
+                            "refreshToken": {
+                              "type": "string"
+                            },
+                            "wsToken": {
+                              "type": "string"
+                            }
+                          }
                         }
                       }
+                    },
+                    {
+                      "$ref": "#/components/schemas/Error"
                     }
-                  }
+                  ]
                 }
               }
             }
           },
           "401": {
-            "description": "Unauthorized"
+            "$ref": "#/components/schemas/Error"
           }
         }
       }
