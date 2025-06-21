@@ -1,14 +1,10 @@
-import { useEffect } from 'react';
+# WebSocket Client
 
-export default function Redirect() {
-  useEffect(() => {
-    if (window.location.pathname.includes('/ws-client') && !sessionStorage.getItem('ws-redirected')) {
-      sessionStorage.setItem('ws-redirected', 'true');
-      window.location.href = 'https://api.sandbox.altpay.uk/ws/client';
-    }
-  }, []);
+<Head>
+  <meta http-equiv="refresh" content="0; URL=https://api.sandbox.altpay.uk/ws/client" />
+</Head>
 
-  return <p>Redirecting to external WebSocket client...</p>;
-}
+Redirecting to external WebSocket client...
+
 
 
