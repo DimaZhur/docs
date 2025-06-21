@@ -209,6 +209,68 @@
           }
         }
       }
+    },
+    "/v2/auth": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "validate",
+            "schema": {
+              "default": 0,
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "signToken",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthV2"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Validate"
+          },
+          "201": {
+            "$ref": "#/components/responses/Created"
+          },
+          "202": {
+            "$ref": "#/components/responses/Sign"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        }
+      }
     }
   },
   "webhooks": {},
@@ -229,6 +291,25 @@
         "required": [
           "signToken",
           "fingerprintid"
+        ]
+      },
+      "AuthV2": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "type",
+          "token"
         ]
       }
     },
@@ -301,6 +382,21 @@
             }
           }
         }
+      },
+      "BadRequest": {
+        "description": "Bad request"
+      },
+      "ValidationError": {
+        "description": "Validation error"
+      },
+      "Validate": {
+        "description": "Validation success"
+      },
+      "Created": {
+        "description": "Resource created"
+      },
+      "Sign": {
+        "description": "MFA sign required"
       }
     },
     "securitySchemes": {
@@ -311,6 +407,34 @@
       "BasicAuth": {
         "type": "http",
         "scheme": "basic"
+      }
+    },
+    "parameters": {
+      "Before": {
+        "name": "before",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "required": false
+      },
+      "After": {
+        "name": "after",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "required": false
+      },
+      "Limit": {
+        "name": "limit",
+        "in": "query",
+        "schema": {
+          "type": "integer"
+        },
+        "required": false
       }
     }
   }
