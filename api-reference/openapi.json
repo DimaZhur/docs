@@ -274,37 +274,43 @@
         "properties": {
           "id": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "example": "00000000-0000-0000-0000-000000000000"
           },
           "allowIps": {
             "type": "array",
             "items": {
               "type": "string",
               "format": "ipv4"
-            }
+            },
+            "example": [
+              "127.0.0.1"
+            ]
           },
           "withMfa": {
-            "type": "boolean"
+            "type": "boolean",
+            "default": true
           },
           "fingerprint": {
-            "type": "string"
+            "type": "string",
+            "nullable": true,
+            "default": null
           },
           "expiredAt": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true,
+            "default": null
           },
           "app": {
-            "type": "string"
+            "type": "string",
+            "default": "Chrome"
           },
           "type": {
             "type": "string"
           },
           "token": {
             "type": "string"
-          },
-          "expiresAt": {
-            "type": "string",
-            "format": "date-time"
           }
         },
         "required": [
