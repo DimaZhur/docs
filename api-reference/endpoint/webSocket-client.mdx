@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
+# WebSocket Client
 
-export default function Redirect() {
-  useEffect(() => {
-    window.location.href = 'https://api.sandbox.altpay.uk/ws/client';
-  }, []);
+<script>
+  window.open("https://api.sandbox.altpay.uk/ws/client", "_blank");
+  window.location.href = "/";
+</script>
 
-  return <p>Redirecting to external WebSocket client...</p>;
-}
+> Переход к WebSocket клиенту открылся в новом окне. Если не сработал — [нажмите здесь](https://api.sandbox.altpay.uk/ws/client).
+
 
