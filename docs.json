@@ -1,441 +1,101 @@
 {
-  "openapi": "3.1.0",
-  "info": {
-    "title": "AltPay API",
-    "description": "API documentation for AltPay",
-    "license": {
-      "name": "MIT"
-    },
-    "version": "1.0.0"
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Mint Starter  Kit",
+  "colors": {
+    "primary": "#16A34A",
+    "light": "#07C983",
+    "dark": "#15803D"
   },
-  "servers": [
-    {
-      "url": "https://api.sandbox.altpay.uk"
-    }
-  ],
-  "security": [
-    {
-      "bearerAuth": []
-    }
-  ],
-  "paths": {
-    "/v2/mfa/{type}/sign/{requestId}": {
-      "post": {
-        "summary": "Verify MFA Code",
-        "description": "Submits an MFA verification code to retrieve a signToken.",
-        "parameters": [
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "groups": [
           {
-            "name": "type",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "sms",
-                "google"
-              ]
-            },
-            "description": "Type of MFA method"
+            "group": "Get Started",
+            "pages": [
+              "index",
+              "quickstart",
+              "development"
+            ]
           },
           {
-            "name": "requestId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "MFA request ID"
+            "group": "Essentials",
+            "pages": [
+              "essentials/markdown",
+              "essentials/code",
+              "essentials/images",
+              "essentials/settings",
+              "essentials/navigation",
+              "essentials/reusable-snippets"
+            ]
           }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "code": {
-                    "type": "string",
-                    "maxLength": 6
-                  }
-                },
-                "required": [
-                  "code"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful verification",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "signToken": {
-                          "type": "string"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation failed"
-          }
-        },
-        "security": [
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
           {
-            "bearerAuth": []
+            "group": "API Documentation",
+            "pages": [
+              "api-reference/introduction"
+            ]
+          },
+          {
+            "group": "Endpoint Examples",
+            "pages": [
+              "api-reference/endpoint/v2-auth-token",
+              "api-reference/endpoint/verify-mfa",
+              "api-reference/endpoint/v2-auth"
+            ]
           }
         ]
       }
-    },
-    "/v2/auth/token": {
-      "post": {
-        "tags": [
-          "auth"
-        ],
-        "security": [
-          {
-            "BasicAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "validate",
-            "schema": {
-              "default": 0,
-              "type": "integer",
-              "enum": [
-                0,
-                1
-              ]
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/Login"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Login"
-              }
-            }
-          }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Documentation",
+          "href": "https://mintlify.com/docs",
+          "icon": "book-open-cover"
         },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "oneOf": [
-                    {
-                      "type": "object",
-                      "properties": {
-                        "status": {
-                          "type": "string",
-                          "example": "SUCCESS"
-                        },
-                        "data": {
-                          "type": "object",
-                          "properties": {
-                            "accessToken": {
-                              "type": "string"
-                            },
-                            "refreshToken": {
-                              "type": "string"
-                            },
-                            "wsToken": {
-                              "type": "string"
-                            }
-                          }
-                        }
-                      }
-                    },
-                    {
-                      "$ref": "#/components/responses/ErrorFormResponse"
-                    },
-                    {
-                      "$ref": "#/components/responses/SignFormResponse"
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          }
-        }
-      }
-    },
-    "/v2/auth": {
-      "post": {
-        "tags": [
-          "auth"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "validate",
-            "schema": {
-              "default": 0,
-              "type": "integer",
-              "enum": [
-                0,
-                1
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "signToken",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AuthV2"
-              }
-            }
-          }
+        {
+          "anchor": "Community",
+          "href": "https://mintlify.com/community",
+          "icon": "slack"
         },
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/Validate"
-          },
-          "201": {
-            "$ref": "#/components/responses/Created"
-          },
-          "202": {
-            "$ref": "#/components/responses/Sign"
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "422": {
-            "$ref": "#/components/responses/ValidationError"
-          }
+        {
+          "anchor": "Blog",
+          "href": "https://mintlify.com/blog",
+          "icon": "newspaper"
         }
-      }
+      ]
     }
   },
-  "webhooks": {},
-  "components": {
-    "schemas": {
-      "Login": {
-        "type": "object",
-        "properties": {
-          "signToken": {
-            "type": "string",
-            "example": "abc123"
-          },
-          "fingerprintid": {
-            "type": "string",
-            "example": "fingerprint-xyz"
-          }
-        },
-        "required": [
-          "signToken",
-          "fingerprintid"
-        ]
-      },
-      "AuthV2": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "allowIps": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "ipv4"
-            }
-          },
-          "withMfa": {
-            "type": "boolean"
-          },
-          "fingerprint": {
-            "type": "string"
-          },
-          "expiredAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "app": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          },
-          "token": {
-            "type": "string"
-          },
-          "expiresAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "required": [
-          "type",
-          "token"
-        ]
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "mailto:hi@mintlify.com"
       }
-    },
-    "responses": {
-      "ErrorFormResponse": {
-        "description": "Form error",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "ERROR"
-                },
-                "errors": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "SignFormResponse": {
-        "description": "MFA required",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "MFA_REQUIRED"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "requestId": {
-                      "type": "string"
-                    },
-                    "mfaType": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "Unauthorized": {
-        "description": "Unauthorized",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "UNAUTHORIZED"
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Invalid credentials"
-                }
-              }
-            }
-          }
-        }
-      },
-      "BadRequest": {
-        "description": "Bad request"
-      },
-      "ValidationError": {
-        "description": "Validation error"
-      },
-      "Validate": {
-        "description": "Validation success"
-      },
-      "Created": {
-        "description": "Resource created"
-      },
-      "Sign": {
-        "description": "MFA sign required"
-      }
-    },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
-      },
-      "BasicAuth": {
-        "type": "http",
-        "scheme": "basic"
-      }
-    },
-    "parameters": {
-      "Before": {
-        "name": "before",
-        "in": "query",
-        "schema": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "required": false
-      },
-      "After": {
-        "name": "after",
-        "in": "query",
-        "schema": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "required": false
-      },
-      "Limit": {
-        "name": "limit",
-        "in": "query",
-        "schema": {
-          "type": "integer"
-        },
-        "required": false
-      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Dashboard",
+      "href": "https://dashboard.mintlify.com"
+    }
+  },
+  "footer": {
+    "socials": {
+      "x": "https://x.com/mintlify",
+      "github": "https://github.com/mintlify",
+      "linkedin": "https://linkedin.com/company/mintlify"
     }
   }
 }
