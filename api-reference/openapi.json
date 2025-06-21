@@ -219,6 +219,8 @@
         "tags": [
           "auth"
         ],
+        "summary": "Authenticate User",
+        "description": "Gets access token using basic authentication.",
         "security": [
           {
             "BasicAuth": []
@@ -226,11 +228,11 @@
         ],
         "parameters": [
           {
-            "name": "validate",
             "in": "query",
+            "name": "validate",
             "schema": {
-              "default": 0,
               "type": "integer",
+              "default": 0,
               "enum": [
                 0,
                 1
@@ -239,13 +241,9 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/Login"
-              }
-            },
-            "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/Login"
               }
@@ -254,44 +252,36 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successful Authentication",
             "content": {
               "application/json": {
                 "schema": {
-                  "oneOf": [
-                    {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
                       "type": "object",
                       "properties": {
-                        "status": {
-                          "type": "string",
-                          "example": "SUCCESS"
+                        "accessToken": {
+                          "type": "string"
                         },
-                        "data": {
-                          "type": "object",
-                          "properties": {
-                            "accessToken": {
-                              "type": "string"
-                            },
-                            "refreshToken": {
-                              "type": "string"
-                            },
-                            "wsToken": {
-                              "type": "string"
-                            }
-                          }
+                        "refreshToken": {
+                          "type": "string"
+                        },
+                        "wsToken": {
+                          "type": "string"
                         }
                       }
-                    },
-                    {
-                      "$ref": "#/components/schemas/Error"
                     }
-                  ]
+                  }
                 }
               }
             }
           },
           "401": {
-            "$ref": "#/components/schemas/Error"
+            "description": "Unauthorized"
           }
         }
       }
@@ -383,7 +373,7 @@
           "password": {
             "type": "string",
             "format": "password",
-            "example": "string"
+            "example": "yourPassword123"
           }
         },
         "required": [
