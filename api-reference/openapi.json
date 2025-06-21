@@ -274,8 +274,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "format": "uuid",
-            "example": "00000000-0000-0000-0000-000000000000"
+            "format": "uuid"
           },
           "allowIps": {
             "type": "array",
@@ -283,7 +282,7 @@
               "type": "string",
               "format": "ipv4"
             },
-            "example": [
+            "default": [
               "127.0.0.1"
             ]
           },
@@ -293,30 +292,18 @@
           },
           "fingerprint": {
             "type": "string",
-            "nullable": true,
             "default": null
           },
           "expiredAt": {
             "type": "string",
             "format": "date-time",
-            "nullable": true,
             "default": null
           },
           "app": {
             "type": "string",
             "default": "Chrome"
-          },
-          "type": {
-            "type": "string"
-          },
-          "token": {
-            "type": "string"
           }
-        },
-        "required": [
-          "type",
-          "token"
-        ]
+        }
       }
     },
     "responses": {
