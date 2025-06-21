@@ -273,11 +273,7 @@
             "type": "string",
             "example": "fingerprint-xyz"
           }
-        },
-        "required": [
-          "signToken",
-          "fingerprintid"
-        ]
+        }
       },
       "AuthV2": {
         "type": "object",
