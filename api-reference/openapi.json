@@ -213,6 +213,81 @@
           }
         ]
       }
+    },
+    "/v2/auth/token": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "security": [
+          {
+            "BasicAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "validate",
+            "schema": {
+              "default": 0,
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "SUCCESS"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "accessToken": {
+                          "type": "string"
+                        },
+                        "refreshToken": {
+                          "type": "string"
+                        },
+                        "wsToken": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
     }
   },
   "webhooks": {
@@ -314,6 +389,10 @@
       "bearerAuth": {
         "type": "http",
         "scheme": "bearer"
+      },
+      "BasicAuth": {
+        "type": "http",
+        "scheme": "basic"
       }
     }
   }
