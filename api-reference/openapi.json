@@ -198,16 +198,6 @@
         ],
         "parameters": [
           {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "Bearer <accessToken>"
-            },
-            "description": "Bearer token obtained from /v2/auth/token"
-          },
-          {
             "in": "query",
             "name": "validate",
             "schema": {
@@ -232,6 +222,16 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/AuthV2"
+              },
+              "example": {
+                "id": "00000000-0000-0000-0000-000000000000",
+                "allowIps": [
+                  "127.0.0.1"
+                ],
+                "withMfa": true,
+                "fingerprint": null,
+                "expiredAt": null,
+                "app": "Chrome"
               }
             }
           }
@@ -260,6 +260,196 @@
     }
   },
   "webhooks": {},
-  "components": { ...
+  "components": {
+    "schemas": {
+      "Login": {
+        "type": "object",
+        "properties": {
+          "signToken": {
+            "type": "string",
+            "example": "abc123"
+          },
+          "fingerprintid": {
+            "type": "string",
+            "example": "fingerprint-xyz"
+          }
+        },
+        "required": [
+          "signToken",
+          "fingerprintid"
+        ]
+      },
+      "AuthV2": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "default": "00000000-0000-0000-0000-000000000000"
+          },
+          "allowIps": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "ipv4"
+            },
+            "default": [
+              "127.0.0.1"
+            ]
+          },
+          "withMfa": {
+            "type": "boolean",
+            "default": true
+          },
+          "fingerprint": {
+            "type": "string",
+            "default": null
+          },
+          "expiredAt": {
+            "type": "string",
+            "format": "date-time",
+            "default": null
+          },
+          "app": {
+            "type": "string",
+            "default": "Chrome"
+          },
+          "type": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "token"
+        ]
+      }
+    },
+    "responses": {
+      "ErrorFormResponse": {
+        "description": "Form error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "ERROR"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "SignFormResponse": {
+        "description": "MFA required",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "MFA_REQUIRED"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "mfaType": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "UNAUTHORIZED"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Invalid credentials"
+                }
+              }
+            }
+          }
+        }
+      },
+      "BadRequest": {
+        "description": "Bad request"
+      },
+      "ValidationError": {
+        "description": "Validation error"
+      },
+      "Validate": {
+        "description": "Validation success"
+      },
+      "Created": {
+        "description": "Resource created"
+      },
+      "Sign": {
+        "description": "MFA sign required"
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "BasicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
+    "parameters": {
+      "Before": {
+        "name": "before",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "required": false
+      },
+      "After": {
+        "name": "after",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "required": false
+      },
+      "Limit": {
+        "name": "limit",
+        "in": "query",
+        "schema": {
+          "type": "integer"
+        },
+        "required": false
+      }
+    }
   }
 }
