@@ -2,50 +2,13 @@
 
 @custom/html
 
-<div id="ws-status" style="margin-bottom: 8px; font-weight: bold;">
-  WebSocket Status: <span id="ws-connection">Disconnected</span>
+<div>
+  <p>Status: <span id="ws-status">Disconnected</span></p>
+  <button id="connect">Connect</button>
 </div>
-<button id="ws-connect" style="margin-bottom: 10px;">Connect WebSocket</button>
-<pre id="ws-output" style="background-color: #f3f3f3; padding: 12px; border-radius: 6px; max-height: 300px; overflow-y: auto;"></pre>
 
 <script>
-  let socket;
-  const wsUrl = 'wss://api.sandbox.altpay.uk/ws/client';
-
-  document.getElementById('ws-connect').addEventListener('click', function () {
-    var token = prompt("Enter your wsToken (from v2/auth/token response):");
-
-    if (!token) {
-      alert("Token is required to connect.");
-      return;
-    }
-
-    socket = new WebSocket(wsUrl + '?token=' + encodeURIComponent(token));
-
-    var status = document.getElementById('ws-connection');
-    var output = document.getElementById('ws-output');
-    output.textContent = '';
-
-    socket.onopen = function () {
-      status.textContent = 'Connected';
-      status.style.color = 'green';
-    };
-
-    socket.onmessage = function (event) {
-      output.textContent += 'Received:\n' + event.data + '\n\n';
-      output.scrollTop = output.scrollHeight;
-    };
-
-    socket.onerror = function (err) {
-      console.error('WebSocket Error', err);
-      output.textContent += 'Error: ' + (err.message || err) + '\n';
-    };
-
-    socket.onclose = function () {
-      status.textContent = 'Disconnected';
-      status.style.color = 'red';
-    };
+  document.getElementById('connect').addEventListener('click', function () {
+    document.getElementById('ws-status').textContent = 'Connected';
   });
 </script>
-
-
