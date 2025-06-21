@@ -225,11 +225,19 @@
             "type": "string",
             "format": "password",
             "example": "string"
+          },
+          "signToken": {
+            "type": "string",
+            "example": "abc123"
+          },
+          "fingerprintid": {
+            "type": "string",
+            "example": "fingerprint-xyz"
           }
         },
         "required": [
-          "username",
-          "password"
+          "signToken",
+          "fingerprintid"
         ]
       }
     },
