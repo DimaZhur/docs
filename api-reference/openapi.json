@@ -316,11 +316,7 @@
           "token": {
             "type": "string"
           }
-        },
-        "required": [
-          "type",
-          "token"
-        ]
+        }
       }
     },
     "responses": {
