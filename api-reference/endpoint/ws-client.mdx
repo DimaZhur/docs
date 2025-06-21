@@ -1,9 +1,10 @@
-# WebSocket Client
+import { useEffect } from 'react';
 
-Вы можете протестировать работу WebSocket в [внешнем клиенте](https://api.sandbox.altpay.uk/ws/client).
+export default function Redirect() {
+  useEffect(() => {
+    window.location.href = 'https://api.sandbox.altpay.uk/ws/client';
+  }, []);
 
-Клиент позволяет:
-- Вставить токен (из `v2/auth/token`)
-- Установить соединение
-- Просматривать входящие сообщения в реальном времени
+  return <p>Redirecting to external WebSocket client...</p>;
+}
 
