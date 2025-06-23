@@ -250,6 +250,7 @@
     },
     "/v2/member": {
       "post": {
+        "operationId": "inviteSubUser",
         "summary": "Invite sub user",
         "tags": [
           "member"
