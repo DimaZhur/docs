@@ -3,6 +3,9 @@
   "info": {
     "title": "AltPay API",
     "description": "API documentation for AltPay",
+    "license": {
+      "name": "MIT"
+    },
     "version": "1.0.0"
   },
   "servers": [
@@ -16,6 +19,235 @@
     }
   ],
   "paths": {
+    "/v2/mfa/{type}/sign/{requestId}": {
+      "post": {
+        "summary": "Verify MFA Code",
+        "description": "Submits an MFA verification code to retrieve a signToken.",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "sms",
+                "google"
+              ]
+            },
+            "description": "Type of MFA method"
+          },
+          {
+            "name": "requestId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "MFA request ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "maxLength": 6
+                  }
+                },
+                "required": [
+                  "code"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful verification",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "signToken": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v2/auth/token": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "security": [
+          {
+            "BasicAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "validate",
+            "schema": {
+              "default": 0,
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "example": "SUCCESS"
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "accessToken": {
+                              "type": "string"
+                            },
+                            "refreshToken": {
+                              "type": "string"
+                            },
+                            "wsToken": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "$ref": "#/components/responses/ErrorFormResponse"
+                    },
+                    {
+                      "$ref": "#/components/responses/SignFormResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/v2/auth": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "validate",
+            "schema": {
+              "default": 0,
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "signToken",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthV2"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Validate"
+          },
+          "201": {
+            "$ref": "#/components/responses/Created"
+          },
+          "202": {
+            "$ref": "#/components/responses/Sign"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        }
+      }
+    },
     "/v2/member": {
       "post": {
         "summary": "Invite sub user",
@@ -93,6 +325,51 @@
   },
   "components": {
     "schemas": {
+      "Login": {
+        "type": "object",
+        "properties": {
+          "signToken": {
+            "type": "string",
+            "example": "abc123"
+          },
+          "fingerprintid": {
+            "type": "string",
+            "example": "fingerprint-xyz"
+          }
+        }
+      },
+      "AuthV2": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "allowIps": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "ipv4"
+            }
+          },
+          "withMfa": {
+            "type": "boolean"
+          },
+          "fingerprint": {
+            "type": "string"
+          },
+          "expiredAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "app": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
       "MemberInviteV2": {
         "type": "object",
         "properties": {
@@ -100,29 +377,31 @@
             "type": "string",
             "format": "email"
           },
-          "phone": {
+          "name": {
             "type": "string"
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           "walletAccess": {
             "type": "array",
             "items": {
               "type": "string"
             }
-          },
-          "role": {
-            "type": "string"
           }
         },
         "required": [
           "email",
-          "walletAccess",
-          "role"
+          "name"
         ]
       }
     },
     "responses": {
-      "SuccessFormResponse": {
-        "description": "Success",
+      "ErrorFormResponse": {
+        "description": "Form error",
         "content": {
           "application/json": {
             "schema": {
@@ -130,67 +409,83 @@
               "properties": {
                 "status": {
                   "type": "string",
-                  "example": "SUCCESS"
+                  "example": "ERROR"
                 },
-                "data": {
-                  "type": "object"
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
                 }
               }
             }
           }
         }
-      },
-      "ErrorFormResponse": {
-        "description": "Form error"
       },
       "SignFormResponse": {
         "description": "MFA required"
       },
       "Unauthorized": {
-        "description": "Unauthorized",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "UNAUTHORIZED"
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Invalid credentials"
-                }
-              }
-            }
-          }
-        }
+        "description": "Unauthorized"
+      },
+      "Validate": {
+        "description": "Validation success"
+      },
+      "Created": {
+        "description": "Resource created"
+      },
+      "Sign": {
+        "description": "MFA sign required"
+      },
+      "BadRequest": {
+        "description": "Bad request"
+      },
+      "ValidationError": {
+        "description": "Validation error"
       },
       "Forbidden": {
-        "description": "Forbidden",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "FORBIDDEN"
-                },
-                "message": {
-                  "type": "string",
-                  "example": "You do not have permission to access this resource"
-                }
-              }
-            }
-          }
-        }
+        "description": "Forbidden"
+      },
+      "SuccessFormResponse": {
+        "description": "Operation successful"
       }
     },
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",
         "scheme": "bearer"
+      },
+      "BasicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
+    "parameters": {
+      "Before": {
+        "name": "before",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "required": false
+      },
+      "After": {
+        "name": "after",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "required": false
+      },
+      "Limit": {
+        "name": "limit",
+        "in": "query",
+        "schema": {
+          "type": "integer"
+        },
+        "required": false
       }
     }
   }
