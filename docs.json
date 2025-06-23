@@ -47,6 +47,7 @@
           {
             "group": "Endpoint Examples",
             "pages": [
+              "api-reference/endpoint/v2-member",
               "api-reference/endpoint/v2-auth-token",
               "api-reference/endpoint/verify-mfa",
               "api-reference/endpoint/v2-auth",
