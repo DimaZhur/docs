@@ -188,7 +188,6 @@
     },
     "/v2/auth": {
       "post": {
-        "operationId": "inviteSubUser",
         "tags": [
           "auth"
         ],
@@ -251,6 +250,7 @@
     },
     "/v2/member": {
       "post": {
+        "operationId": "inviteSubUser",
         "summary": "Invite sub user",
         "tags": [
           "member"
