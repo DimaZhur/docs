@@ -252,7 +252,7 @@
       "post": {
         "summary": "Invite sub user",
         "tags": [
-          "member"
+          "Endpoint Examples"
         ],
         "security": [
           {
