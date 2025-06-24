@@ -28,7 +28,7 @@
               "core-concepts/transactions",
               "core-concepts/beneficiary"
             ]
-          }
+          },
           {
             "group": "Integration",
             "pages": [
