@@ -65,7 +65,8 @@
               "api-reference/endpoint/v2-member",
               "api-reference/endpoint/v2-auth-token",
               "api-reference/endpoint/verify-mfa",
-              "api-reference/endpoint/v2-auth"
+              "api-reference/endpoint/v2-auth",
+              "api-reference/endpoint/v2-beneficiary"
             ]
           }
         ]
