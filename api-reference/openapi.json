@@ -225,7 +225,7 @@
               }
             }
           }
-        ],
+        }
         "responses": {
           "200": {
             "$ref": "#/components/responses/Validate"
@@ -321,7 +321,7 @@
           }
         }
       }
-    }
+    },
     "/v2/beneficiary": {
       "post": {
         "summary": "Create beneficiary",
@@ -445,7 +445,7 @@
           "email",
           "name"
         ]
-      }
+      },
       "Beneficiary": {
         "type": "object",
         "properties": {
