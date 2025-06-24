@@ -55,11 +55,12 @@
           {
             "group": "API Documentation",
             "pages": [
-              "api-reference/introduction"
+              "api-reference/introduction",
+              "api-reference/webSocket-client"
             ]
           },
           {
-            "group": "Endpoint Examples",
+            "group": "Endpoints",
             "pages": [
               "api-reference/endpoint/v2-member",
               "api-reference/endpoint/v2-auth-token",
