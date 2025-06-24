@@ -76,22 +76,22 @@
         {
           "anchor": "Website",
           "href": "https://finsei.com",
-          "icon": "book-open-cover"
+          "icon": "globe"
         },
         {
           "anchor": "Sandbox",
           "href": "https://app.sandbox.finsei.com/auth/login",
-          "icon": "book-open-cover"
+          "icon": "box"
         },
         {
           "anchor": "Swagger",
           "href": "https://api.sandbox.altpay.uk",
-          "icon": "book-open-cover"
+          "icon": "book"
         },
         {
           "anchor": "Support team",
           "href": "https://finsei.freshdesk.com/support/home",
-          "icon": "slack"
+          "icon": "life-buoy"
         }
       ]
     }
