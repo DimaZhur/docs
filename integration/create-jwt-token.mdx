@@ -63,13 +63,11 @@ curl -X POST "https://api.sandbox.altpay.uk/v2/mfa/sms/sign/abc123" \
 
 8. You'll get `signId` value
 
-9. Execute again:  
-   `POST /v2/mfa/{type}/sign/{requestId}` as in step 3
+9. Execute again: [`POST /v2/mfa/{type}/sign/{requestId}`](/api-reference/endpoint/verify-mfa) as in step 3
 
 10. Get `signToken`
 
-11. Execute final:  
-    `POST /v2/auth` with body:
+11. Execute final: [`POST v2/auth/`](/api-reference/endpoint/v2-auth) with body:
 
 ```json
 {
