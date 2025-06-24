@@ -74,7 +74,7 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Our website",
+          "anchor": "Website",
           "href": "https://finsei.com",
           "icon": "book-open-cover"
         },
@@ -84,7 +84,12 @@
           "icon": "book-open-cover"
         },
         {
-          "anchor": "Our support team",
+          "anchor": "Swagger",
+          "href": "https://api.sandbox.altpay.uk",
+          "icon": "book-open-cover"
+        },
+        {
+          "anchor": "Support team",
           "href": "https://finsei.freshdesk.com/support/home",
           "icon": "slack"
         }
@@ -98,20 +103,13 @@
   "navbar": {
     "links": [
       {
-        "label": "Swagger",
-        "href": "mailto:hi@mintlify.com"
-      },
-      {
         "label": "Sandbox",
         "href": "https://app.sandbox.finsei.com/auth/login"
+      },
+      {
+        "label": "Swagger",
+        "href": "https://api.sandbox.altpay.uk"
       }
     ]
-  },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
   }
 }
