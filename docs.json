@@ -2,6 +2,11 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Mint Starter  Kit",
+  "api": {
+    "reference": {
+      "openapi": "api-reference/openapi.json"
+    }
+  },
   "colors": {
     "primary": "#16A34A",
     "light": "#07C983",
