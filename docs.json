@@ -11,25 +11,40 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Docs",
         "groups": [
           {
-            "group": "Get Started",
+            "group": "Introduction",
             "pages": [
               "index",
-              "quickstart",
-              "development"
+              "who-is-this-for"
             ]
           },
           {
-            "group": "Essentials",
+            "group": "Core Concepts",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "core-concepts/wallets",
+              "core-concepts/cards",
+              "core-concepts/transactions",
+              "core-concepts/beneficiary"
+            ]
+          }
+          {
+            "group": "Integration",
+            "pages": [
+              "integration/get-sandbox-account",
+              "integration/create-sub-user",
+              "integration/create-jwt-token",
+              "integration/check-my-wallet",
+              "integration/create-debit-to-ben",
+              "integration/create-debit-another-finsei-wallet",
+              "integration/status-for-payment",
+              "integration/check-payment-status",
+              "integration/create-credit-payment",
+              "integration/see-wallet-payments",
+              "integration/create-card",
+              "integration/check-my-cards",
+              "integration/get-payment-webhooks"
             ]
           }
         ]
@@ -59,13 +74,13 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
+          "anchor": "Our website",
+          "href": "https://finsei.com",
           "icon": "book-open-cover"
         },
         {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
+          "anchor": "Our support team",
+          "href": "https://finsei.freshdesk.com/support/home",
           "icon": "slack"
         },
         {
@@ -83,14 +98,18 @@
   "navbar": {
     "links": [
       {
-        "label": "Support",
+        "label": "Swagger",
         "href": "mailto:hi@mintlify.com"
+      }
+      {
+        "label": "Sandbox",
+        "href": "https://bo.sandbox.inside.finsei.com"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://api.sandbox.altpay.uk"
     }
   },
   "footer": {

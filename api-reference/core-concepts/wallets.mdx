@@ -1,0 +1,26 @@
+---
+title: Wallet Types
+description: "Below are the available wallet types and their descriptions."
+---
+
+| Wallet Name              | Description                                                                                          | Additional Information                                                                                                                                                     |
+|--------------------------|------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Equals Money**         | Provider for currency exchange.                                                                      | Also available for beneficiary payments and top-ups. One IBAN is used for all wallets. Available only for **Business** type companies. Requires onboarding.              |
+| **GuruPay C2S**          | Available for beneficiary payments and top-ups.                                                      | Only EUR currency supported. Only SEPA transfers allowed.                                                                                                                  |
+| **IFX**                  | Requires onboarding either during or after company creation.                                         | One IBAN per onboarding. Can have multiple currencies and used for exchanges. Available only for **Business** type companies.                                              |
+| **Wallester**            | Used for card payments and top-ups.                                                                  | Only from this wallet you can order **physical**, **virtual multi-use**, or **virtual single-use** cards. Cannot be used for beneficiary payments. Requires card permissions. |
+| **Custom Pooled - IFX**  | One IBAN used for all wallets.                                                                       | Can be opened in various currencies and used for exchanges.                                                                                                                |
+| **Custom Pooled - GuruPay** | One IBAN used for all wallets.                                                                       | —                                                                                                                                                                          |
+| **Nexpay**               | Available for both **Business** and **Individual** types. Can be the first wallet on company creation. | Only EUR supported.                                                                                                                                                        |
+| **TBD**                  | Temporary solution.                                                                                   | If the `reference` field equals `provider failure`, payment fails during approval. For such payments, `next_step` in DB = 2.                                               |
+
+## `isFavourite` Flag
+
+The `isFavourite` flag allows users to mark wallets as favorites. These wallets are then displayed in a separate **Favourite** section.
+
+![Favourite wallets](/images/isfavourite.png)
+
+You can update the `isFavourite` flag for any wallet, regardless of the user's role.  
+The flag can be changed using the `PATCH /v3/wallet/{id}` method.
+
+![`PATCH /v3/wallet/{id}`](/images/v3walletid.png)
