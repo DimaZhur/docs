@@ -89,9 +89,9 @@
           "icon": "book"
         },
         {
-          "anchor": "Support team",
+          "anchor": "Support",
           "href": "https://finsei.freshdesk.com/support/home",
-          "icon": "life-buoy"
+          "icon": "slack"
         }
       ]
     }
