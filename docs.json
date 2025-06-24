@@ -79,14 +79,14 @@
           "icon": "book-open-cover"
         },
         {
+          "anchor": "Sandbox",
+          "href": "https://app.sandbox.finsei.com/auth/login",
+          "icon": "book-open-cover"
+        },
+        {
           "anchor": "Our support team",
           "href": "https://finsei.freshdesk.com/support/home",
           "icon": "slack"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
         }
       ]
     }
@@ -103,14 +103,9 @@
       },
       {
         "label": "Sandbox",
-        "href": "https://bo.sandbox.inside.finsei.com"
+        "href": "https://app.sandbox.finsei.com/auth/login"
       }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://api.sandbox.altpay.uk"
-    }
+    ]
   },
   "footer": {
     "socials": {
