@@ -48,16 +48,16 @@ curl -X POST "https://api.sandbox.altpay.uk/v2/mfa/sms/sign/abc123" \
 
 6. Authorisation: Bearer Token with `accessToken` value from previous step
 
-7. Execute `POST /v2/auth` with body:
+7. Execute [`POST v2/auth/`](/api-reference/endpoint/v2-auth) with body:
 
 ```json
 {
-  "id": "string",
-  "allowIps": ["ip1", "ip2"],
+  "id": "00000000-0000-0000-0000-0000000000120",
+  "allowIps": ["127.0.0.1"],
   "withMfa": false,
-  "fingerprint": "device-id",
-  "expiredAt": 1718700000,
-  "app": "FinseiApp"
+  "fingerprint": null,
+  "expiredAt": null,
+  "app": "Chrome"
 }
 ```
 
