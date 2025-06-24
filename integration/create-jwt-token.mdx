@@ -16,25 +16,12 @@ JWT Token creation is only available for sub-users.
 
 1. Execute method [`POST /v2/auth/token`](/api-reference/endpoint/v2-auth-token) to get access tokens.
 
-```bash
-curl -X POST "https://api.sandbox.altpay.uk/v2/auth/token" \
-  -u username:password \
-  -H "Content-Type: application/json" \
-  -d '{"username": "user", "password": "pass"}'
-```
-
 2. You will get `signId` in response  
 
-3. Execute method [`POST /v2/mfa/{type}/sign/{requestId}`](/api-reference/endpoint/verify-mfa) to submit the verification code and receive a `signToken`
-
-```bash
-curl -X POST "https://api.sandbox.altpay.uk/v2/mfa/sms/sign/abc123" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <your-token>" \
-  -d '{
-    "code": "111111"
-  }'
-```
+3. Execute method [`POST /v2/mfa/{type}/sign/{requestId}`](/api-reference/endpoint/verify-mfa), where:
+- `type = google/sms`
+- `requestId = signId value` from step 2
+- Put value `“code”: “111111”` in body
 
 4. You will get `signToken` value
 
