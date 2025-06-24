@@ -3,7 +3,10 @@ title: How can I create a sub-user?
 ---
 
 1. Authorise as main user  
-2. Execute `POST /v2/member` method with filled-in fields  
+2. Execute `POST /v2/member` method with filled-in fields 
+
+<Endpoint method="post" path="/v2/member" />
+
 3. Copy `signId` value  
 4. Execute `POST /v2/mfa/{type}/sign/{requestId}` with:
     - `type`: `sms`  
