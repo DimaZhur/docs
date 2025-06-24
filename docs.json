@@ -20,7 +20,8 @@
             "group": "Introduction",
             "pages": [
               "index",
-              "who-is-this-for"
+              "who-is-this-for",
+              "support"
             ]
           },
           {
@@ -92,11 +93,6 @@
           "anchor": "Swagger",
           "href": "https://api.sandbox.altpay.uk",
           "icon": "book"
-        },
-        {
-          "anchor": "Support",
-          "href": "https://finsei.freshdesk.com/support/home",
-          "icon": "slack"
         }
       ]
     }
