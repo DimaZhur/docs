@@ -3,9 +3,7 @@
   "theme": "mint",
   "name": "Mint Starter  Kit",
   "api": {
-    "reference": {
-      "openapi": "api-reference/openapi.json"
-    }
+    "openapi": "api-reference/openapi.json"
   },
   "colors": {
     "primary": "#16A34A",
