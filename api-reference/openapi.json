@@ -369,6 +369,50 @@
           }
         }
       }
+    },
+    "/v2/payment": {
+      "post": {
+        "summary": "Create a payment",
+        "tags": [
+          "payment"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Payment created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -472,6 +516,59 @@
           "country",
           "currency"
         ]
+      },
+      "PaymentRequest": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "walletId": {
+            "type": "string"
+          },
+          "beneficiaryId": {
+            "type": "string"
+          },
+          "paymentType": {
+            "type": "string",
+            "enum": [
+              "SEPA",
+              "SWIFT"
+            ]
+          },
+          "reference": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "amount",
+          "currency",
+          "walletId",
+          "beneficiaryId",
+          "paymentType"
+        ]
+      },
+      "PaymentResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "paymentId": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              }
+            }
+          }
+        }
       }
     },
     "responses": {
