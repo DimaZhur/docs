@@ -2,78 +2,42 @@
 title: How can I create JWT token without 2FA?
 ---
 
-JWT Token creation is only available for sub-users.
+The following functionality can help you avoid an additional step when using the Finsei API — the **sign** API method.
 
-**Authorisation:**
+JWT token creation is only available for sub-users.
 
-- Auth type: Basic  
-- Login: sub-user email  
-- Password: sub-user password
+To generate a JWT token without 2FA, follow the steps below and set the **"Enable 2FA"** parameter to `false`.
 
----
+**Steps:**
 
-### Steps:
+1. Go to **Account > Settings**
 
-1. Execute method [`POST /v2/auth/token`](/api-reference/endpoint/v2-auth-token) to get access tokens
+![Add user](../images/jwt-token/jwt1.png)
 
-2. You will get `signId` in response  
+2. Go to **Security** tab  
+3. Click **"Create token pair"** under **"JSON Web Token"** section
 
-3. Execute method [`POST /v2/mfa/{type}/sign/{requestId}`](/api-reference/endpoint/verify-mfa), where:
-- `type = google/sms`
-- `requestId = signId value` from step 2
-- Put value `“code”: “111111”` in body
+![Add user](../images/jwt-token/jwt2.png)
 
-4. You will get `signToken` value
+4. Fill in all required fields:
+   - **IP address** – address allowed for login  
+   - **Expire date** – date when the token will expire  
+   - **Session name** – name for the generated token pair  
+   - **Enable 2FA** – whether 2FA is enabled or not
 
-5. Execute method [`POST v2/auth/token`](/api-reference/endpoint/v2-auth-token) again with body:
+![Add user](../images/jwt-token/jwt3.png)
 
-```json
-{
-  "signToken": "<from step 3>"
-}
-```
+5. Click the **"Confirm"** button  
+6. Enter the **2FA code**  
+7. Save the generated **access** and **refresh** tokens
 
-6. Authorisation: Bearer Token with `accessToken` value from previous step
+![Add user](../images/jwt-token/jwt4.png)
 
-7. Execute [`POST v2/auth/`](/api-reference/endpoint/v2-auth) with body:
+The tokens can be used to log in via API and to refresh the access token.
 
-```json
-{
-  "id": "00000000-0000-0000-0000-0000000000120",
-  "allowIps": ["127.0.0.1"],
-  "withMfa": false,
-  "fingerprint": null,
-  "expiredAt": null,
-  "app": "Chrome"
-}
-```
+❗ **Please note:**
 
-8. You'll get `signId` value
-
-9. Execute again: [`POST /v2/mfa/{type}/sign/{requestId}`](/api-reference/endpoint/verify-mfa) as in step 3
-
-10. Get `signToken`
-
-11. Execute final: [`POST v2/auth/`](/api-reference/endpoint/v2-auth) with body:
-
-```json
-{
-  "signToken": "<from step 10>"
-}
-```
-
-12. You’ll receive response:
-
-```json
-{
-  "status": "CREATED",
-  "id": "..."
-}
-```
-
-13. Pair of `accessToken` and `refreshToken` will be sent via WebSocket
-
-14. Use `accessToken` in:  
-    `Authorization: Bearer <accessToken>`
-
-15. Now you can use API methods with this authorisation.
+- If you don’t specify IP addresses, the tokens will expire in **3 months**
+- The **access token** is valid for **10 minutes** and should be refreshed using  
+  `POST /v2/auth/token/refresh` with the refresh token obtained in step 7
+- The **refresh token** is valid until it is used
