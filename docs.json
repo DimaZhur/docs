@@ -69,7 +69,8 @@
               "api-reference/endpoint/verify-mfa",
               "api-reference/endpoint/v2-auth",
               "api-reference/endpoint/v2-beneficiary",
-              "api-reference/endpoint/v2-payment"
+              "api-reference/endpoint/v2-payment",
+              "api-reference/endpoint/v3-wallet"
             ]
           }
         ]
