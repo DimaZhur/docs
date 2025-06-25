@@ -27,9 +27,7 @@
           {
             "group": "Core Concepts",
             "pages": [
-              "core-concepts/wallets",
-              "core-concepts/cards",
-              "core-concepts/transactions",
+              "core-concepts/user",
               "core-concepts/beneficiary"
             ]
           },
