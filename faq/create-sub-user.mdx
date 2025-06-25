@@ -2,32 +2,17 @@
 title: How can I create a sub-user?
 ---
 
-1. Authorise as main user
+## To create a sub-user, follow the steps:
 
-2. Execute method [`POST /v2/member`](/api-reference/endpoint/v2-member) with filled-in fields
+1. Log in as the main user to your account: [https://app.sandbox.finsei.com/auth/login](https://app.sandbox.finsei.com/auth/login)  
+2. Go to the **Users** tab  
+3. Click **Add user**  
+4. Fill in all required fields  
+5. Click **Add user**
 
-3. Copy `signId` value
+![Edit User](../images/add-user/edd-user1.png)
 
-4. Execute [`POST /v2/mfa/{type}/sign/{requestId}`](/api-reference/endpoint/verify-mfa) with parameters:
-    - `type: sms`  
-    - `requestId: signId` from step 3  
-    - request body:
-      ```json
-      {
-        "code": "111111"
-      }
-      ```
-      > '111111' works only in sandbox. In production, use a library that generates TOTP (Time-based One-Time Password)
+To log in as a sub-user, a password must be set.  
+Use the **"Forgot password"** form: [https://app.sandbox.finsei.com/auth/login](https://app.sandbox.finsei.com/auth/login).
 
-5. Copy `signToken` value
-
-6. Put `signToken` value into `signToken` field of [`POST /v2/member`](/api-reference/endpoint/v2-member) and execute method
-
-7. If you receive a valid response — sub-user was created successfully
-
-```json
-{
-  "status": "SUCCESS",
-  "data": []
-}
-```
+![Edit User](../images/add-user/edd-user2.png)
