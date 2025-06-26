@@ -2,32 +2,25 @@
 title: What is ‘status’ for payment?
 ---
 
-import { Badge } from '../../../src/components/ui/badge'
-
 ## Status for payment
 
 There are two statuses available for outgoing payment creation:  
-<Badge variant="secondary">Draft</Badge> and <Badge variant="secondary">New</Badge>.
+**Draft** and **New**.
 
-- <Badge variant="secondary">Draft</Badge> payments can be created for wallets with no balance. These can later be signed and processed, or may represent debit payments not yet signed by the client.  
-- <Badge variant="secondary">New</Badge> status is for debit or credit payments that have been created but are not yet in process.
+- **Draft** payments can be created for wallets with no balance. These can later be signed and processed, or may represent debit payments not yet signed by the client.  
+- **New** status is for debit or credit payments that have been created but are not yet in process.
 
 ### Available statuses
 
-<Badge variant="secondary">Draft</Badge>{' '}
-<Badge variant="blue">New</Badge>{' '}
-<Badge variant="orange">Compliance</Badge>{' '}
-<Badge variant="indigo">Process</Badge>{' '}
-<Badge variant="green">Completed</Badge>{' '}
-<Badge variant="default">Canceled</Badge>{' '}
-<Badge variant="destructive">Rejected</Badge>
+**Draft**, **New**, **Compliance**, **Process**, **Completed**, **Canceled**, **Rejected**
 
 ### Typical flows
 
-- <Badge variant="secondary">Draft</Badge> → <Badge variant="blue">New</Badge> → <Badge variant="orange">Compliance</Badge> → <Badge variant="indigo">Process</Badge> → <Badge variant="green">Completed</Badge>  
-- <Badge variant="blue">New</Badge> → <Badge variant="default">Canceled</Badge>  
-- <Badge variant="secondary">Draft</Badge> → <Badge variant="blue">New</Badge> → <Badge variant="orange">Compliance</Badge> → <Badge variant="destructive">Rejected</Badge>
+- **Draft** → **New** → **Compliance** → **Process** → **Completed**  
+- **New** → **Canceled**  
+- **Draft** → **New** → **Compliance** → **Rejected**
 
-\*<i>Draft and Compliance statuses are optional</i>
+*Draft and Compliance statuses are optional*
+
 
 
