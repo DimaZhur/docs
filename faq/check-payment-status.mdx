@@ -1,17 +1,18 @@
 ---
 title: What is ‘status’ for payment?
 ---
-
 import { Badge } from '@/components/ui/badge'
 
-### Outgoing Payment Statuses
+## Status for payment
 
-There are two statuses available for outgoing payment creation: <Badge variant="secondary">draft</Badge> and <Badge variant="secondary">new</Badge>.
+There are two statuses available for outgoing payment creation:  
+<Badge variant="secondary">Draft</Badge> and <Badge variant="secondary">New</Badge>.
 
-- <Badge variant="secondary">Draft</Badge> payments can be created for wallets with no balance. These can later be signed and processed, or they may represent debit payments not yet signed by the client.  
+- <Badge variant="secondary">Draft</Badge> payments can be created for wallets with no balance. These can later be signed and processed, or may represent debit payments not yet signed by the client.  
 - <Badge variant="secondary">New</Badge> status is for debit or credit payments that have been created but are not yet in process.
 
-#### Available statuses:
+### Available statuses
+
 <Badge variant="secondary">Draft</Badge>{' '}
 <Badge variant="blue">New</Badge>{' '}
 <Badge variant="orange">Compliance</Badge>{' '}
@@ -20,12 +21,13 @@ There are two statuses available for outgoing payment creation: <Badge variant="
 <Badge variant="default">Canceled</Badge>{' '}
 <Badge variant="destructive">Rejected</Badge>
 
-#### Typical status flows:
+### Typical status flows
 
 - <Badge variant="secondary">Draft</Badge> → <Badge variant="blue">New</Badge> → <Badge variant="orange">Compliance</Badge> → <Badge variant="indigo">Process</Badge> → <Badge variant="green">Completed</Badge>  
 - <Badge variant="blue">New</Badge> → <Badge variant="default">Canceled</Badge>  
 - <Badge variant="secondary">Draft</Badge> → <Badge variant="blue">New</Badge> → <Badge variant="orange">Compliance</Badge> → <Badge variant="destructive">Rejected</Badge>  
 
-<span style={{ fontSize: '0.9em', opacity: 0.7 }}>
+<span style={{ fontSize: '0.85em', opacity: 0.75 }}>
 *Draft and Compliance statuses are optional.
 </span>
+
