@@ -624,7 +624,7 @@
             "$ref": "#/components/responses/Forbidden"
           },
           "404": {
-            "description": "Payment not found"
+            "description": "#/components/responses/NotFound"
           }
         }
       }
@@ -746,7 +746,7 @@
             "$ref": "#/components/responses/Forbidden"
           },
           "404": {
-            "description": "Wallet not found"
+            "description": "#/components/responses/NotFound"
           }
         }
       }
@@ -836,6 +836,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "description": "#/components/responses/NotFound"
           }
         }
       }
@@ -1265,6 +1268,20 @@
               "error": {
                 "code": 403,
                 "message": "Forbidden"
+              }
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Not Found",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": "ERROR",
+              "error": {
+                "code": 404,
+                "message": "Not Found"
               }
             }
           }
