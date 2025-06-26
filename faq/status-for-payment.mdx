@@ -2,6 +2,13 @@
 title: What is ‘status’ for payment?
 ---
 
+There are two statuses available for outgoing payments creation: draft and new. Draft payments can be created for wallets with no balance and be signed and processed in future or it can be  debit payments that weren't signed by the client yet. Status new is for new debit or credit payments that are not in process yet.
+
+There are statuses of outgoing payments you can see: Draft, New, Compliance, Process, Completed, Canceled, Rejected.
+
+The most typical flows of status change for outgoing payments are the following:
+
+
 ### Typical Status Flows
 
 - <span style={{ backgroundColor: '#ccc', padding: '2px 6px', borderRadius: '4px' }}>Draft</span> →
@@ -17,4 +24,7 @@ title: What is ‘status’ for payment?
   <span style={{ backgroundColor: '#90cdf4', padding: '2px 6px', borderRadius: '4px' }}>New</span> →
   <span style={{ backgroundColor: '#fbd38d', padding: '2px 6px', borderRadius: '4px' }}>Compliance</span> →
   <span style={{ backgroundColor: '#feb2b2', padding: '2px 6px', borderRadius: '4px' }}>Rejected</span>
+
+  Note:
+The Draft and Compliance statuses are optional.
 
