@@ -838,7 +838,7 @@
             "$ref": "#/components/responses/Forbidden"
           },
           "404": {
-            "description": "#/components/responses/NotFound"
+            "$ref": "#/components/responses/NotFound"
           }
         }
       }
