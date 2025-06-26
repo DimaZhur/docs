@@ -2,40 +2,12 @@
 title: What is ‘status’ for payment?
 ---
 
-## Outgoing Payment Statuses
-
-There are two statuses available for creating outgoing payments: `draft` and `new`.
-
-- **Draft**  
-  Used when:
-  - The wallet has no balance.
-  - It’s a debit payment not yet signed by the client.
-  - Can be signed and processed later.
-
-- **New**  
-  Indicates a new debit or credit payment that hasn't been processed yet.
-
----
-
-### Full List of Outgoing Payment Statuses
-
-- `Draft`
-- `New`
-- `Compliance`
-- `Process`
-- `Completed`
-- `Canceled`
-- `Rejected`
-
----
+import Badge from '@components/Badge' // замените на ваш компонент, если другой
 
 ### Typical Status Flows
 
-```text
-Draft -> New -> Compliance -> Process -> Completed
-New -> Canceled
-Draft -> New -> Compliance -> Rejected
-```
+- <Badge color="gray">Draft</Badge> → <Badge color="blue">New</Badge> → <Badge color="yellow">Compliance</Badge> → <Badge color="blue">Process</Badge> → <Badge color="green">Completed</Badge>  
+- <Badge color="blue">New</Badge> → <Badge color="orange">Canceled</Badge>  
+- <Badge color="gray">Draft</Badge> → <Badge color="blue">New</Badge> → <Badge color="yellow">Compliance</Badge> → <Badge color="red">Rejected</Badge>  
 
-Note:
-The Draft and Compliance statuses are optional.
+> **Note:** `Draft` and `Compliance` statuses are optional.
