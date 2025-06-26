@@ -43,7 +43,7 @@
               "faq/status-for-payment",
               "faq/check-payment-status",
               "faq/create-incoming-credit-payments",
-              "faq/see-wallet-payments",
+              "faq/see-all-wallet-payments",
               "faq/create-card",
               "faq/check-my-cards",
               "faq/get-payment-webhooks"
