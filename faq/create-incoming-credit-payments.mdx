@@ -1,0 +1,9 @@
+---
+title: How can I create incoming credit payments?
+---
+
+You cannot create an incoming payment via the API. Incoming payments are created automatically based on financial messages. On prod environment, if the sending bank supports the creation of outgoing payments via the API, you can create it. When it is completed, we will receive a financial message and automatically create an incoming payment.
+
+To imitate incoming credit payment on Sandbox environment please contact <a href="mailto:dina.osipova@altpay.uk">dina.osipova@altpay.uk</a>.  
+
+On prod and sandbox environments - you can also create an outgoing payment from your Finsei wallet 1 to your Finsei wallet 2 via the API. In this case, when it is executed, an incoming payment will be created automatically.
