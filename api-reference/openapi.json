@@ -857,16 +857,39 @@
       "PaymentRequest": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "NEW",
+              "PROCESS",
+              "COMPLETED",
+              "CANCELED"
+            ]
+          },
+          "walletId": {
+            "type": "string"
+          },
           "amount": {
             "type": "number"
           },
           "currency": {
             "type": "string"
           },
-          "walletId": {
+          "beneficiaryId": {
+            "type": "string",
+            "nullable": true
+          },
+          "targetWalletId": {
+            "type": "string",
+            "nullable": true
+          },
+          "reference": {
             "type": "string"
           },
-          "beneficiaryId": {
+          "purposeCode": {
             "type": "string"
           },
           "paymentType": {
@@ -876,14 +899,25 @@
               "SWIFT"
             ]
           },
-          "reference": {
-            "type": "string"
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
           }
         },
         "required": [
+          "walletId",
           "amount",
           "currency",
-          "walletId",
           "beneficiaryId",
           "paymentType"
         ]
