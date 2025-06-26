@@ -477,6 +477,114 @@
             "$ref": "#/components/responses/ValidationError"
           }
         }
+      },
+      "get": {
+        "summary": "Display list of payments",
+        "tags": [
+          "payment"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "expand",
+            "in": "query",
+            "explode": false,
+            "schema": {
+              "$ref": "#/components/schemas/PaymentExpand"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "debit",
+                "credit"
+              ]
+            }
+          },
+          {
+            "name": "counterpartyName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "counterpartyIban",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "walletId",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "status[]",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "new",
+                  "process",
+                  "completed",
+                  "rejected",
+                  "canceled",
+                  "draft",
+                  "compliance"
+                ]
+              }
+            }
+          },
+          {
+            "name": "createdFrom",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of payments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PaymentResponse"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
       }
     },
     "/v3/wallet": {
@@ -824,6 +932,16 @@
               }
             }
           }
+        }
+      },
+      "PaymentExpand": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "wallet",
+            "beneficiary"
+          ]
         }
       }
     },
