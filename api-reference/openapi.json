@@ -750,6 +750,50 @@
           }
         }
       }
+    },
+    "/v2/card": {
+      "post": {
+        "summary": "Create a new card",
+        "tags": [
+          "card"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Card created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -973,6 +1017,55 @@
             "wallet",
             "beneficiary"
           ]
+        }
+      },
+      "CardRequest": {
+        "type": "object",
+        "properties": {
+          "walletId": {
+            "type": "string"
+          },
+          "cardType": {
+            "type": "string",
+            "enum": [
+              "VIRTUAL",
+              "PHYSICAL"
+            ]
+          },
+          "currency": {
+            "type": "string"
+          },
+          "nameOnCard": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "walletId",
+          "cardType",
+          "currency",
+          "nameOnCard"
+        ]
+      },
+      "CardResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "cardId": {
+                "type": "string"
+              },
+              "cardNumber": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              }
+            }
+          }
         }
       }
     },
