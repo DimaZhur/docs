@@ -156,8 +156,7 @@
             }
           },
           "422": {
-            "description": "Validation failed",
-            "message": "Validation failed"
+            "description": "Validation failed"
           }
         },
         "security": [
