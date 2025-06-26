@@ -46,7 +46,7 @@
               "faq/see-all-wallet-payments",
               "faq/create-card",
               "faq/check-my-cards",
-              "faq/get-payment-webhooks"
+              "faq/payment-webhooks"
             ]
           }
         ]
@@ -75,7 +75,9 @@
               "api-reference/endpoint/get-v3-wallet-id",
               "api-reference/endpoint/get-v1-payment-id",
               "api-reference/endpoint/get-v2-payment",
-              "api-reference/endpoint/post-v2-card"
+              "api-reference/endpoint/post-v2-card",
+              "api-reference/endpoint/get-v1-card",
+              "api-reference/endpoint/get-v2-payment-id"
             ]
           }
         ]
