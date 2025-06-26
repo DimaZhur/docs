@@ -5,3 +5,14 @@ title: How can I create a debit payment to the beneficiary?
 1. If you have no beneficiary, execute [`POST /v2/beneficiary`](/api-reference/endpoint/v2-beneficiary) with all required data in request body
 
 2. If you already have a beneficiary, execute [`POST /v2/peyment`](/api-reference/endpoint/v2-peyment) with the following parameters in the request body, where walletId: debit wallet id, beneficiaryId: id of created beneficiary.
+
+```json
+{
+ "status": "new", 
+"walletId": 0, 
+"amount": 0, 
+"beneficiaryId": 0, 
+"reference": "string", 
+"signToken": ""					
+}
+```
