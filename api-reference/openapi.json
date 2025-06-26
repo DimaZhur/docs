@@ -57,1071 +57,1086 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PaymentRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/Validate"
-          },
-          "201": {
-            "$ref": "#/components/responses/Created"
-          },
-          "202": {
-            "$ref": "#/components/responses/Sign"
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          },
-          "422": {
-            "$ref": "#/components/responses/ValidationError"
-          }
-        }
-      }
-    },
-    "/v2/mfa/{type}/sign/{requestId}": {
-      "post": {
-        "summary": "Verify MFA Code",
-        "description": "Submits an MFA verification code to retrieve a signToken.",
-        "parameters": [
-          {
-            "name": "type",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "sms",
-                "google"
-              ]
-            },
-            "description": "Type of MFA method"
-          },
-          {
-            "name": "requestId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "MFA request ID"
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "code": {
+                "$ref": "#/components/schemas/V3PaymentRequest"
+              },
+              "example": {
+                "id": "string",
+                "status": "NEW",
+                "walletId": "string",
+                "amount": 0,
+                "beneficiaryId": null,
+                "targetWalletId": null,
+                "reference": "string",
+                "purposeCode": "string",
+                "files": [
+                  {
                     "type": "string",
-                    "maxLength": 6
+                    "name": "string"
                   }
-                },
-                "required": [
-                  "code"
                 ]
               }
             }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful verification",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "signToken": {
-                          "type": "string"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
           },
-          "422": {
-            "description": "Validation failed"
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/v2/auth/token": {
-      "post": {
-        "tags": [
-          "auth"
-        ],
-        "security": [
-          {
-            "BasicAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "validate",
-            "schema": {
-              "default": 0,
-              "type": "integer",
-              "enum": [
-                0,
-                1
-              ]
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/Login"
-              }
+          "responses": {
+            "200": {
+              "$ref": "#/components/responses/Validate"
             },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Login"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "oneOf": [
-                    {
-                      "type": "object",
-                      "properties": {
-                        "status": {
-                          "type": "string",
-                          "example": "SUCCESS"
-                        },
-                        "data": {
-                          "type": "object",
-                          "properties": {
-                            "accessToken": {
-                              "type": "string"
-                            },
-                            "refreshToken": {
-                              "type": "string"
-                            },
-                            "wsToken": {
-                              "type": "string"
-                            }
-                          }
-                        }
-                      }
-                    },
-                    {
-                      "$ref": "#/components/responses/ErrorFormResponse"
-                    },
-                    {
-                      "$ref": "#/components/responses/SignFormResponse"
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          }
-        }
-      }
-    },
-    "/v2/auth": {
-      "post": {
-        "tags": [
-          "auth"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "validate",
-            "schema": {
-              "default": 0,
-              "type": "integer",
-              "enum": [
-                0,
-                1
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "signToken",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AuthV2"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/Validate"
-          },
-          "201": {
-            "$ref": "#/components/responses/Created"
-          },
-          "202": {
-            "$ref": "#/components/responses/Sign"
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "422": {
-            "$ref": "#/components/responses/ValidationError"
-          }
-        }
-      }
-    },
-    "/v2/member": {
-      "post": {
-        "summary": "Invite sub user",
-        "tags": [
-          "member"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "validate",
-            "schema": {
-              "default": 0,
-              "type": "integer",
-              "enum": [
-                0,
-                1
-              ]
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/MemberInviteV2"
-              },
-              "encoding": {
-                "walletAccess[]": {
-                  "explode": true
-                }
-              }
+            "201": {
+              "$ref": "#/components/responses/Created"
             },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/MemberInviteV2"
-              }
+            "202": {
+              "$ref": "#/components/responses/Sign"
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "422": {
+              "$ref": "#/components/responses/ValidationError"
             }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/responses/SuccessFormResponse"
-                    },
-                    {
-                      "$ref": "#/components/responses/ErrorFormResponse"
-                    },
-                    {
-                      "$ref": "#/components/responses/SignFormResponse"
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          }
-        }
-      }
-    },
-    "/v2/beneficiary": {
-      "post": {
-        "summary": "Create beneficiary",
-        "tags": [
-          "beneficiary"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Beneficiary"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/responses/SuccessFormResponse"
-                    },
-                    {
-                      "$ref": "#/components/responses/ErrorFormResponse"
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          }
-        }
-      }
-    },
-    "/v2/payment": {
-      "post": {
-        "summary": "Create a payment",
-        "tags": [
-          "payment"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PaymentRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Payment created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PaymentResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          },
-          "422": {
-            "$ref": "#/components/responses/ValidationError"
           }
         }
       },
-      "get": {
-        "summary": "Display list of payments",
-        "tags": [
-          "payment"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "expand",
-            "in": "query",
-            "explode": false,
-            "schema": {
-              "$ref": "#/components/schemas/PaymentExpand"
-            }
-          },
-          {
-            "name": "type",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "debit",
-                "credit"
-              ]
-            }
-          },
-          {
-            "name": "counterpartyName",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "counterpartyIban",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "walletId",
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "status[]",
-            "in": "query",
-            "schema": {
-              "type": "array",
-              "items": {
+      "/v2/mfa/{type}/sign/{requestId}": {
+        "post": {
+          "summary": "Verify MFA Code",
+          "description": "Submits an MFA verification code to retrieve a signToken.",
+          "parameters": [
+            {
+              "name": "type",
+              "in": "path",
+              "required": true,
+              "schema": {
                 "type": "string",
                 "enum": [
-                  "new",
-                  "process",
-                  "completed",
-                  "rejected",
-                  "canceled",
-                  "draft",
-                  "compliance"
+                  "sms",
+                  "google"
                 ]
-              }
+              },
+              "description": "Type of MFA method"
+            },
+            {
+              "name": "requestId",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "MFA request ID"
             }
-          },
-          {
-            "name": "createdFrom",
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of payments",
+          ],
+          "requestBody": {
+            "required": true,
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "status": {
-                      "type": "string"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/PaymentResponse"
+                    "code": {
+                      "type": "string",
+                      "maxLength": 6
+                    }
+                  },
+                  "required": [
+                    "code"
+                  ]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful verification",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string"
+                      },
+                      "data": {
+                        "type": "object",
+                        "properties": {
+                          "signToken": {
+                            "type": "string"
+                          }
+                        }
                       }
                     }
                   }
                 }
               }
+            },
+            "422": {
+              "description": "Validation failed"
             }
           },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ]
+        }
+      },
+      "/v2/auth/token": {
+        "post": {
+          "tags": [
+            "auth"
+          ],
+          "security": [
+            {
+              "BasicAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "validate",
+              "schema": {
+                "default": 0,
+                "type": "integer",
+                "enum": [
+                  0,
+                  1
+                ]
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/x-www-form-urlencoded": {
+                "schema": {
+                  "$ref": "#/components/schemas/Login"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Login"
+                }
+              }
+            }
           },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string",
+                            "example": "SUCCESS"
+                          },
+                          "data": {
+                            "type": "object",
+                            "properties": {
+                              "accessToken": {
+                                "type": "string"
+                              },
+                              "refreshToken": {
+                                "type": "string"
+                              },
+                              "wsToken": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "$ref": "#/components/responses/ErrorFormResponse"
+                      },
+                      {
+                        "$ref": "#/components/responses/SignFormResponse"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            }
           }
         }
-      }
-    },
-    "/v3/wallet": {
-      "get": {
-        "summary": "Get all wallets",
-        "tags": [
-          "wallet"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "schema": {
-              "type": "integer"
+      },
+      "/v2/auth": {
+        "post": {
+          "tags": [
+            "auth"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "validate",
+              "schema": {
+                "default": 0,
+                "type": "integer",
+                "enum": [
+                  0,
+                  1
+                ]
+              }
             },
-            "required": false
-          },
-          {
-            "name": "before",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "required": false
-          },
-          {
-            "name": "after",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "required": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of wallets",
+            {
+              "in": "query",
+              "name": "signToken",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
+                  "$ref": "#/components/schemas/AuthV2"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "$ref": "#/components/responses/Validate"
+            },
+            "201": {
+              "$ref": "#/components/responses/Created"
+            },
+            "202": {
+              "$ref": "#/components/responses/Sign"
+            },
+            "400": {
+              "$ref": "#/components/responses/BadRequest"
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "422": {
+              "$ref": "#/components/responses/ValidationError"
+            }
+          }
+        }
+      },
+      "/v2/member": {
+        "post": {
+          "summary": "Invite sub user",
+          "tags": [
+            "member"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "validate",
+              "schema": {
+                "default": 0,
+                "type": "integer",
+                "enum": [
+                  0,
+                  1
+                ]
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/x-www-form-urlencoded": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberInviteV2"
+                },
+                "encoding": {
+                  "walletAccess[]": {
+                    "explode": true
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberInviteV2"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/responses/SuccessFormResponse"
+                      },
+                      {
+                        "$ref": "#/components/responses/ErrorFormResponse"
+                      },
+                      {
+                        "$ref": "#/components/responses/SignFormResponse"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            }
+          }
+        }
+      },
+      "/v2/beneficiary": {
+        "post": {
+          "summary": "Create beneficiary",
+          "tags": [
+            "beneficiary"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Beneficiary"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/responses/SuccessFormResponse"
+                      },
+                      {
+                        "$ref": "#/components/responses/ErrorFormResponse"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            }
+          }
+        }
+      },
+      "/v2/payment": {
+        "post": {
+          "summary": "Create a payment",
+          "tags": [
+            "payment"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Payment created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PaymentResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "422": {
+              "$ref": "#/components/responses/ValidationError"
+            }
+          }
+        },
+        "get": {
+          "summary": "Display list of payments",
+          "tags": [
+            "payment"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "expand",
+              "in": "query",
+              "explode": false,
+              "schema": {
+                "$ref": "#/components/schemas/PaymentExpand"
+              }
+            },
+            {
+              "name": "type",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "debit",
+                  "credit"
+                ]
+              }
+            },
+            {
+              "name": "counterpartyName",
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "counterpartyIban",
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "walletId",
+              "in": "query",
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "name": "status[]",
+              "in": "query",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "new",
+                    "process",
+                    "completed",
+                    "rejected",
+                    "canceled",
+                    "draft",
+                    "compliance"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "createdFrom",
+              "in": "query",
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "List of payments",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string"
+                      },
+                      "data": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/PaymentResponse"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            }
+          }
+        }
+      },
+      "/v3/wallet": {
+        "get": {
+          "summary": "Get all wallets",
+          "tags": [
+            "wallet"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "limit",
+              "in": "query",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            },
+            {
+              "name": "before",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "required": false
+            },
+            {
+              "name": "after",
+              "in": "query",
+              "schema": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "required": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "List of wallets",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string"
+                      },
+                      "data": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/Wallet"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            }
+          }
+        }
+      },
+      "/v3/wallet/{id}": {
+        "get": {
+          "summary": "Get wallet by ID",
+          "tags": [
+            "wallet"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Wallet details",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string"
+                      },
+                      "data": {
                         "$ref": "#/components/schemas/Wallet"
                       }
                     }
                   }
                 }
               }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "404": {
+              "description": "Wallet not found"
             }
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      },
+      "/v1/payment/{id}": {
+        "get": {
+          "summary": "Get payment by ID",
+          "tags": [
+            "payment"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Payment ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Payment found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PaymentResponse"
+                  }
+                }
+              }
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
+            },
+            "404": {
+              "description": "Payment not found"
+            }
           }
         }
       }
     },
-    "/v3/wallet/{id}": {
-      "get": {
-        "summary": "Get wallet by ID",
-        "tags": [
-          "wallet"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
+    "components": {
+      "schemas": {
+        "Login": {
+          "type": "object",
+          "properties": {
+            "signToken": {
+              "type": "string",
+              "example": "abc123"
+            },
+            "fingerprintid": {
+              "type": "string",
+              "example": "fingerprint-xyz"
             }
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "Wallet details",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
+        },
+        "AuthV2": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "allowIps": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "ipv4"
+              }
+            },
+            "withMfa": {
+              "type": "boolean"
+            },
+            "fingerprint": {
+              "type": "string"
+            },
+            "expiredAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "app": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "MemberInviteV2": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "format": "email"
+            },
+            "name": {
+              "type": "string"
+            },
+            "permissions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "walletAccess": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "email",
+            "name"
+          ]
+        },
+        "Beneficiary": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "walletId": {
+              "type": "string"
+            },
+            "iban": {
+              "type": "string"
+            },
+            "country": {
+              "type": "string"
+            },
+            "currency": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "walletId",
+            "iban",
+            "country",
+            "currency"
+          ]
+        },
+        "PaymentRequest": {
+          "type": "object",
+          "properties": {
+            "amount": {
+              "type": "number"
+            },
+            "currency": {
+              "type": "string"
+            },
+            "walletId": {
+              "type": "string"
+            },
+            "beneficiaryId": {
+              "type": "string"
+            },
+            "paymentType": {
+              "type": "string",
+              "enum": [
+                "SEPA",
+                "SWIFT"
+              ]
+            },
+            "reference": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "amount",
+            "currency",
+            "walletId",
+            "beneficiaryId",
+            "paymentType"
+          ]
+        },
+        "Wallet": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "iban": {
+              "type": "string"
+            },
+            "currency": {
+              "type": "string"
+            },
+            "balance": {
+              "type": "number"
+            },
+            "status": {
+              "type": "string"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "PaymentResponse": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "paymentId": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "PaymentExpand": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "wallet",
+              "beneficiary"
+            ]
+          }
+        }
+      },
+      "responses": {
+        "ErrorFormResponse": {
+          "description": "Form error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "example": "ERROR"
+                  },
+                  "errors": {
+                    "type": "array",
+                    "items": {
                       "type": "string"
-                    },
-                    "data": {
-                      "$ref": "#/components/schemas/Wallet"
                     }
                   }
                 }
               }
             }
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          },
-          "404": {
-            "description": "Wallet not found"
-          }
-        }
-      }
-    },
-    "/v1/payment/{id}": {
-      "get": {
-        "summary": "Get payment by ID",
-        "tags": [
-          "payment"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Payment ID"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Payment found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PaymentResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          },
-          "404": {
-            "description": "Payment not found"
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "Login": {
-        "type": "object",
-        "properties": {
-          "signToken": {
-            "type": "string",
-            "example": "abc123"
-          },
-          "fingerprintid": {
-            "type": "string",
-            "example": "fingerprint-xyz"
-          }
-        }
-      },
-      "AuthV2": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "allowIps": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "ipv4"
-            }
-          },
-          "withMfa": {
-            "type": "boolean"
-          },
-          "fingerprint": {
-            "type": "string"
-          },
-          "expiredAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "app": {
-            "type": "string"
           }
         },
-        "required": [
-          "id"
-        ]
-      },
-      "MemberInviteV2": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "format": "email"
-          },
-          "name": {
-            "type": "string"
-          },
-          "permissions": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "walletAccess": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "required": [
-          "email",
-          "name"
-        ]
-      },
-      "Beneficiary": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "walletId": {
-            "type": "string"
-          },
-          "iban": {
-            "type": "string"
-          },
-          "country": {
-            "type": "string"
-          },
-          "currency": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "name",
-          "walletId",
-          "iban",
-          "country",
-          "currency"
-        ]
-      },
-      "PaymentRequest": {
-        "type": "object",
-        "properties": {
-          "amount": {
-            "type": "number"
-          },
-          "currency": {
-            "type": "string"
-          },
-          "walletId": {
-            "type": "string"
-          },
-          "beneficiaryId": {
-            "type": "string"
-          },
-          "paymentType": {
-            "type": "string",
-            "enum": [
-              "SEPA",
-              "SWIFT"
-            ]
-          },
-          "reference": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "amount",
-          "currency",
-          "walletId",
-          "beneficiaryId",
-          "paymentType"
-        ]
-      },
-      "Wallet": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "iban": {
-            "type": "string"
-          },
-          "currency": {
-            "type": "string"
-          },
-          "balance": {
-            "type": "number"
-          },
-          "status": {
-            "type": "string"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
-      "PaymentResponse": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string"
-          },
-          "data": {
-            "type": "object",
-            "properties": {
-              "paymentId": {
-                "type": "string"
-              },
-              "status": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      },
-      "PaymentExpand": {
-        "type": "array",
-        "items": {
-          "type": "string",
-          "enum": [
-            "wallet",
-            "beneficiary"
-          ]
-        }
-      }
-    },
-    "responses": {
-      "ErrorFormResponse": {
-        "description": "Form error",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "ERROR"
-                },
-                "errors": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
+        "Unauthorized": {
+          "description": "Unauthorized",
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "ERROR",
+                "error": {
+                  "code": 401,
+                  "message": "Unauthorized"
                 }
               }
             }
           }
-        }
-      },
-      "Unauthorized": {
-        "description": "Unauthorized",
-        "content": {
-          "application/json": {
-            "example": {
-              "status": "ERROR",
-              "error": {
-                "code": 401,
-                "message": "Unauthorized"
-              }
-            }
-          }
-        }
-      },
-      "Forbidden": {
-        "description": "Forbidden",
-        "content": {
-          "application/json": {
-            "example": {
-              "status": "ERROR",
-              "error": {
-                "code": 403,
-                "message": "Forbidden"
-              }
-            }
-          }
-        }
-      },
-      "ValidationError": {
-        "description": "Validation error",
-        "content": {
-          "application/json": {
-            "example": {
-              "status": "ERROR",
-              "error": {
-                "code": 422,
-                "message": "Validation failed",
-                "details": [
-                  "amount is required",
-                  "currency must be EUR or USD"
-                ]
-              }
-            }
-          }
-        }
-      },
-      "SignFormResponse": {
-        "description": "MFA required",
-        "content": {
-          "application/json": {
-            "example": {
-              "status": "MFA_REQUIRED",
-              "mfaToken": "string"
-            }
-          }
-        }
-      },
-      "Validate": {
-        "description": "Validation success",
-        "content": {
-          "application/json": {
-            "example": {
-              "status": "SUCCESS"
-            }
-          }
-        }
-      },
-      "Created": {
-        "description": "Resource created",
-        "content": {
-          "application/json": {
-            "example": {
-              "status": "SUCCESS",
-              "data": {
-                "id": "abc123"
-              }
-            }
-          }
-        }
-      },
-      "Sign": {
-        "description": "MFA sign required",
-        "content": {
-          "application/json": {
-            "example": {
-              "status": "MFA_REQUIRED",
-              "mfaToken": "def456"
-            }
-          }
-        }
-      },
-      "BadRequest": {
-        "description": "Bad request",
-        "content": {
-          "application/json": {
-            "example": {
-              "status": "ERROR",
-              "error": {
-                "code": 400,
-                "message": "Bad request"
-              }
-            }
-          }
-        }
-      },
-      "SuccessFormResponse": {
-        "description": "Operation successful",
-        "content": {
-          "application/json": {
-            "example": {
-              "status": "SUCCESS",
-              "message": "Operation completed successfully"
-            }
-          }
-        }
-      }
-    },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
-      },
-      "BasicAuth": {
-        "type": "http",
-        "scheme": "basic"
-      }
-    },
-    "parameters": {
-      "Before": {
-        "name": "before",
-        "in": "query",
-        "schema": {
-          "type": "string",
-          "format": "date-time"
         },
-        "required": false
-      },
-      "After": {
-        "name": "after",
-        "in": "query",
-        "schema": {
-          "type": "string",
-          "format": "date-time"
+        "Forbidden": {
+          "description": "Forbidden",
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "ERROR",
+                "error": {
+                  "code": 403,
+                  "message": "Forbidden"
+                }
+              }
+            }
+          }
         },
-        "required": false
-      },
-      "Limit": {
-        "name": "limit",
-        "in": "query",
-        "schema": {
-          "type": "integer"
+        "ValidationError": {
+          "description": "Validation error",
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "ERROR",
+                "error": {
+                  "code": 422,
+                  "message": "Validation failed",
+                  "details": [
+                    "amount is required",
+                    "currency must be EUR or USD"
+                  ]
+                }
+              }
+            }
+          }
         },
-        "required": false
+        "SignFormResponse": {
+          "description": "MFA required",
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "MFA_REQUIRED",
+                "mfaToken": "string"
+              }
+            }
+          }
+        },
+        "Validate": {
+          "description": "Validation success",
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "SUCCESS"
+              }
+            }
+          }
+        },
+        "Created": {
+          "description": "Resource created",
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "SUCCESS",
+                "data": {
+                  "id": "abc123"
+                }
+              }
+            }
+          }
+        },
+        "Sign": {
+          "description": "MFA sign required",
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "MFA_REQUIRED",
+                "mfaToken": "def456"
+              }
+            }
+          }
+        },
+        "BadRequest": {
+          "description": "Bad request",
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "ERROR",
+                "error": {
+                  "code": 400,
+                  "message": "Bad request"
+                }
+              }
+            }
+          }
+        },
+        "SuccessFormResponse": {
+          "description": "Operation successful",
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "SUCCESS",
+                "message": "Operation completed successfully"
+              }
+            }
+          }
+        }
+      },
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer"
+        },
+        "BasicAuth": {
+          "type": "http",
+          "scheme": "basic"
+        }
+      },
+      "parameters": {
+        "Before": {
+          "name": "before",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "required": false
+        },
+        "After": {
+          "name": "after",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "required": false
+        },
+        "Limit": {
+          "name": "limit",
+          "in": "query",
+          "schema": {
+            "type": "integer"
+          },
+          "required": false
+        }
       }
     }
   }
-}
