@@ -1015,22 +1015,74 @@
         }
       },
       "SignFormResponse": {
-        "description": "MFA required"
+        "description": "MFA required",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": "MFA_REQUIRED",
+              "mfaToken": "string"
+            }
+          }
+        }
       },
       "Validate": {
-        "description": "Validation success"
+        "description": "Validation success",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": "SUCCESS"
+            }
+          }
+        }
       },
       "Created": {
-        "description": "Resource created"
+        "description": "Resource created",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": "SUCCESS",
+              "data": {
+                "id": "abc123"
+              }
+            }
+          }
+        }
       },
       "Sign": {
-        "description": "MFA sign required"
+        "description": "MFA sign required",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": "MFA_REQUIRED",
+              "mfaToken": "def456"
+            }
+          }
+        }
       },
       "BadRequest": {
-        "description": "Bad request"
+        "description": "Bad request",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": "ERROR",
+              "error": {
+                "code": 400,
+                "message": "Bad request"
+              }
+            }
+          }
+        }
       },
       "SuccessFormResponse": {
-        "description": "Operation successful"
+        "description": "Operation successful",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": "SUCCESS",
+              "message": "Operation completed successfully"
+            }
+          }
+        }
       }
     },
     "securitySchemes": {
