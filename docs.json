@@ -70,6 +70,7 @@
               "api-reference/endpoint/v2-auth",
               "api-reference/endpoint/v2-beneficiary",
               "api-reference/endpoint/v2-payment",
+              "api-reference/endpoint/v3-payment",
               "api-reference/endpoint/v3-wallet",
               "api-reference/endpoint/v3-wallet-id"
             ]

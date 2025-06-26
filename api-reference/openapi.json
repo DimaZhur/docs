@@ -19,6 +19,71 @@
     }
   ],
   "paths": {
+    "/v3/payment": {
+      "post": {
+        "summary": "Create new payment",
+        "tags": [
+          "payment"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "validate",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ],
+              "default": 0
+            },
+            "required": false
+          },
+          {
+            "name": "signToken",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Validate"
+          },
+          "201": {
+            "$ref": "#/components/responses/Created"
+          },
+          "202": {
+            "$ref": "#/components/responses/Sign"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        }
+      }
+    },
     "/v2/mfa/{type}/sign/{requestId}": {
       "post": {
         "summary": "Verify MFA Code",

@@ -1,0 +1,19 @@
+---
+title: How can I create debit payment to another Finsei wallet?
+---
+
+Here are the steps:
+
+1. Execute `POST /v3/payment` with the following parameters in the request body, where:
+   - `walletId`: UUID of the debit wallet
+   - `targetWalletId`: UUID of your created second wallet
+
+```json
+{
+ "status": "new", 
+"walletId": 0, 
+"amount": 0, 
+"targetWalletId": 0, 
+"reference": "string"					
+}
+```
