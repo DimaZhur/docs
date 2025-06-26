@@ -968,11 +968,54 @@
           }
         }
       },
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": "ERROR",
+              "error": {
+                "code": 401,
+                "message": "Unauthorized"
+              }
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Forbidden",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": "ERROR",
+              "error": {
+                "code": 403,
+                "message": "Forbidden"
+              }
+            }
+          }
+        }
+      },
+      "ValidationError": {
+        "description": "Validation error",
+        "content": {
+          "application/json": {
+            "example": {
+              "status": "ERROR",
+              "error": {
+                "code": 422,
+                "message": "Validation failed",
+                "details": [
+                  "amount is required",
+                  "currency must be EUR or USD"
+                ]
+              }
+            }
+          }
+        }
+      },
       "SignFormResponse": {
         "description": "MFA required"
-      },
-      "Unauthorized": {
-        "description": "Unauthorized"
       },
       "Validate": {
         "description": "Validation success"
@@ -985,12 +1028,6 @@
       },
       "BadRequest": {
         "description": "Bad request"
-      },
-      "ValidationError": {
-        "description": "Validation error"
-      },
-      "Forbidden": {
-        "description": "Forbidden"
       },
       "SuccessFormResponse": {
         "description": "Operation successful"
