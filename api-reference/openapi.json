@@ -624,7 +624,7 @@
             "$ref": "#/components/responses/Forbidden"
           },
           "404": {
-            "description": "#/components/responses/NotFound"
+            "$ref": "#/components/responses/NotFound"
           }
         }
       }
@@ -746,7 +746,7 @@
             "$ref": "#/components/responses/Forbidden"
           },
           "404": {
-            "description": "#/components/responses/NotFound"
+            "$ref": "#/components/responses/NotFound"
           }
         }
       }
@@ -791,7 +791,7 @@
             "$ref": "#/components/responses/Forbidden"
           },
           "404": {
-            "description": "Payment not found"
+            "$ref": "#/components/responses/NotFound"
           }
         }
       }
