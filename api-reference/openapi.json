@@ -76,26 +76,26 @@
                 ]
               }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Validate"
           },
-          "responses": {
-            "200": {
-              "$ref": "#/components/responses/Validate"
-            },
-            "201": {
-              "$ref": "#/components/responses/Created"
-            },
-            "202": {
-              "$ref": "#/components/responses/Sign"
-            },
-            "401": {
-              "$ref": "#/components/responses/Unauthorized"
-            },
-            "403": {
-              "$ref": "#/components/responses/Forbidden"
-            },
-            "422": {
-              "$ref": "#/components/responses/ValidationError"
-            }
+          "201": {
+            "$ref": "#/components/responses/Created"
+          },
+          "202": {
+            "$ref": "#/components/responses/Sign"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
           }
         }
       },
