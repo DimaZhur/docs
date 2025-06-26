@@ -156,7 +156,8 @@
             }
           },
           "422": {
-            "$ref": "#/components/responses/ValidationError"
+            "description": "Validation failed",
+            "message": "Validation failed"
           }
         },
         "security": [
