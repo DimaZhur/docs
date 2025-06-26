@@ -64,16 +64,16 @@
           {
             "group": "Endpoints",
             "pages": [
-              "api-reference/endpoint/v2-member",
-              "api-reference/endpoint/v2-auth-token",
-              "api-reference/endpoint/verify-mfa",
-              "api-reference/endpoint/v2-auth",
-              "api-reference/endpoint/v2-beneficiary",
-              "api-reference/endpoint/v2-payment",
-              "api-reference/endpoint/v3-payment",
-              "api-reference/endpoint/v3-wallet",
-              "api-reference/endpoint/v3-wallet-id",
-              "api-reference/endpoint/v1-payment-id",
+              "api-reference/endpoint/post-v2-member",
+              "api-reference/endpoint/post-v2-auth-token",
+              "api-reference/endpoint/post-verify-mfa",
+              "api-reference/endpoint/post-v2-auth",
+              "api-reference/endpoint/post-v2-beneficiary",
+              "api-reference/endpoint/post-v2-payment",
+              "api-reference/endpoint/post-v3-payment",
+              "api-reference/endpoint/get-v3-wallet",
+              "api-reference/endpoint/get-v3-wallet-id",
+              "api-reference/endpoint/get-v1-payment-id",
               "api-reference/endpoint/get-v2-payment"
             ]
           }
