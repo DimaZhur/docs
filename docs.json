@@ -64,10 +64,10 @@
             "group": "Endpoints",
             "pages": [
               "api-reference/endpoint/post-v2-member",
-              "api-reference/endpoint/post-v2-auth-token",
-              "api-reference/endpoint/post-verify-mfa",
+              "api-reference/endpoint/auth-endpoints/post-v2-auth-token",
+              "api-reference/endpoint/auth-endpoints/post-verify-mfa",
               "api-reference/endpoint/post-v2-beneficiary",
-              "api-reference/endpoint/post-v2-auth",
+              "api-reference/endpoint/auth-endpoints/post-v2-auth",
               "api-reference/endpoint/post-v3-payment",
               "api-reference/endpoint/get-v3-wallet",
               "api-reference/endpoint/get-v3-wallet-id",
