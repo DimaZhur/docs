@@ -57,8 +57,7 @@
           {
             "group": "API Documentation",
             "pages": [
-              "api-reference/introduction",
-              "api-reference/webSocket-client"
+              "api-reference/introduction"
             ]
           },
           {
