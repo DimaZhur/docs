@@ -1,11 +1,24 @@
 ---
 title: User
-description: "Overview of company users and access roles"
+description: "Users (also known as sub-users) are entities within a company who can perform various actions depending on their assigned role."
 ---
 
-**Users** are individuals within a company who can perform various actions depending on their assigned role.
+> The **Users** tab is only visible to the company’s **main user (admin)**.
 
-> The **Users** tab is visible only to the company’s **main user (admin)**.
+### Role
+
+User can have a role which limits user's actions.
+
+There are three available roles for user:
+- Full access
+- Partial access
+- View only access
+
+### Expiration date
+
+User can have limited by time access. 'Expire date' attribute should be specified, so user is only able to perform actions until specified date.
+
+### Wallet access
 
 When creating or editing a user, you can configure their access to specific company wallets — **wallet access**.
 
@@ -17,4 +30,10 @@ Once the available wallets are selected, the user will only have access to the s
 
 ![Edit User](../images/user/user2.png)
 
-![Edit User](../images/user/user3.png)
+### Password setup
+
+Once user is created, he should set password using 'Forgot password?' form on login page. After password set up, an email with reset password link will be received to the specified email address.
+
+### JWT token
+
+Users also can be used to create JWT token. More info you can find [here](faq/create-jwt-token.mdx).
