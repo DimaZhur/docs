@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "https://api.sandbox.altpay.uk"
+      "url": "https://api.sandbox.finsei.com"
     }
   ],
   "security": [
