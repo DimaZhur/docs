@@ -27,8 +27,8 @@
           {
             "group": "Core Concepts",
             "pages": [
-              "core-concepts/user",
-              "core-concepts/beneficiary"
+              "core-concepts/beneficiary",
+              "core-concepts/user"
             ]
           },
           {
@@ -94,7 +94,7 @@
         },
         {
           "anchor": "Swagger",
-          "href": "https://api.sandbox.altpay.uk",
+          "href": "https://api.sandbox.finsei.com",
           "icon": "book"
         }
       ]
