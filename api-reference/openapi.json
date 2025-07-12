@@ -408,6 +408,24 @@
         "responses": {
           "200": {
             "description": "OK",
+            "headers": {
+              "x-id": {
+                "description": "A unique ID of created beneficiary.",
+                "schema": {
+                  "type": "integer",
+                  "format": "id",
+                  "example": 5631
+                }
+              },
+              "x-uuid": {
+                "description": "A unique UUID of created beneficiary.",
+                "schema": {
+                  "type": "string",
+                  "format": "uuid",
+                  "example": "966a2cde-695a-4202-8114-13e74a077e8f"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
