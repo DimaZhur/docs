@@ -110,34 +110,46 @@
     },
     "/v2/mfa/{type}/sign/{requestId}": {
       "post": {
-        "summary": "Verify MFA Code",
-        "description": "Submits an MFA verification code to retrieve a signToken.",
+        "tags": [
+          "mfa"
+        ],
+        "security": [
+          {
+            "BearerAuth": [
+
+            ]
+          },
+          {
+            "BasicAuth": [
+
+            ]
+          }
+        ],
         "parameters": [
           {
-            "name": "type",
             "in": "path",
+            "name": "type",
             "required": true,
             "schema": {
               "type": "string",
+              "default": "sms",
+              "description": "Type for MFA",
               "enum": [
                 "sms",
                 "google"
               ]
-            },
-            "description": "Type of MFA method"
+            }
           },
           {
-            "name": "requestId",
             "in": "path",
+            "name": "requestId",
             "required": true,
             "schema": {
               "type": "string"
-            },
-            "description": "MFA request ID"
+            }
           }
         ],
         "requestBody": {
-          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -145,6 +157,8 @@
                 "properties": {
                   "code": {
                     "type": "string",
+                    "example": "111111",
+                    "description": "Verification code",
                     "maxLength": 6
                   }
                 },
@@ -157,37 +171,99 @@
         },
         "responses": {
           "200": {
-            "description": "Successful verification",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string"
-                    },
-                    "data": {
+                  "oneOf": [
+                    {
                       "type": "object",
                       "properties": {
-                        "signToken": {
-                          "type": "string"
+                        "status": {
+                          "type": "string",
+                          "example": "SUCCESS"
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "signToken": {
+                              "type": "string",
+                              "required": true,
+                              "example": "eyJhbGciOiJSUzI1NiJ9.eyJzaWduSWQiOiI5YjJjZm"
+                            }
+                          }
                         }
                       }
+                    },
+                    {
+                      "$ref": "#/components/responses/ErrorFormResponse"
                     }
-                  }
+                  ]
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation failed"
           }
-        },
+        }
+      },
+      "options": {
+        "tags": [
+          "mfa"
+        ],
         "security": [
           {
-            "bearerAuth": []
+            "BearerAuth": [
+
+            ]
+          },
+          {
+            "BasicAuth": [
+
+            ]
           }
-        ]
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "requestId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "type",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "google",
+              "description": "Type for MFA",
+              "enum": [
+                "sms",
+                "google"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Allow": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "POST, OPTIONS"
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "POST, OPTIONS"
+              }
+            }
+          }
+        }
       }
     },
     "/v2/auth/token": {
@@ -1388,23 +1464,16 @@
     },
     "responses": {
       "ErrorFormResponse": {
-        "description": "Form error",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "ERROR"
-                },
-                "errors": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "ERROR"
+          },
+          "errors": {
+            "type": "object",
+            "example": {
+              "email": "Email cannot be blank."
             }
           }
         }
