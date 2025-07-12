@@ -548,48 +548,6 @@
       }
     },
     "/v2/payment": {
-      "post": {
-        "summary": "Create a payment",
-        "tags": [
-          "payment"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PaymentRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Payment created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PaymentResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          },
-          "422": {
-            "$ref": "#/components/responses/ValidationError"
-          }
-        }
-      },
       "get": {
         "summary": "Display list of payments",
         "tags": [
@@ -597,21 +555,23 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "BearerAuth": [
+
+            ]
           }
         ],
         "parameters": [
           {
-            "name": "expand",
             "in": "query",
+            "name": "expand",
             "explode": false,
             "schema": {
               "$ref": "#/components/schemas/PaymentExpand"
             }
           },
           {
-            "name": "type",
             "in": "query",
+            "name": "type",
             "schema": {
               "type": "string",
               "enum": [
@@ -621,29 +581,32 @@
             }
           },
           {
+            "in": "query",
             "name": "counterpartyName",
-            "in": "query",
+            "description": "Counterparty name",
             "schema": {
               "type": "string"
             }
           },
           {
+            "in": "query",
             "name": "counterpartyIban",
-            "in": "query",
+            "description": "Counterparty iban",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "walletId",
             "in": "query",
+            "name": "walletId",
+            "description": "Wallet unique id",
             "schema": {
               "type": "integer"
             }
           },
           {
-            "name": "status[]",
             "in": "query",
+            "name": "status[]",
             "schema": {
               "type": "array",
               "items": {
@@ -661,29 +624,184 @@
             }
           },
           {
-            "name": "createdFrom",
             "in": "query",
+            "name": "createdFrom",
+            "description": "Date from in unix or millisecond unix time format",
             "schema": {
               "type": "integer"
             }
+          },
+          {
+            "in": "query",
+            "name": "createdTo",
+            "description": "Date to in unix or millisecond unix time format",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "filter",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "WALLET"
+              ]
+            }
+          },
+          {
+            "$ref": "#/components/parameters/PageNum"
+          },
+          {
+            "$ref": "#/components/parameters/PerPage"
+          },
+          {
+            "$ref": "#/components/parameters/Sort"
           }
         ],
         "responses": {
           "200": {
-            "description": "List of payments",
+            "description": "OK",
+            "headers": {
+              "x-pagination-current-page": {
+                "$ref": "#/components/headers/x-pagination-current-page"
+              },
+              "x-pagination-page-count": {
+                "$ref": "#/components/headers/x-pagination-page-count"
+              },
+              "x-pagination-per-page": {
+                "$ref": "#/components/headers/x-pagination-per-page"
+              },
+              "x-pagination-total-count": {
+                "$ref": "#/components/headers/x-pagination-total-count"
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PaymentV2"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "deprecated": true,
+        "summary": "Create new payment",
+        "tags": [
+          "payment"
+        ],
+        "security": [
+          {
+            "BearerAuth": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "validate",
+            "schema": {
+              "default": 0,
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentCreateV2"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/responses/SuccessFormResponse"
                     },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/PaymentResponse"
-                      }
+                    {
+                      "$ref": "#/components/responses/ErrorFormResponse"
+                    },
+                    {
+                      "$ref": "#/components/responses/SignFormResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete payment (only DRAFT)",
+        "tags": [
+          "payment"
+        ],
+        "security": [
+          {
+            "BearerAuth": [
+
+            ]
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "array",
+                    "description": "Payment id (integer) or payment uuid (UUID string)",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "id"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
                     }
                   }
                 }
@@ -697,17 +815,43 @@
             "$ref": "#/components/responses/Forbidden"
           }
         }
+      },
+      "options": {
+        "tags": [
+          "payment"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Allow": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "GET, POST, DELETE, OPTIONS"
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "GET, POST, DELETE, OPTIONS"
+              }
+            }
+          }
+        }
       }
     },
     "/v2/payment/{id}": {
       "get": {
-        "summary": "Get payment by ID",
+        "summary": "Details information about payment",
         "tags": [
           "payment"
         ],
         "security": [
           {
-            "bearerAuth": []
+            "BearerAuth": [
+
+            ]
           }
         ],
         "parameters": [
@@ -715,31 +859,68 @@
             "name": "id",
             "in": "path",
             "required": true,
+            "description": "Either payment id (integer) or payment uuid (UUID string)",
             "schema": {
               "type": "string"
-            },
-            "description": "Payment ID"
+            }
+          },
+          {
+            "in": "query",
+            "name": "expand",
+            "explode": false,
+            "schema": {
+              "$ref": "#/components/schemas/PaymentExpand"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Payment details",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PaymentResponse"
+                  "$ref": "#/components/schemas/PaymentV2"
                 }
               }
             }
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "options": {
+        "tags": [
+          "payment"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Either payment id (integer) or payment uuid (UUID string)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Allow": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "GET, OPTIONS"
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "GET, OPTIONS"
+              }
+            }
           }
         }
       }
@@ -868,13 +1049,16 @@
     },
     "/v1/payment/{id}": {
       "get": {
-        "summary": "Get payment by ID",
+        "deprecated": true,
+        "summary": "Details information about payment",
         "tags": [
           "payment"
         ],
         "security": [
           {
-            "bearerAuth": []
+            "BearerAuth": [
+
+            ]
           }
         ],
         "parameters": [
@@ -883,30 +1067,67 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
-            },
-            "description": "Payment ID"
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "expand",
+            "explode": false,
+            "schema": {
+              "$ref": "#/components/schemas/PaymentExpand"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Payment found",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PaymentResponse"
+                  "$ref": "#/components/schemas/PaymentV1"
                 }
               }
             }
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "options": {
+        "deprecated": true,
+        "tags": [
+          "payment"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Payment ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Allow": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "GET, OPTIONS"
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "GET, OPTIONS"
+              }
+            }
           }
         }
       }
@@ -1314,6 +1535,891 @@
           "currency",
           "beneficiaryId",
           "paymentType"
+        ]
+      },
+      "PaymentV1": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique id of payment"
+          },
+          "status": {
+            "type": "string",
+            "description": "Currency payment status",
+            "enum": [
+              "new",
+              "process",
+              "completed",
+              "rejected",
+              "canceled",
+              "failed",
+              "draft"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "description": "Payment type"
+          },
+          "fee": {
+            "type": "string",
+            "description": "Fee for payment"
+          },
+          "amount": {
+            "type": "string",
+            "description": "Payment amount"
+          },
+          "total": {
+            "type": "string",
+            "description": "Payment fee + amount"
+          },
+          "counterparty_name": {
+            "type": "string",
+            "description": "Counterparty Holder Name"
+          },
+          "counterparty": {
+            "type": "object",
+            "properties": {
+              "bic_swift": {
+                "type": "string",
+                "description": "BIC\\SWIFT number of counterparty"
+              },
+              "bank_account_holder_name": {
+                "type": "string",
+                "description": "Counterparty Holder Name"
+              },
+              "iban": {
+                "type": "string",
+                "description": "Counterparty iban",
+                "maxLength": 255
+              }
+            }
+          },
+          "beneficiary_id": {
+            "type": "integer",
+            "description": "Beneficiary ID"
+          },
+          "wallet_id": {
+            "type": "integer",
+            "description": "Wallet ID"
+          },
+          "purpose": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string",
+                "example": "Main payment"
+              }
+            }
+          },
+          "icon": {
+            "type": "string",
+            "enum": [
+              "CONVERT",
+              "RETURN",
+              "CARD",
+              "ACCOUNT",
+              "CREDIT",
+              "DEBIT"
+            ]
+          },
+          "entity": {
+            "type": "string",
+            "enum": [
+              "PAYMENT",
+              "CONVERT",
+              "CARD"
+            ]
+          },
+          "currency_id": {
+            "type": "string",
+            "description": "Payment currency 3-char code",
+            "maxLength": 3
+          },
+          "currency_exchange_id": {
+            "type": "integer"
+          },
+          "reference": {
+            "type": "string",
+            "description": "Payment reference"
+          },
+          "transaction_amount": {
+            "type": "string"
+          },
+          "transaction_currency_id": {
+            "type": "string",
+            "maxLength": 3
+          },
+          "transaction_exchange_rate": {
+            "type": "string"
+          },
+          "card_masked_number": {
+            "type": "string"
+          },
+          "permissions": {
+            "type": "object",
+            "description": "List of true\\false permissions",
+            "properties": {
+              "canCancel": {
+                "type": "boolean",
+                "description": "User can canceled current payment"
+              },
+              "canSign": {
+                "type": "boolean",
+                "description": "User can sing DRAFT payment"
+              },
+              "canDelete": {
+                "type": "boolean",
+                "description": "User can delete DRAFT payment"
+              },
+              "canDownloadConfirmation": {
+                "type": "boolean",
+                "description": "User can download confirmation file"
+              }
+            }
+          },
+          "reject_reason": {
+            "type": "string"
+          },
+          "currency": {
+            "$ref": "#/components/schemas/Currency"
+          },
+          "currencyExchange": {
+            "$ref": "#/components/schemas/CurrencyExchangeV1"
+          },
+          "merchant": {
+            "$ref": "#/components/schemas/MerchantV1"
+          },
+          "cardholder": {
+            "$ref": "#/components/schemas/Cardholder"
+          },
+          "files": {
+            "$ref": "#/components/schemas/PaymentFiles"
+          },
+          "createdAtMs": {
+            "type": "integer",
+            "description": "Created timestamp in milliseconds",
+            "example": 1666666666999
+          },
+          "updatedAtMs": {
+            "type": "integer",
+            "description": "Updated timestamp in milliseconds",
+            "example": 1666666666999
+          },
+          "completed_at": {
+            "type": "integer",
+            "description": "Time of payment completion",
+            "example": 1667404598
+          }
+        }
+      },
+      "PaymentV2": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique id of payment"
+          },
+          "uuid": {
+            "type": "string",
+            "description": "Unique id"
+          },
+          "status": {
+            "type": "string",
+            "description": "Currency payment status",
+            "enum": [
+              "new",
+              "process",
+              "completed",
+              "rejected",
+              "canceled",
+              "compliance",
+              "draft"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "description": "Payment type"
+          },
+          "fee": {
+            "type": "object",
+            "description": "Fee for payment",
+            "properties": {
+              "amount": {
+                "type": "number"
+              },
+              "currencyId": {
+                "type": "string"
+              }
+            }
+          },
+          "amount": {
+            "type": "number",
+            "description": "Payment amount"
+          },
+          "total": {
+            "type": "number",
+            "description": "Payment fee + amount"
+          },
+          "counterparty": {
+            "type": "object",
+            "description": "Counterparty Holder Name",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name or description of counterparty"
+              },
+              "accountHolderName": {
+                "type": "string",
+                "description": "BIC\\SWIFT number of counterparty"
+              },
+              "bic": {
+                "type": "string",
+                "description": "Counterparty Holder Name"
+              },
+              "iban": {
+                "type": "string",
+                "description": "Counterparty iban",
+                "maxLength": 255
+              }
+            }
+          },
+          "beneficiaryId": {
+            "type": "integer",
+            "description": "Beneficiary ID"
+          },
+          "walletId": {
+            "type": "integer",
+            "description": "Wallet ID"
+          },
+          "icon": {
+            "type": "string",
+            "enum": [
+              "CONVERT",
+              "RETURN",
+              "CARD",
+              "ACCOUNT",
+              "CREDIT",
+              "DEBIT"
+            ]
+          },
+          "entity": {
+            "type": "string",
+            "enum": [
+              "PAYMENT",
+              "CONVERT",
+              "CARD"
+            ]
+          },
+          "currencyId": {
+            "type": "string",
+            "description": "Payment currency 3-char code",
+            "maxLength": 3
+          },
+          "currencyExchangeId": {
+            "type": "integer"
+          },
+          "currencyExchangeUuid": {
+            "type": "string",
+            "description": "Unique currency exchange uuid"
+          },
+          "reference": {
+            "type": "string",
+            "description": "Payment reference"
+          },
+          "transactionAmount": {
+            "type": "number"
+          },
+          "transactionCurrencyId": {
+            "type": "string",
+            "maxLength": 3
+          },
+          "transactionExchangeRate": {
+            "type": "string"
+          },
+          "cardMaskedNumber": {
+            "type": "string"
+          },
+          "retrievalReferenceNumber": {
+            "type": "string"
+          },
+          "permissions": {
+            "type": "object",
+            "description": "List of true\\false permissions",
+            "properties": {
+              "canCancel": {
+                "type": "boolean",
+                "description": "User can canceled current payment"
+              },
+              "canSign": {
+                "type": "boolean",
+                "description": "User can sing DRAFT payment"
+              },
+              "canDelete": {
+                "type": "boolean",
+                "description": "User can delete DRAFT payment"
+              },
+              "canDownloadConfirmation": {
+                "type": "boolean",
+                "description": "User can download confirmation file"
+              }
+            }
+          },
+          "rejectReason": {
+            "type": "string"
+          },
+          "purposeCode": {
+            "$ref": "#/components/schemas/PurposeCode"
+          },
+          "currency": {
+            "$ref": "#/components/schemas/Currency"
+          },
+          "currencyExchange": {
+            "$ref": "#/components/schemas/CurrencyExchangeV2"
+          },
+          "merchant": {
+            "$ref": "#/components/schemas/MerchantV2"
+          },
+          "cardholder": {
+            "$ref": "#/components/schemas/Cardholder"
+          },
+          "files": {
+            "$ref": "#/components/schemas/PaymentFiles"
+          },
+          "createdAt": {
+            "type": "integer",
+            "description": "Created timestamp in milliseconds",
+            "example": 1666666666999
+          },
+          "updatedAt": {
+            "type": "integer",
+            "description": "Updated timestamp in milliseconds",
+            "example": 1666666666999
+          },
+          "completedAt": {
+            "type": "integer",
+            "description": "Time of payment completion",
+            "example": 1667404598
+          }
+        }
+      },
+      "PaymentFiles": {
+        "type": "array",
+        "readOnly": true,
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "example": "5fb3ea0c68147.png",
+              "maxLength": 128
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "invoice",
+                "agreement"
+              ]
+            },
+            "url": {
+              "type": "string",
+              "example": "https://altpay.uk/v1/payment/100/download/5fb3ea0c68147.pdf"
+            }
+          }
+        }
+      },
+      "CurrencyExchangeV1": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "NEW",
+              "PROCESS",
+              "COMPLETED",
+              "REJECTED"
+            ]
+          },
+          "debitCurrencyId": {
+            "type": "string"
+          },
+          "creditCurrencyId": {
+            "type": "string"
+          },
+          "debitAmount": {
+            "type": "string"
+          },
+          "creditAmount": {
+            "type": "string"
+          },
+          "fee": {
+            "type": "string"
+          },
+          "total": {
+            "type": "string"
+          },
+          "rate": {
+            "type": "string"
+          },
+          "createdAtMs": {
+            "type": "integer",
+            "description": "Created timestamp in milliseconds",
+            "example": 1666666666999
+          },
+          "updatedAtMs": {
+            "type": "integer",
+            "description": "Updated timestamp in milliseconds",
+            "example": 1666666666999
+          },
+          "completedAt": {
+            "type": "integer",
+            "example": 1667404598
+          }
+        }
+      },
+      "CurrencyExchangeV2": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "uuid": {
+            "type": "string",
+            "description": "Unique currency exchange uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "NEW",
+              "PROCESS",
+              "COMPLETED",
+              "REJECTED"
+            ]
+          },
+          "debitCurrencyId": {
+            "type": "string",
+            "example": "EUR"
+          },
+          "creditCurrencyId": {
+            "type": "string",
+            "example": "USD"
+          },
+          "debitAmount": {
+            "type": "number"
+          },
+          "creditAmount": {
+            "type": "number"
+          },
+          "fee": {
+            "type": "number"
+          },
+          "total": {
+            "type": "number"
+          },
+          "rate": {
+            "type": "number"
+          },
+          "createdAtMs": {
+            "type": "integer",
+            "description": "Created timestamp in milliseconds",
+            "example": 1666666666999
+          },
+          "updatedAtMs": {
+            "type": "integer",
+            "description": "Updated timestamp in milliseconds",
+            "example": 1666666666999
+          },
+          "completedAt": {
+            "type": "integer",
+            "example": 1667404598
+          }
+        }
+      },
+      "CardIndex": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique Card id",
+            "readOnly": true
+          },
+          "uuid": {
+            "type": "string",
+            "description": "Unique Card id (UUID string)",
+            "readOnly": true
+          },
+          "wallet_id": {
+            "type": "integer",
+            "description": "Wallet ID",
+            "readOnly": true
+          },
+          "type": {
+            "type": "string",
+            "readOnly": true,
+            "enum": [
+              "ChipAndPin",
+              "Virtual",
+              "Disposable"
+            ]
+          },
+          "masked_number": {
+            "type": "string",
+            "description": "Masked Card Number",
+            "example": "474359******5050",
+            "readOnly": true
+          },
+          "status": {
+            "type": "string",
+            "description": "Card status",
+            "enum": [
+              "ORDERED",
+              "DISPATCHED",
+              "ACTIVE",
+              "BLOCKED",
+              "CLOSED"
+            ]
+          },
+          "validUntilDate": {
+            "type": "string",
+            "readOnly": true
+          },
+          "cardholder_name": {
+            "type": "string",
+            "description": "Cardholder name"
+          },
+          "notification": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "type": {
+                "enum": [
+                  "ERROR",
+                  "WARNING",
+                  "INFO"
+                ],
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          },
+          "orderInfo": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "title": {
+                "nullable": true,
+                "type": "string"
+              },
+              "message": {
+                "nullable": true,
+                "type": "string"
+              },
+              "ordered_at": {
+                "type": "integer"
+              },
+              "dispatched_at": {
+                "nullable": true,
+                "type": "integer"
+              },
+              "delivery": {
+                "nullable": true,
+                "type": "object"
+              }
+            }
+          },
+          "permissions": {
+            "type": "object",
+            "description": "List of true\\false permissions",
+            "readOnly": true,
+            "properties": {
+              "canActivate": {
+                "type": "boolean",
+                "description": "User can activate card"
+              },
+              "canBlock": {
+                "type": "boolean",
+                "description": "User can block card"
+              },
+              "canUnblock": {
+                "type": "boolean",
+                "description": "User can unblock card"
+              },
+              "canGetPin": {
+                "type": "boolean",
+                "description": "User can get PIN"
+              },
+              "canSetPin": {
+                "type": "boolean",
+                "description": "User can set PIN"
+              },
+              "canGetCvv": {
+                "type": "boolean",
+                "description": "User can get CVV"
+              },
+              "canGetPassword": {
+                "type": "boolean",
+                "description": "User can get password"
+              },
+              "canSetPassword": {
+                "type": "boolean",
+                "description": "User can set password"
+              },
+              "canGetNumber": {
+                "type": "boolean",
+                "description": "User can get number"
+              },
+              "canClose": {
+                "type": "boolean",
+                "description": "User can close card"
+              },
+              "canSetSmsBalanceNotification": {
+                "type": "boolean",
+                "description": "User can manage card payment balance sms notification"
+              },
+              "canGetLimits": {
+                "type": "boolean",
+                "description": "User can get card limits"
+              },
+              "canSetLimits": {
+                "type": "boolean",
+                "description": "User can update card limits"
+              },
+              "canGetOperations": {
+                "type": "boolean",
+                "description": "User can get card operation flags"
+              },
+              "canSetOperations": {
+                "type": "boolean",
+                "description": "User can update card operation flags"
+              }
+            }
+          },
+          "updatedAtMs": {
+            "type": "integer",
+            "description": "Updated timestamp in milliseconds",
+            "example": 1666666666999
+          },
+          "isSmsBalanceNotification": {
+            "type": "boolean",
+            "description": "Is Payment Balance Sms Notification Enabled",
+            "example": false
+          },
+          "designId": {
+            "type": "string",
+            "description": "Design Id code",
+            "example": "AIV"
+          }
+        }
+      },
+      "MerchantV1": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique merchant id"
+          },
+          "name": {
+            "type": "string",
+            "description": "Merchant name"
+          },
+          "external_id": {
+            "type": "string",
+            "description": "External merchant id"
+          },
+          "category_code": {
+            "type": "string",
+            "description": "Merchant category code",
+            "maxLength": 4
+          },
+          "category_name": {
+            "type": "string",
+            "description": "Merchant category name"
+          },
+          "address": {
+            "type": "string",
+            "description": "Merchant address"
+          }
+        }
+      },
+      "MerchantV2": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique merchant id"
+          },
+          "name": {
+            "type": "string",
+            "description": "Merchant name"
+          },
+          "externalId": {
+            "type": "string",
+            "description": "External merchant id"
+          },
+          "categoryCode": {
+            "type": "string",
+            "description": "Merchant category code",
+            "maxLength": 4
+          },
+          "categoryName": {
+            "type": "string",
+            "description": "Merchant category name"
+          },
+          "groupId": {
+            "type": "string",
+            "description": "Merchant category group id"
+          },
+          "groupName": {
+            "type": "string",
+            "description": "Merchant category group name"
+          },
+          "address": {
+            "type": "string",
+            "description": "Merchant address"
+          },
+          "url": {
+            "type": "string",
+            "nullable": true,
+            "example": "https://ebay.com",
+            "description": "Merchant URL (Enriched data)"
+          },
+          "domain": {
+            "type": "string",
+            "nullable": true,
+            "example": "ebay.com",
+            "description": "Merchant domain (Enriched data)"
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true,
+            "example": "0800 358 6551",
+            "description": "Merchant phone number (Enriched data)"
+          },
+          "iconUrl": {
+            "type": "string",
+            "nullable": true,
+            "example": "https://ir.ebaystatic.com/pictures/aw/pics/announcements/new/logo/logo-inline.png",
+            "description": "Merchant icon url (Enriched data)"
+          }
+        }
+      },
+      "Cardholder": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name and surname"
+          },
+          "channel": {
+            "type": "string",
+            "description": "Replenishment channel",
+            "enum": [
+              "VISA",
+              "MASTERCARD",
+              "APPLE_PAY",
+              "OTHER"
+            ]
+          },
+          "cardNumber": {
+            "type": "string",
+            "description": "PAN (permanent account number), which is usually 16-digits long"
+          }
+        }
+      },
+      "PurposeCode": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "purpose": {
+            "type": "string"
+          }
+        }
+      },
+      "Currency": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 3
+          }
+        }
+      },
+      "PaymentCreateV2": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string",
+            "description": "Unique id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "new",
+              "draft"
+            ],
+            "default": "new"
+          },
+          "walletId": {
+            "type": "integer"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "beneficiaryId": {
+            "type": "integer",
+            "description": "not required if **target_wallet_id** is set",
+            "nullable": true,
+            "default": null
+          },
+          "targetWalletId": {
+            "type": "integer",
+            "description": "not use if **beneficiary_id** is set",
+            "nullable": true,
+            "default": null
+          },
+          "reference": {
+            "type": "string",
+            "description": "not required if **target_wallet_id** is set"
+          },
+          "files": {
+            "type": "array",
+            "description": "not required if **target_wallet_id** is set",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "signToken": {
+            "type": "string",
+            "description": "Sign token"
+          }
+        },
+        "required": [
+          "walletId",
+          "amount"
         ]
       },
       "Wallet": {
