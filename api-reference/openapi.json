@@ -27,37 +27,37 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "BearerAuth": [
+
+            ]
           }
         ],
         "parameters": [
           {
-            "name": "validate",
             "in": "query",
+            "name": "validate",
             "schema": {
+              "default": 0,
               "type": "integer",
               "enum": [
                 0,
                 1
-              ],
-              "default": 0
-            },
-            "required": false
+              ]
+            }
           },
           {
-            "name": "signToken",
             "in": "query",
+            "name": "signToken",
             "schema": {
               "type": "string"
-            },
-            "required": false
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PaymentRequest"
+                "$ref": "#/components/schemas/PaymentCreateV3"
               }
             }
           }
@@ -80,6 +80,30 @@
           },
           "422": {
             "$ref": "#/components/responses/ValidationError"
+          }
+        }
+      },
+      "options": {
+        "tags": [
+          "payment"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Allow": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "POST, OPTIONS"
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "POST, OPTIONS"
+              }
+            }
           }
         }
       }
@@ -1146,10 +1170,6 @@
           }
         },
         "required": [
-          "first_name",
-          "last_name",
-          "iban",
-          "currency_id"
         ]
       },
       "PaymentRequest": {
@@ -1244,24 +1264,67 @@
           }
         }
       },
-      "PaymentResponse": {
+      "PaymentCreateV3": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique id"
+          },
           "status": {
+            "type": "string",
+            "enum": [
+              "NEW",
+              "DRAFT"
+            ],
+            "default": "NEW"
+          },
+          "walletId": {
             "type": "string"
           },
-          "data": {
-            "type": "object",
-            "properties": {
-              "paymentId": {
-                "type": "string"
-              },
-              "status": {
-                "type": "string"
+          "amount": {
+            "type": "number"
+          },
+          "beneficiaryId": {
+            "type": "string",
+            "description": "not required if **target_wallet_id** is set",
+            "nullable": true,
+            "default": null
+          },
+          "targetWalletId": {
+            "type": "string",
+            "description": "not use if **beneficiary_id** is set",
+            "nullable": true,
+            "default": null
+          },
+          "reference": {
+            "type": "string",
+            "description": "not required if **target_wallet_id** is set"
+          },
+          "purposeCode": {
+            "type": "string",
+            "description": "required when beneficiary country is UAE"
+          },
+          "files": {
+            "type": "array",
+            "description": "not required if **target_wallet_id** is set",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
               }
             }
           }
-        }
+        },
+        "required": [
+          "walletId",
+          "amount"
+        ]
       },
       "PaymentExpand": {
         "type": "array",
