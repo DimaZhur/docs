@@ -1054,9 +1054,6 @@
           "last_name": {
             "type": "string"
           },
-          "walletId": {
-            "type": "string"
-          },
           "iban": {
             "type": "string"
           },
