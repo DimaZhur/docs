@@ -1048,6 +1048,12 @@
           "name": {
             "type": "string"
           },
+          "first_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
           "walletId": {
             "type": "string"
           },
@@ -1062,7 +1068,8 @@
           }
         },
         "required": [
-          "name",
+          "first_name",
+          "last_name",
           "walletId",
           "iban",
           "country",
