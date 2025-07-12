@@ -1152,8 +1152,8 @@
           },
           "company_name": {
             "type": "string",
-            "description": "AltPay Ltd.",
-            "example": "AltPay Ltd.",
+            "description": "Finsei Ltd.",
+            "example": "Finsei Ltd.",
             "maxLength": 35
           },
           "first_name": {
