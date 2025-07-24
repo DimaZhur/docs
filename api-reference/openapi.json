@@ -1479,6 +1479,328 @@
           "nameOnCard"
         ]
       },
+      "CardIndex": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique Card id",
+            "readOnly": true
+          },
+          "uuid": {
+            "type": "string",
+            "description": "Unique Card id (UUID string)",
+            "readOnly": true
+          },
+          "wallet_id": {
+            "type": "integer",
+            "description": "Wallet ID",
+            "readOnly": true
+          },
+          "type": {
+            "type": "string",
+            "readOnly": true,
+            "enum": [
+              "ChipAndPin",
+              "Virtual",
+              "Disposable"
+            ]
+          },
+          "masked_number": {
+            "type": "string",
+            "description": "Masked Card Number",
+            "example": "474359******5050",
+            "readOnly": true
+          },
+          "status": {
+            "type": "string",
+            "description": "Card status",
+            "enum": [
+              "ORDERED",
+              "DISPATCHED",
+              "ACTIVE",
+              "BLOCKED",
+              "CLOSED"
+            ]
+          },
+          "validUntilDate": {
+            "type": "string",
+            "readOnly": true
+          },
+          "cardholder_name": {
+            "type": "string",
+            "description": "Cardholder name"
+          },
+          "notification": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "type": {
+                "enum": [
+                  "ERROR",
+                  "WARNING",
+                  "INFO"
+                ],
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          },
+          "orderInfo": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "title": {
+                "nullable": true,
+                "type": "string"
+              },
+              "message": {
+                "nullable": true,
+                "type": "string"
+              },
+              "ordered_at": {
+                "type": "integer"
+              },
+              "dispatched_at": {
+                "nullable": true,
+                "type": "integer"
+              },
+              "delivery": {
+                "nullable": true,
+                "type": "object"
+              }
+            }
+          },
+          "permissions": {
+            "type": "object",
+            "description": "List of true\\false permissions",
+            "readOnly": true,
+            "properties": {
+              "canActivate": {
+                "type": "boolean",
+                "description": "User can activate card"
+              },
+              "canBlock": {
+                "type": "boolean",
+                "description": "User can block card"
+              },
+              "canUnblock": {
+                "type": "boolean",
+                "description": "User can unblock card"
+              },
+              "canGetPin": {
+                "type": "boolean",
+                "description": "User can get PIN"
+              },
+              "canSetPin": {
+                "type": "boolean",
+                "description": "User can set PIN"
+              },
+              "canGetCvv": {
+                "type": "boolean",
+                "description": "User can get CVV"
+              },
+              "canGetPassword": {
+                "type": "boolean",
+                "description": "User can get password"
+              },
+              "canSetPassword": {
+                "type": "boolean",
+                "description": "User can set password"
+              },
+              "canGetNumber": {
+                "type": "boolean",
+                "description": "User can get number"
+              },
+              "canClose": {
+                "type": "boolean",
+                "description": "User can close card"
+              },
+              "canSetSmsBalanceNotification": {
+                "type": "boolean",
+                "description": "User can manage card payment balance sms notification"
+              },
+              "canGetLimits": {
+                "type": "boolean",
+                "description": "User can get card limits"
+              },
+              "canSetLimits": {
+                "type": "boolean",
+                "description": "User can update card limits"
+              },
+              "canGetOperations": {
+                "type": "boolean",
+                "description": "User can get card operation flags"
+              },
+              "canSetOperations": {
+                "type": "boolean",
+                "description": "User can update card operation flags"
+              }
+            }
+          },
+          "updatedAtMs": {
+            "type": "integer",
+            "description": "Updated timestamp in milliseconds",
+            "example": 1666666666999
+          },
+          "isSmsBalanceNotification": {
+            "type": "boolean",
+            "description": "Is Payment Balance Sms Notification Enabled",
+            "example": false
+          },
+          "designId": {
+            "type": "string",
+            "description": "Design Id code",
+            "example": "AIV"
+          }
+        }
+      },
+      "CardView": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/CardIndex"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "password": {
+                "type": "string",
+                "description": "3d secure password",
+                "example": "Aa123!qweqwe"
+              },
+              "cvv": {
+                "type": "string",
+                "description": "Card CVV",
+                "example": 1234
+              },
+              "pin": {
+                "type": "string",
+                "description": "Card PIN",
+                "example": 1234
+              },
+              "number": {
+                "type": "string",
+                "description": "Card Number",
+                "example": 4743591235635050,
+                "readOnly": true
+              },
+              "phone3ds": {
+                "type": "string",
+                "description": "3d secure phone",
+                "example": "+48511155588",
+                "readOnly": true
+              },
+              "limits": {
+                "$ref": "#/components/schemas/CardLimitsV1"
+              }
+            }
+          }
+        ]
+      },
+      "CardLimitsV1": {
+        "type": "object",
+        "properties": {
+          "updatedAtMs": {
+            "type": "integer",
+            "description": "Updated timestamp in milliseconds",
+            "example": 1666666666999
+          },
+          "purchase": {
+            "$ref": "#/components/schemas/CardLimitItemV1"
+          },
+          "withdrawal": {
+            "$ref": "#/components/schemas/CardLimitItemV1"
+          },
+          "internet_purchase": {
+            "$ref": "#/components/schemas/CardLimitItemV1"
+          },
+          "contactless_purchase": {
+            "$ref": "#/components/schemas/CardLimitItemV1"
+          }
+        }
+      },
+      "CardLimitItemV1": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "DEFAULT",
+              "MAXIMUM"
+            ],
+            "example": "DEFAULT"
+          },
+          "switch": {
+            "type": "object",
+            "properties": {
+              "enabled": {
+                "type": "boolean",
+                "description": "Is the operation enabled/disabled switch is available"
+              },
+              "value": {
+                "type": "boolean",
+                "description": "Used if enabled"
+              }
+            }
+          },
+          "usage": {
+            "type": "object",
+            "properties": {
+              "currency_id": {
+                "type": "string",
+                "example": "EUR",
+                "maxLength": 3
+              },
+              "transaction": {
+                "type": "number"
+              },
+              "daily": {
+                "type": "object",
+                "description": "Daily limit usage",
+                "properties": {
+                  "total": {
+                    "type": "number"
+                  },
+                  "used": {
+                    "type": "number"
+                  },
+                  "available": {
+                    "type": "number"
+                  },
+                  "reset": {
+                    "description": "Reset timestamp",
+                    "type": "integer"
+                  }
+                }
+              },
+              "monthly": {
+                "type": "object",
+                "description": "Monthly limit usage",
+                "properties": {
+                  "total": {
+                    "type": "number"
+                  },
+                  "used": {
+                    "type": "number"
+                  },
+                  "available": {
+                    "type": "number"
+                  },
+                  "reset": {
+                    "description": "Reset timestamp",
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "CardResponse": {
         "type": "object",
         "properties": {
