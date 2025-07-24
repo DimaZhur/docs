@@ -1141,26 +1141,22 @@
       "PaymentRequest": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "NEW",
-              "PROCESS",
-              "COMPLETED",
-              "CANCELED"
-            ]
-          },
           "walletId": {
             "type": "string"
           },
           "amount": {
             "type": "number"
           },
-          "currency": {
-            "type": "string"
+          "id": {
+            "type": "string",
+            "description": "Unique id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "NEW",
+              "DRAFT"
+            ]
           },
           "beneficiaryId": {
             "type": "string",
@@ -1179,13 +1175,6 @@
           "purposeCode": {
             "type": "string",
             "description": "⚠ REQUIRED when beneficiary country is UAE"
-          },
-          "paymentType": {
-            "type": "string",
-            "enum": [
-              "SEPA",
-              "SWIFT"
-            ]
           },
           "files": {
             "type": "array",
