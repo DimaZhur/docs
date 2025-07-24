@@ -1113,7 +1113,7 @@
           },
           "beneficiary_company_name": {
             "type": "string",
-            "description": "Required if beneficiary_entity_type is 'company'",
+            "description": "⚠ REQUIRED if beneficiary_entity_type is 'company'",
             "example": "Finsei Ltd.",
             "maxLength": 128
           },
