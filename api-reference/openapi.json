@@ -1131,7 +1131,6 @@
           }
         },
         "required": [
-          "name",
           "walletId",
           "iban",
           "country",
