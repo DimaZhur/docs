@@ -971,10 +971,19 @@
           {
             "in": "query",
             "name": "expand",
+            "explode": false,
             "schema": {
               "type": "array",
               "items": {
-                "type": "string"
+                "type": "string",
+                "enum": [
+                  "password",
+                  "cvv",
+                  "pin",
+                  "number",
+                  "limits",
+                  "phone3ds"
+                ]
               }
             }
           }
@@ -1250,7 +1259,7 @@
           },
           "bic_swift": {
             "type": "string",
-            "description": "BIC\\SWIFT number. \u26a0 NOT REQUIRED if SEPA",
+            "description": "BIC\\SWIFT number. ⚠ NOT REQUIRED if SEPA",
             "example": "AGBLLT2X"
           },
           "account_number": {
@@ -1306,7 +1315,7 @@
           },
           "company_name": {
             "type": "string",
-            "description": "\u26a0 REQUIRED if entity_type is 'company'",
+            "description": "⚠ REQUIRED if entity_type is 'company'",
             "example": "Finsei Ltd.",
             "maxLength": 128
           },
@@ -1354,24 +1363,24 @@
           "beneficiaryId": {
             "type": "string",
             "nullable": true,
-            "description": "\u26a0 NOT REQUIRED if target_wallet_id is set"
+            "description": "⚠ NOT REQUIRED if target_wallet_id is set"
           },
           "targetWalletId": {
             "type": "string",
             "nullable": true,
-            "description": "\u26a0 NOT USE if beneficiary_id is set"
+            "description": "⚠ NOT USE if beneficiary_id is set"
           },
           "reference": {
             "type": "string",
-            "description": "\u26a0 NOT REQUIRED if target_wallet_id is set"
+            "description": "⚠ NOT REQUIRED if target_wallet_id is set"
           },
           "purposeCode": {
             "type": "string",
-            "description": "\u26a0 REQUIRED when beneficiary country is UAE"
+            "description": "⚠ REQUIRED when beneficiary country is UAE"
           },
           "files": {
             "type": "array",
-            "description": "\u26a0 NOT REQUIRED if target_wallet_id is set",
+            "description": "⚠ NOT REQUIRED if target_wallet_id is set",
             "items": {
               "type": "object",
               "properties": {
@@ -1652,39 +1661,46 @@
         }
       },
       "CardView": {
-        "type": "object",
-        "properties": {
-          "password": {
-            "type": "string",
-            "description": "3d secure password",
-            "example": "Aa123!qweqwe"
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/CardIndex"
           },
-          "cvv": {
-            "type": "string",
-            "description": "Card CVV",
-            "example": 1234
-          },
-          "pin": {
-            "type": "string",
-            "description": "Card PIN",
-            "example": 1234
-          },
-          "number": {
-            "type": "string",
-            "description": "Card Number",
-            "example": 4743591235635050,
-            "readOnly": true
-          },
-          "phone3ds": {
-            "type": "string",
-            "description": "3d secure phone",
-            "example": "+48511155588",
-            "readOnly": true
-          },
-          "limits": {
-            "$ref": "#/components/schemas/CardLimitsV1"
+          {
+            "type": "object",
+            "properties": {
+              "password": {
+                "type": "string",
+                "description": "3d secure password",
+                "example": "Aa123!qweqwe"
+              },
+              "cvv": {
+                "type": "string",
+                "description": "Card CVV",
+                "example": 1234
+              },
+              "pin": {
+                "type": "string",
+                "description": "Card PIN",
+                "example": 1234
+              },
+              "number": {
+                "type": "string",
+                "description": "Card Number",
+                "example": 4743591235635050,
+                "readOnly": true
+              },
+              "phone3ds": {
+                "type": "string",
+                "description": "3d secure phone",
+                "example": "+48511155588",
+                "readOnly": true
+              },
+              "limits": {
+                "$ref": "#/components/schemas/CardLimitsV1"
+              }
+            }
           }
-        }
+        ]
       },
       "CardLimitsV1": {
         "type": "object",
