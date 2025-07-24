@@ -1027,20 +1027,107 @@
       "Beneficiary": {
         "type": "object",
         "properties": {
+          "uuid": {
+            "type": "string",
+            "description": "Uuid of beneficiary"
+          },
           "name": {
-            "type": "string"
-          },
-          "walletId": {
-            "type": "string"
-          },
-          "iban": {
-            "type": "string"
-          },
-          "country": {
-            "type": "string"
+            "type": "string",
+            "description": "Name of beneficiary",
+            "example": "Aliaksandr",
+            "maxLength": 255
           },
           "currency": {
-            "type": "string"
+            "type": "string",
+            "description": "Currency",
+            "example": "EUR",
+            "maxLength": 3
+          },
+          "bank_country": {
+            "type": "string",
+            "description": "2-char code of country",
+            "example": "LT",
+            "maxLength": 2
+          },
+          "iban": {
+            "type": "string",
+            "description": "IBAN number",
+            "example": "NL13RABO4448094871",
+            "maxLength": 255
+          },
+          "bic_swift": {
+            "type": "string",
+            "description": "BIC\\SWIFT number",
+            "example": "AGBLLT2X"
+          },
+          "account_number": {
+            "type": "number"
+          },
+          "sort_code": {
+            "type": "number"
+          },
+          "bank_details_type": {
+            "type": "string",
+            "enum": [
+              "DEFAULT",
+              "LOCAL"
+            ]
+          },
+          "street": {
+            "type": "string",
+            "description": "Beneficiary address street",
+            "example": "Gagarina street",
+            "maxLength": 64
+          },
+          "house": {
+            "type": "string",
+            "description": "Beneficiary house number",
+            "example": 22,
+            "maxLength": 32
+          },
+          "city": {
+            "type": "string",
+            "description": "Beneficiary city",
+            "example": "London",
+            "maxLength": 64
+          },
+          "country_id": {
+            "type": "string",
+            "description": "Alpha-2 country code",
+            "example": "GB"
+          },
+          "postal_code": {
+            "type": "string",
+            "description": "Beneficiary postal code",
+            "example": 10001,
+            "maxLength": 32
+          },
+          "beneficiary_entity_type": {
+            "type": "string",
+            "description": "Entity type",
+            "enum": [
+              "individual",
+              "company"
+            ],
+            "example": "company"
+          },
+          "beneficiary_company_name": {
+            "type": "string",
+            "description": "AltPay Ltd.",
+            "example": "AltPay Ltd.",
+            "maxLength": 128
+          },
+          "beneficiary_first_name": {
+            "type": "string",
+            "description": "Beneficiary first name",
+            "example": "Aliaksandr",
+            "maxLength": 64
+          },
+          "beneficiary_last_name": {
+            "type": "string",
+            "description": "Beneficiary last name",
+            "example": "Lastname",
+            "maxLength": 64
           }
         },
         "required": [
