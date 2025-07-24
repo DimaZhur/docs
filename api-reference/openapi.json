@@ -1045,1029 +1045,1075 @@
         }
       }
     },
-    "/v1/card": {
+    "/v1/card/{id}/limits": {
       "get": {
-        "summary": "Get list of cards",
+        "deprecated": true,
+        "summary": "Get card limits",
         "tags": [
           "card"
         ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "wallet_id",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "in": "query",
-            "name": "status[]",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "ORDERED",
-                  "DISPATCHED",
-                  "ACTIVE",
-                  "BLOCKED",
-                  "CLOSED"
-                ]
-              },
-              "default": []
-            }
-          },
-          {
-            "in": "query",
-            "name": "type[]",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "ChipAndPin",
-                  "Virtual",
-                  "Disposable"
-                ]
-              },
-              "default": []
-            },
-            "style": "form",
-            "explode": true
-          },
-          {
-            "$ref": "#/components/parameters/PageNum"
-          },
-          {
-            "$ref": "#/components/parameters/PerPage"
-          },
-          {
-            "$ref": "#/components/parameters/Sort"
-          }
-        ],
         "security": [
           {
-            "bearerAuth": []
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Card id"
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
-            "headers": {
-              "x-pagination-current-page": {
-                "$ref": "#/components/headers/x-pagination-current-page"
-              },
-              "x-pagination-page-count": {
-                "$ref": "#/components/headers/x-pagination-page-count"
-              },
-              "x-pagination-per-page": {
-                "$ref": "#/components/headers/x-pagination-per-page"
-              },
-              "x-pagination-total-count": {
-                "$ref": "#/components/headers/x-pagination-total-count"
-              }
-            },
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CardIndex"
-                  }
+                  "$ref": "#/components/schemas/CardLimitsV1"
                 }
               }
             }
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "Login": {
-        "type": "object",
-        "properties": {
-          "signToken": {
-            "type": "string",
-            "example": "abc123"
           },
-          "fingerprintid": {
-            "type": "string",
-            "example": "fingerprint-xyz"
+          "404": {
+            "$ref": "#/components/responses/NotFound"
           }
         }
       },
-      "AuthV2": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "allowIps": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "ipv4"
-            }
-          },
-          "withMfa": {
-            "type": "boolean"
-          },
-          "fingerprint": {
-            "type": "string"
-          },
-          "expiredAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "app": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id"
-        ]
-      },
-      "MemberInviteV2": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "format": "email"
-          },
-          "name": {
-            "type": "string"
-          },
-          "permissions": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "walletAccess": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "required": [
-          "email",
-          "name"
-        ]
-      },
-      "Beneficiary": {
-        "type": "object",
-        "properties": {
-          "uuid": {
-            "type": "string",
-            "description": "Uuid of beneficiary"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of beneficiary",
-            "example": "Aliaksandr",
-            "maxLength": 255
-          },
-          "currency": {
-            "type": "string",
-            "description": "Currency",
-            "example": "EUR",
-            "maxLength": 3
-          },
-          "bank_country": {
-            "type": "string",
-            "description": "2-char code of country",
-            "example": "LT",
-            "maxLength": 2
-          },
-          "iban": {
-            "type": "string",
-            "description": "IBAN number",
-            "example": "NL13RABO4448094871",
-            "maxLength": 255
-          },
-          "bic_swift": {
-            "type": "string",
-            "description": "BIC\\SWIFT number. ⚠ NOT REQUIRED if SEPA",
-            "example": "AGBLLT2X"
-          },
-          "account_number": {
-            "type": "number"
-          },
-          "sort_code": {
-            "type": "number"
-          },
-          "bank_details_type": {
-            "type": "string",
-            "enum": [
-              "DEFAULT",
-              "LOCAL"
-            ]
-          },
-          "street": {
-            "type": "string",
-            "description": "Beneficiary address street",
-            "example": "Gagarina street",
-            "maxLength": 64
-          },
-          "house": {
-            "type": "string",
-            "description": "Beneficiary house number",
-            "example": 22,
-            "maxLength": 32
-          },
-          "city": {
-            "type": "string",
-            "description": "Beneficiary city",
-            "example": "London",
-            "maxLength": 64
-          },
-          "country_id": {
-            "type": "string",
-            "description": "Alpha-2 country code",
-            "example": "GB"
-          },
-          "postal_code": {
-            "type": "string",
-            "description": "Beneficiary postal code",
-            "example": 10001,
-            "maxLength": 32
-          },
-          "entity_type": {
-            "type": "string",
-            "description": "Entity type",
-            "enum": [
-              "individual",
-              "company"
-            ],
-            "example": "company"
-          },
-          "company_name": {
-            "type": "string",
-            "description": "⚠ REQUIRED if entity_type is 'company'",
-            "example": "Finsei Ltd.",
-            "maxLength": 128
-          },
-          "first_name": {
-            "type": "string",
-            "description": "Beneficiary first name",
-            "example": "Aliaksandr",
-            "maxLength": 64
-          },
-          "last_name": {
-            "type": "string",
-            "description": "Beneficiary last name",
-            "example": "Lastname",
-            "maxLength": 64
-          }
-        },
-        "required": [
-          "walletId",
-          "iban",
-          "country",
-          "currency",
-          "entity_type"
-        ]
-      },
-      "PaymentRequest": {
-        "type": "object",
-        "properties": {
-          "walletId": {
-            "type": "string"
-          },
-          "amount": {
-            "type": "number"
-          },
-          "id": {
-            "type": "string",
-            "description": "Unique id"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "NEW",
-              "DRAFT"
-            ]
-          },
-          "beneficiaryId": {
-            "type": "string",
-            "nullable": true,
-            "description": "⚠ NOT REQUIRED if target_wallet_id is set"
-          },
-          "targetWalletId": {
-            "type": "string",
-            "nullable": true,
-            "description": "⚠ NOT USE if beneficiary_id is set"
-          },
-          "reference": {
-            "type": "string",
-            "description": "⚠ NOT REQUIRED if target_wallet_id is set"
-          },
-          "purposeCode": {
-            "type": "string",
-            "description": "⚠ REQUIRED when beneficiary country is UAE"
-          },
-          "files": {
-            "type": "array",
-            "description": "⚠ NOT REQUIRED if target_wallet_id is set",
-            "items": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string"
+      "/v1/card": {
+        "get": {
+          "summary": "Get list of cards",
+          "tags": [
+            "card"
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "wallet_id",
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "status[]",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "ORDERED",
+                    "DISPATCHED",
+                    "ACTIVE",
+                    "BLOCKED",
+                    "CLOSED"
+                  ]
                 },
-                "name": {
-                  "type": "string"
-                }
+                "default": []
               }
+            },
+            {
+              "in": "query",
+              "name": "type[]",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "ChipAndPin",
+                    "Virtual",
+                    "Disposable"
+                  ]
+                },
+                "default": []
+              },
+              "style": "form",
+              "explode": true
+            },
+            {
+              "$ref": "#/components/parameters/PageNum"
+            },
+            {
+              "$ref": "#/components/parameters/PerPage"
+            },
+            {
+              "$ref": "#/components/parameters/Sort"
             }
-          }
-        },
-        "required": [
-          "walletId",
-          "amount"
-        ]
-      },
-      "Wallet": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "iban": {
-            "type": "string"
-          },
-          "currency": {
-            "type": "string"
-          },
-          "balance": {
-            "type": "number"
-          },
-          "status": {
-            "type": "string"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
-      "PaymentResponse": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string"
-          },
-          "data": {
-            "type": "object",
-            "properties": {
-              "paymentId": {
-                "type": "string"
-              },
-              "status": {
-                "type": "string"
-              }
+          ],
+          "security": [
+            {
+              "bearerAuth": []
             }
-          }
-        }
-      },
-      "PaymentExpand": {
-        "type": "array",
-        "items": {
-          "type": "string",
-          "enum": [
-            "wallet",
-            "beneficiary"
-          ]
-        }
-      },
-      "CardRequest": {
-        "type": "object",
-        "properties": {
-          "walletId": {
-            "type": "string"
-          },
-          "cardType": {
-            "type": "string",
-            "enum": [
-              "VIRTUAL",
-              "PHYSICAL"
-            ]
-          },
-          "currency": {
-            "type": "string"
-          },
-          "nameOnCard": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "walletId",
-          "cardType",
-          "currency",
-          "nameOnCard"
-        ]
-      },
-      "CardIndex": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique Card id",
-            "readOnly": true
-          },
-          "uuid": {
-            "type": "string",
-            "description": "Unique Card id (UUID string)",
-            "readOnly": true
-          },
-          "wallet_id": {
-            "type": "integer",
-            "description": "Wallet ID",
-            "readOnly": true
-          },
-          "type": {
-            "type": "string",
-            "readOnly": true,
-            "enum": [
-              "ChipAndPin",
-              "Virtual",
-              "Disposable"
-            ]
-          },
-          "masked_number": {
-            "type": "string",
-            "description": "Masked Card Number",
-            "example": "474359******5050",
-            "readOnly": true
-          },
-          "status": {
-            "type": "string",
-            "description": "Card status",
-            "enum": [
-              "ORDERED",
-              "DISPATCHED",
-              "ACTIVE",
-              "BLOCKED",
-              "CLOSED"
-            ]
-          },
-          "validUntilDate": {
-            "type": "string",
-            "readOnly": true
-          },
-          "cardholder_name": {
-            "type": "string",
-            "description": "Cardholder name"
-          },
-          "notification": {
-            "type": "object",
-            "nullable": true,
-            "properties": {
-              "type": {
-                "enum": [
-                  "ERROR",
-                  "WARNING",
-                  "INFO"
-                ],
-                "type": "string"
-              },
-              "title": {
-                "type": "string"
-              },
-              "message": {
-                "type": "string"
-              }
-            }
-          },
-          "orderInfo": {
-            "type": "object",
-            "nullable": true,
-            "properties": {
-              "title": {
-                "nullable": true,
-                "type": "string"
-              },
-              "message": {
-                "nullable": true,
-                "type": "string"
-              },
-              "ordered_at": {
-                "type": "integer"
-              },
-              "dispatched_at": {
-                "nullable": true,
-                "type": "integer"
-              },
-              "delivery": {
-                "nullable": true,
-                "type": "object"
-              }
-            }
-          },
-          "permissions": {
-            "type": "object",
-            "description": "List of true\\false permissions",
-            "readOnly": true,
-            "properties": {
-              "canActivate": {
-                "type": "boolean",
-                "description": "User can activate card"
-              },
-              "canBlock": {
-                "type": "boolean",
-                "description": "User can block card"
-              },
-              "canUnblock": {
-                "type": "boolean",
-                "description": "User can unblock card"
-              },
-              "canGetPin": {
-                "type": "boolean",
-                "description": "User can get PIN"
-              },
-              "canSetPin": {
-                "type": "boolean",
-                "description": "User can set PIN"
-              },
-              "canGetCvv": {
-                "type": "boolean",
-                "description": "User can get CVV"
-              },
-              "canGetPassword": {
-                "type": "boolean",
-                "description": "User can get password"
-              },
-              "canSetPassword": {
-                "type": "boolean",
-                "description": "User can set password"
-              },
-              "canGetNumber": {
-                "type": "boolean",
-                "description": "User can get number"
-              },
-              "canClose": {
-                "type": "boolean",
-                "description": "User can close card"
-              },
-              "canSetSmsBalanceNotification": {
-                "type": "boolean",
-                "description": "User can manage card payment balance sms notification"
-              },
-              "canGetLimits": {
-                "type": "boolean",
-                "description": "User can get card limits"
-              },
-              "canSetLimits": {
-                "type": "boolean",
-                "description": "User can update card limits"
-              },
-              "canGetOperations": {
-                "type": "boolean",
-                "description": "User can get card operation flags"
-              },
-              "canSetOperations": {
-                "type": "boolean",
-                "description": "User can update card operation flags"
-              }
-            }
-          },
-          "updatedAtMs": {
-            "type": "integer",
-            "description": "Updated timestamp in milliseconds",
-            "example": 1666666666999
-          },
-          "isSmsBalanceNotification": {
-            "type": "boolean",
-            "description": "Is Payment Balance Sms Notification Enabled",
-            "example": false
-          },
-          "designId": {
-            "type": "string",
-            "description": "Design Id code",
-            "example": "AIV"
-          }
-        }
-      },
-      "CardView": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/CardIndex"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "password": {
-                "type": "string",
-                "description": "3d secure password",
-                "example": "Aa123!qweqwe"
-              },
-              "cvv": {
-                "type": "string",
-                "description": "Card CVV",
-                "example": 1234
-              },
-              "pin": {
-                "type": "string",
-                "description": "Card PIN",
-                "example": 1234
-              },
-              "number": {
-                "type": "string",
-                "description": "Card Number",
-                "example": 4743591235635050,
-                "readOnly": true
-              },
-              "phone3ds": {
-                "type": "string",
-                "description": "3d secure phone",
-                "example": "+48511155588",
-                "readOnly": true
-              },
-              "limits": {
-                "$ref": "#/components/schemas/CardLimitsV1"
-              }
-            }
-          }
-        ]
-      },
-      "CardLimitsV1": {
-        "type": "object",
-        "properties": {
-          "updatedAtMs": {
-            "type": "integer",
-            "description": "Updated timestamp in milliseconds",
-            "example": 1666666666999
-          },
-          "purchase": {
-            "$ref": "#/components/schemas/CardLimitItemV1"
-          },
-          "withdrawal": {
-            "$ref": "#/components/schemas/CardLimitItemV1"
-          },
-          "internet_purchase": {
-            "$ref": "#/components/schemas/CardLimitItemV1"
-          },
-          "contactless_purchase": {
-            "$ref": "#/components/schemas/CardLimitItemV1"
-          }
-        }
-      },
-      "CardLimitItemV1": {
-        "type": "object",
-        "properties": {
-          "value": {
-            "type": "string",
-            "enum": [
-              "DEFAULT",
-              "MAXIMUM"
-            ],
-            "example": "DEFAULT"
-          },
-          "switch": {
-            "type": "object",
-            "properties": {
-              "enabled": {
-                "type": "boolean",
-                "description": "Is the operation enabled/disabled switch is available"
-              },
-              "value": {
-                "type": "boolean",
-                "description": "Used if enabled"
-              }
-            }
-          },
-          "usage": {
-            "type": "object",
-            "properties": {
-              "currency_id": {
-                "type": "string",
-                "example": "EUR",
-                "maxLength": 3
-              },
-              "transaction": {
-                "type": "number"
-              },
-              "daily": {
-                "type": "object",
-                "description": "Daily limit usage",
-                "properties": {
-                  "total": {
-                    "type": "number"
-                  },
-                  "used": {
-                    "type": "number"
-                  },
-                  "available": {
-                    "type": "number"
-                  },
-                  "reset": {
-                    "description": "Reset timestamp",
-                    "type": "integer"
-                  }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "headers": {
+                "x-pagination-current-page": {
+                  "$ref": "#/components/headers/x-pagination-current-page"
+                },
+                "x-pagination-page-count": {
+                  "$ref": "#/components/headers/x-pagination-page-count"
+                },
+                "x-pagination-per-page": {
+                  "$ref": "#/components/headers/x-pagination-per-page"
+                },
+                "x-pagination-total-count": {
+                  "$ref": "#/components/headers/x-pagination-total-count"
                 }
               },
-              "monthly": {
-                "type": "object",
-                "description": "Monthly limit usage",
-                "properties": {
-                  "total": {
-                    "type": "number"
-                  },
-                  "used": {
-                    "type": "number"
-                  },
-                  "available": {
-                    "type": "number"
-                  },
-                  "reset": {
-                    "description": "Reset timestamp",
-                    "type": "integer"
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/CardIndex"
+                    }
                   }
                 }
               }
-            }
-          }
-        }
-      },
-      "CardResponse": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string"
-          },
-          "data": {
-            "type": "object",
-            "properties": {
-              "cardId": {
-                "type": "string"
-              },
-              "cardNumber": {
-                "type": "string"
-              },
-              "status": {
-                "type": "string"
-              }
+            },
+            "400": {
+              "$ref": "#/components/responses/BadRequest"
+            },
+            "401": {
+              "$ref": "#/components/responses/Unauthorized"
+            },
+            "403": {
+              "$ref": "#/components/responses/Forbidden"
             }
           }
         }
       }
     },
-    "responses": {
-      "ErrorFormResponse": {
-        "description": "Form error",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "ERROR"
-                },
-                "errors": {
-                  "type": "array",
-                  "items": {
+    "components": {
+      "schemas": {
+        "Login": {
+          "type": "object",
+          "properties": {
+            "signToken": {
+              "type": "string",
+              "example": "abc123"
+            },
+            "fingerprintid": {
+              "type": "string",
+              "example": "fingerprint-xyz"
+            }
+          }
+        },
+        "AuthV2": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "allowIps": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "ipv4"
+              }
+            },
+            "withMfa": {
+              "type": "boolean"
+            },
+            "fingerprint": {
+              "type": "string"
+            },
+            "expiredAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "app": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "MemberInviteV2": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "format": "email"
+            },
+            "name": {
+              "type": "string"
+            },
+            "permissions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "walletAccess": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "email",
+            "name"
+          ]
+        },
+        "Beneficiary": {
+          "type": "object",
+          "properties": {
+            "uuid": {
+              "type": "string",
+              "description": "Uuid of beneficiary"
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of beneficiary",
+              "example": "Aliaksandr",
+              "maxLength": 255
+            },
+            "currency": {
+              "type": "string",
+              "description": "Currency",
+              "example": "EUR",
+              "maxLength": 3
+            },
+            "bank_country": {
+              "type": "string",
+              "description": "2-char code of country",
+              "example": "LT",
+              "maxLength": 2
+            },
+            "iban": {
+              "type": "string",
+              "description": "IBAN number",
+              "example": "NL13RABO4448094871",
+              "maxLength": 255
+            },
+            "bic_swift": {
+              "type": "string",
+              "description": "BIC\\SWIFT number. ⚠ NOT REQUIRED if SEPA",
+              "example": "AGBLLT2X"
+            },
+            "account_number": {
+              "type": "number"
+            },
+            "sort_code": {
+              "type": "number"
+            },
+            "bank_details_type": {
+              "type": "string",
+              "enum": [
+                "DEFAULT",
+                "LOCAL"
+              ]
+            },
+            "street": {
+              "type": "string",
+              "description": "Beneficiary address street",
+              "example": "Gagarina street",
+              "maxLength": 64
+            },
+            "house": {
+              "type": "string",
+              "description": "Beneficiary house number",
+              "example": 22,
+              "maxLength": 32
+            },
+            "city": {
+              "type": "string",
+              "description": "Beneficiary city",
+              "example": "London",
+              "maxLength": 64
+            },
+            "country_id": {
+              "type": "string",
+              "description": "Alpha-2 country code",
+              "example": "GB"
+            },
+            "postal_code": {
+              "type": "string",
+              "description": "Beneficiary postal code",
+              "example": 10001,
+              "maxLength": 32
+            },
+            "entity_type": {
+              "type": "string",
+              "description": "Entity type",
+              "enum": [
+                "individual",
+                "company"
+              ],
+              "example": "company"
+            },
+            "company_name": {
+              "type": "string",
+              "description": "⚠ REQUIRED if entity_type is 'company'",
+              "example": "Finsei Ltd.",
+              "maxLength": 128
+            },
+            "first_name": {
+              "type": "string",
+              "description": "Beneficiary first name",
+              "example": "Aliaksandr",
+              "maxLength": 64
+            },
+            "last_name": {
+              "type": "string",
+              "description": "Beneficiary last name",
+              "example": "Lastname",
+              "maxLength": 64
+            }
+          },
+          "required": [
+            "walletId",
+            "iban",
+            "country",
+            "currency",
+            "entity_type"
+          ]
+        },
+        "PaymentRequest": {
+          "type": "object",
+          "properties": {
+            "walletId": {
+              "type": "string"
+            },
+            "amount": {
+              "type": "number"
+            },
+            "id": {
+              "type": "string",
+              "description": "Unique id"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "NEW",
+                "DRAFT"
+              ]
+            },
+            "beneficiaryId": {
+              "type": "string",
+              "nullable": true,
+              "description": "⚠ NOT REQUIRED if target_wallet_id is set"
+            },
+            "targetWalletId": {
+              "type": "string",
+              "nullable": true,
+              "description": "⚠ NOT USE if beneficiary_id is set"
+            },
+            "reference": {
+              "type": "string",
+              "description": "⚠ NOT REQUIRED if target_wallet_id is set"
+            },
+            "purposeCode": {
+              "type": "string",
+              "description": "⚠ REQUIRED when beneficiary country is UAE"
+            },
+            "files": {
+              "type": "array",
+              "description": "⚠ NOT REQUIRED if target_wallet_id is set",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "name": {
                     "type": "string"
                   }
                 }
               }
             }
-          }
-        }
-      },
-      "Unauthorized": {
-        "description": "Unauthorized",
-        "content": {
-          "application/json": {
-            "example": {
-              "status": "ERROR",
-              "error": {
-                "code": 401,
-                "message": "Unauthorized"
-              }
-            }
-          }
-        }
-      },
-      "Forbidden": {
-        "description": "Forbidden",
-        "content": {
-          "application/json": {
-            "example": {
-              "status": "ERROR",
-              "error": {
-                "code": 403,
-                "message": "Forbidden"
-              }
-            }
-          }
-        }
-      },
-      "NotFound": {
-        "description": "Not Found",
-        "content": {
-          "application/json": {
-            "example": {
-              "status": "ERROR",
-              "error": {
-                "code": 404,
-                "message": "Not Found"
-              }
-            }
-          }
-        }
-      },
-      "ValidationError": {
-        "description": "Validation error",
-        "content": {
-          "application/json": {
-            "example": {
-              "status": "ERROR",
-              "error": {
-                "code": 422,
-                "message": "Validation failed",
-                "details": [
-                  "amount is required",
-                  "currency must be EUR or USD"
-                ]
-              }
-            }
-          }
-        }
-      },
-      "SignFormResponse": {
-        "description": "MFA required",
-        "content": {
-          "application/json": {
-            "example": {
-              "status": "MFA_REQUIRED",
-              "mfaToken": "string"
-            }
-          }
-        }
-      },
-      "Validate": {
-        "description": "Validation success",
-        "content": {
-          "application/json": {
-            "example": {
-              "status": "SUCCESS"
-            }
-          }
-        }
-      },
-      "Created": {
-        "description": "Resource created",
-        "content": {
-          "application/json": {
-            "example": {
-              "status": "SUCCESS",
-              "data": {
-                "id": "abc123"
-              }
-            }
-          }
-        }
-      },
-      "Sign": {
-        "description": "MFA sign required",
-        "content": {
-          "application/json": {
-            "example": {
-              "status": "MFA_REQUIRED",
-              "mfaToken": "def456"
-            }
-          }
-        }
-      },
-      "BadRequest": {
-        "description": "Bad request",
-        "content": {
-          "application/json": {
-            "example": {
-              "status": "ERROR",
-              "error": {
-                "code": 400,
-                "message": "Bad request"
-              }
-            }
-          }
-        }
-      },
-      "SuccessFormResponse": {
-        "description": "Operation successful",
-        "content": {
-          "application/json": {
-            "example": {
-              "status": "SUCCESS",
-              "message": "Operation completed successfully"
-            }
-          }
-        }
-      }
-    },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
-      },
-      "BasicAuth": {
-        "type": "http",
-        "scheme": "basic"
-      }
-    },
-    "parameters": {
-      "Before": {
-        "name": "before",
-        "in": "query",
-        "schema": {
-          "type": "string",
-          "format": "date-time"
+          },
+          "required": [
+            "walletId",
+            "amount"
+          ]
         },
-        "required": false
-      },
-      "After": {
-        "name": "after",
-        "in": "query",
-        "schema": {
-          "type": "string",
-          "format": "date-time"
+        "Wallet": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "iban": {
+              "type": "string"
+            },
+            "currency": {
+              "type": "string"
+            },
+            "balance": {
+              "type": "number"
+            },
+            "status": {
+              "type": "string"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
         },
-        "required": false
-      },
-      "Limit": {
-        "name": "limit",
-        "in": "query",
-        "schema": {
-          "type": "integer"
+        "PaymentResponse": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "paymentId": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                }
+              }
+            }
+          }
         },
-        "required": false
-      },
-      "PageNum": {
-        "name": "page",
-        "in": "query",
-        "schema": {
-          "type": "integer"
+        "PaymentExpand": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "wallet",
+              "beneficiary"
+            ]
+          }
+        },
+        "CardRequest": {
+          "type": "object",
+          "properties": {
+            "walletId": {
+              "type": "string"
+            },
+            "cardType": {
+              "type": "string",
+              "enum": [
+                "VIRTUAL",
+                "PHYSICAL"
+              ]
+            },
+            "currency": {
+              "type": "string"
+            },
+            "nameOnCard": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "walletId",
+            "cardType",
+            "currency",
+            "nameOnCard"
+          ]
+        },
+        "CardIndex": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "Unique Card id",
+              "readOnly": true
+            },
+            "uuid": {
+              "type": "string",
+              "description": "Unique Card id (UUID string)",
+              "readOnly": true
+            },
+            "wallet_id": {
+              "type": "integer",
+              "description": "Wallet ID",
+              "readOnly": true
+            },
+            "type": {
+              "type": "string",
+              "readOnly": true,
+              "enum": [
+                "ChipAndPin",
+                "Virtual",
+                "Disposable"
+              ]
+            },
+            "masked_number": {
+              "type": "string",
+              "description": "Masked Card Number",
+              "example": "474359******5050",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "description": "Card status",
+              "enum": [
+                "ORDERED",
+                "DISPATCHED",
+                "ACTIVE",
+                "BLOCKED",
+                "CLOSED"
+              ]
+            },
+            "validUntilDate": {
+              "type": "string",
+              "readOnly": true
+            },
+            "cardholder_name": {
+              "type": "string",
+              "description": "Cardholder name"
+            },
+            "notification": {
+              "type": "object",
+              "nullable": true,
+              "properties": {
+                "type": {
+                  "enum": [
+                    "ERROR",
+                    "WARNING",
+                    "INFO"
+                  ],
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            },
+            "orderInfo": {
+              "type": "object",
+              "nullable": true,
+              "properties": {
+                "title": {
+                  "nullable": true,
+                  "type": "string"
+                },
+                "message": {
+                  "nullable": true,
+                  "type": "string"
+                },
+                "ordered_at": {
+                  "type": "integer"
+                },
+                "dispatched_at": {
+                  "nullable": true,
+                  "type": "integer"
+                },
+                "delivery": {
+                  "nullable": true,
+                  "type": "object"
+                }
+              }
+            },
+            "permissions": {
+              "type": "object",
+              "description": "List of true\\false permissions",
+              "readOnly": true,
+              "properties": {
+                "canActivate": {
+                  "type": "boolean",
+                  "description": "User can activate card"
+                },
+                "canBlock": {
+                  "type": "boolean",
+                  "description": "User can block card"
+                },
+                "canUnblock": {
+                  "type": "boolean",
+                  "description": "User can unblock card"
+                },
+                "canGetPin": {
+                  "type": "boolean",
+                  "description": "User can get PIN"
+                },
+                "canSetPin": {
+                  "type": "boolean",
+                  "description": "User can set PIN"
+                },
+                "canGetCvv": {
+                  "type": "boolean",
+                  "description": "User can get CVV"
+                },
+                "canGetPassword": {
+                  "type": "boolean",
+                  "description": "User can get password"
+                },
+                "canSetPassword": {
+                  "type": "boolean",
+                  "description": "User can set password"
+                },
+                "canGetNumber": {
+                  "type": "boolean",
+                  "description": "User can get number"
+                },
+                "canClose": {
+                  "type": "boolean",
+                  "description": "User can close card"
+                },
+                "canSetSmsBalanceNotification": {
+                  "type": "boolean",
+                  "description": "User can manage card payment balance sms notification"
+                },
+                "canGetLimits": {
+                  "type": "boolean",
+                  "description": "User can get card limits"
+                },
+                "canSetLimits": {
+                  "type": "boolean",
+                  "description": "User can update card limits"
+                },
+                "canGetOperations": {
+                  "type": "boolean",
+                  "description": "User can get card operation flags"
+                },
+                "canSetOperations": {
+                  "type": "boolean",
+                  "description": "User can update card operation flags"
+                }
+              }
+            },
+            "updatedAtMs": {
+              "type": "integer",
+              "description": "Updated timestamp in milliseconds",
+              "example": 1666666666999
+            },
+            "isSmsBalanceNotification": {
+              "type": "boolean",
+              "description": "Is Payment Balance Sms Notification Enabled",
+              "example": false
+            },
+            "designId": {
+              "type": "string",
+              "description": "Design Id code",
+              "example": "AIV"
+            }
+          }
+        },
+        "CardView": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/CardIndex"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "description": "3d secure password",
+                  "example": "Aa123!qweqwe"
+                },
+                "cvv": {
+                  "type": "string",
+                  "description": "Card CVV",
+                  "example": 1234
+                },
+                "pin": {
+                  "type": "string",
+                  "description": "Card PIN",
+                  "example": 1234
+                },
+                "number": {
+                  "type": "string",
+                  "description": "Card Number",
+                  "example": 4743591235635050,
+                  "readOnly": true
+                },
+                "phone3ds": {
+                  "type": "string",
+                  "description": "3d secure phone",
+                  "example": "+48511155588",
+                  "readOnly": true
+                },
+                "limits": {
+                  "$ref": "#/components/schemas/CardLimitsV1"
+                }
+              }
+            }
+          ]
+        },
+        "CardLimitsV1": {
+          "type": "object",
+          "properties": {
+            "updatedAtMs": {
+              "type": "integer",
+              "description": "Updated timestamp in milliseconds",
+              "example": 1666666666999
+            },
+            "purchase": {
+              "$ref": "#/components/schemas/CardLimitItemV1"
+            },
+            "withdrawal": {
+              "$ref": "#/components/schemas/CardLimitItemV1"
+            },
+            "internet_purchase": {
+              "$ref": "#/components/schemas/CardLimitItemV1"
+            },
+            "contactless_purchase": {
+              "$ref": "#/components/schemas/CardLimitItemV1"
+            }
+          }
+        },
+        "CardLimitItemV1": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "string",
+              "enum": [
+                "DEFAULT",
+                "MAXIMUM"
+              ],
+              "example": "DEFAULT"
+            },
+            "switch": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "description": "Is the operation enabled/disabled switch is available"
+                },
+                "value": {
+                  "type": "boolean",
+                  "description": "Used if enabled"
+                }
+              }
+            },
+            "usage": {
+              "type": "object",
+              "properties": {
+                "currency_id": {
+                  "type": "string",
+                  "example": "EUR",
+                  "maxLength": 3
+                },
+                "transaction": {
+                  "type": "number"
+                },
+                "daily": {
+                  "type": "object",
+                  "description": "Daily limit usage",
+                  "properties": {
+                    "total": {
+                      "type": "number"
+                    },
+                    "used": {
+                      "type": "number"
+                    },
+                    "available": {
+                      "type": "number"
+                    },
+                    "reset": {
+                      "description": "Reset timestamp",
+                      "type": "integer"
+                    }
+                  }
+                },
+                "monthly": {
+                  "type": "object",
+                  "description": "Monthly limit usage",
+                  "properties": {
+                    "total": {
+                      "type": "number"
+                    },
+                    "used": {
+                      "type": "number"
+                    },
+                    "available": {
+                      "type": "number"
+                    },
+                    "reset": {
+                      "description": "Reset timestamp",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "CardResponse": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "cardId": {
+                  "type": "string"
+                },
+                "cardNumber": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                }
+              }
+            }
+          }
         }
       },
-      "PerPage": {
-        "name": "per-page",
-        "in": "query",
-        "schema": {
-          "type": "integer"
+      "responses": {
+        "ErrorFormResponse": {
+          "description": "Form error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "example": "ERROR"
+                  },
+                  "errors": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Unauthorized": {
+          "description": "Unauthorized",
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "ERROR",
+                "error": {
+                  "code": 401,
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "Forbidden": {
+          "description": "Forbidden",
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "ERROR",
+                "error": {
+                  "code": 403,
+                  "message": "Forbidden"
+                }
+              }
+            }
+          }
+        },
+        "NotFound": {
+          "description": "Not Found",
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "ERROR",
+                "error": {
+                  "code": 404,
+                  "message": "Not Found"
+                }
+              }
+            }
+          }
+        },
+        "ValidationError": {
+          "description": "Validation error",
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "ERROR",
+                "error": {
+                  "code": 422,
+                  "message": "Validation failed",
+                  "details": [
+                    "amount is required",
+                    "currency must be EUR or USD"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "SignFormResponse": {
+          "description": "MFA required",
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "MFA_REQUIRED",
+                "mfaToken": "string"
+              }
+            }
+          }
+        },
+        "Validate": {
+          "description": "Validation success",
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "SUCCESS"
+              }
+            }
+          }
+        },
+        "Created": {
+          "description": "Resource created",
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "SUCCESS",
+                "data": {
+                  "id": "abc123"
+                }
+              }
+            }
+          }
+        },
+        "Sign": {
+          "description": "MFA sign required",
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "MFA_REQUIRED",
+                "mfaToken": "def456"
+              }
+            }
+          }
+        },
+        "BadRequest": {
+          "description": "Bad request",
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "ERROR",
+                "error": {
+                  "code": 400,
+                  "message": "Bad request"
+                }
+              }
+            }
+          }
+        },
+        "SuccessFormResponse": {
+          "description": "Operation successful",
+          "content": {
+            "application/json": {
+              "example": {
+                "status": "SUCCESS",
+                "message": "Operation completed successfully"
+              }
+            }
+          }
         }
       },
-      "Sort": {
-        "name": "sort",
-        "in": "query",
-        "description": "Enter a field name to sort by (with a minus to sort desc):\n\n  id: sort asc\n  -id: sort desc",
-        "schema": {
-          "type": "string"
-        }
-      }
-    },
-    "headers": {
-      "x-pagination-current-page": {
-        "description": "Current page",
-        "schema": {
-          "type": "integer",
-          "default": 1
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer"
+        },
+        "BasicAuth": {
+          "type": "http",
+          "scheme": "basic"
         }
       },
-      "x-pagination-page-count": {
-        "description": "Pages count",
-        "schema": {
-          "type": "integer",
-          "example": 6
+      "parameters": {
+        "Before": {
+          "name": "before",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "required": false
+        },
+        "After": {
+          "name": "after",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "required": false
+        },
+        "Limit": {
+          "name": "limit",
+          "in": "query",
+          "schema": {
+            "type": "integer"
+          },
+          "required": false
+        },
+        "PageNum": {
+          "name": "page",
+          "in": "query",
+          "schema": {
+            "type": "integer"
+          }
+        },
+        "PerPage": {
+          "name": "per-page",
+          "in": "query",
+          "schema": {
+            "type": "integer"
+          }
+        },
+        "Sort": {
+          "name": "sort",
+          "in": "query",
+          "description": "Enter a field name to sort by (with a minus to sort desc):\n\n  id: sort asc\n  -id: sort desc",
+          "schema": {
+            "type": "string"
+          }
         }
       },
-      "x-pagination-per-page": {
-        "description": "Items count per page",
-        "schema": {
-          "type": "integer",
-          "default": 20,
-          "example": 20,
-          "maximum": 100,
-          "minimum": 1
-        }
-      },
-      "x-pagination-total-count": {
-        "description": "Total items count",
-        "schema": {
-          "type": "integer",
-          "example": 113
+      "headers": {
+        "x-pagination-current-page": {
+          "description": "Current page",
+          "schema": {
+            "type": "integer",
+            "default": 1
+          }
+        },
+        "x-pagination-page-count": {
+          "description": "Pages count",
+          "schema": {
+            "type": "integer",
+            "example": 6
+          }
+        },
+        "x-pagination-per-page": {
+          "description": "Items count per page",
+          "schema": {
+            "type": "integer",
+            "default": 20,
+            "example": 20,
+            "maximum": 100,
+            "minimum": 1
+          }
+        },
+        "x-pagination-total-count": {
+          "description": "Total items count",
+          "schema": {
+            "type": "integer",
+            "example": 113
+          }
         }
       }
     }
