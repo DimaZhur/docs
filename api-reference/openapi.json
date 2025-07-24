@@ -1027,77 +1027,158 @@
       "Beneficiary": {
         "type": "object",
         "properties": {
+          "uuid": {
+            "type": "string",
+            "description": "Uuid of beneficiary"
+          },
           "name": {
-            "type": "string"
-          },
-          "walletId": {
-            "type": "string"
-          },
-          "iban": {
-            "type": "string"
-          },
-          "country": {
-            "type": "string"
+            "type": "string",
+            "description": "Name of beneficiary",
+            "example": "Aliaksandr",
+            "maxLength": 255
           },
           "currency": {
-            "type": "string"
+            "type": "string",
+            "description": "Currency",
+            "example": "EUR",
+            "maxLength": 3
+          },
+          "bank_country": {
+            "type": "string",
+            "description": "2-char code of country",
+            "example": "LT",
+            "maxLength": 2
+          },
+          "iban": {
+            "type": "string",
+            "description": "IBAN number",
+            "example": "NL13RABO4448094871",
+            "maxLength": 255
+          },
+          "bic_swift": {
+            "type": "string",
+            "description": "BIC\\SWIFT number. ⚠ NOT REQUIRED if SEPA",
+            "example": "AGBLLT2X"
+          },
+          "account_number": {
+            "type": "number"
+          },
+          "sort_code": {
+            "type": "number"
+          },
+          "bank_details_type": {
+            "type": "string",
+            "enum": [
+              "DEFAULT",
+              "LOCAL"
+            ]
+          },
+          "street": {
+            "type": "string",
+            "description": "Beneficiary address street",
+            "example": "Gagarina street",
+            "maxLength": 64
+          },
+          "house": {
+            "type": "string",
+            "description": "Beneficiary house number",
+            "example": 22,
+            "maxLength": 32
+          },
+          "city": {
+            "type": "string",
+            "description": "Beneficiary city",
+            "example": "London",
+            "maxLength": 64
+          },
+          "country_id": {
+            "type": "string",
+            "description": "Alpha-2 country code",
+            "example": "GB"
+          },
+          "postal_code": {
+            "type": "string",
+            "description": "Beneficiary postal code",
+            "example": 10001,
+            "maxLength": 32
+          },
+          "entity_type": {
+            "type": "string",
+            "description": "Entity type",
+            "enum": [
+              "individual",
+              "company"
+            ],
+            "example": "company"
+          },
+          "company_name": {
+            "type": "string",
+            "description": "⚠ REQUIRED if entity_type is 'company'",
+            "example": "Finsei Ltd.",
+            "maxLength": 128
+          },
+          "first_name": {
+            "type": "string",
+            "description": "Beneficiary first name",
+            "example": "Aliaksandr",
+            "maxLength": 64
+          },
+          "last_name": {
+            "type": "string",
+            "description": "Beneficiary last name",
+            "example": "Lastname",
+            "maxLength": 64
           }
         },
         "required": [
-          "name",
           "walletId",
           "iban",
           "country",
-          "currency"
+          "currency",
+          "entity_type"
         ]
       },
       "PaymentRequest": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "NEW",
-              "PROCESS",
-              "COMPLETED",
-              "CANCELED"
-            ]
-          },
           "walletId": {
             "type": "string"
           },
           "amount": {
             "type": "number"
           },
-          "currency": {
-            "type": "string"
+          "id": {
+            "type": "string",
+            "description": "Unique id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "NEW",
+              "DRAFT"
+            ]
           },
           "beneficiaryId": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "⚠ NOT REQUIRED if target_wallet_id is set"
           },
           "targetWalletId": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "⚠ NOT USE if beneficiary_id is set"
           },
           "reference": {
-            "type": "string"
+            "type": "string",
+            "description": "⚠ NOT REQUIRED if target_wallet_id is set"
           },
           "purposeCode": {
-            "type": "string"
-          },
-          "paymentType": {
             "type": "string",
-            "enum": [
-              "SEPA",
-              "SWIFT"
-            ]
+            "description": "⚠ REQUIRED when beneficiary country is UAE"
           },
           "files": {
             "type": "array",
+            "description": "⚠ NOT REQUIRED if target_wallet_id is set",
             "items": {
               "type": "object",
               "properties": {
@@ -1113,10 +1194,7 @@
         },
         "required": [
           "walletId",
-          "amount",
-          "currency",
-          "beneficiaryId",
-          "paymentType"
+          "amount"
         ]
       },
       "Wallet": {
