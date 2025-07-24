@@ -974,15 +974,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "type": "string",
-                "enum": [
-                  "password",
-                  "cvv",
-                  "pin",
-                  "number",
-                  "limits",
-                  "phone3ds"
-                ]
+                "type": "string"
               }
             }
           }
