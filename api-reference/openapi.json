@@ -1137,6 +1137,22 @@
           "country",
           "currency",
           "beneficiary_entity_type"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "beneficiary_entity_type": {
+                  "const": "company"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "beneficiary_company_name"
+              ]
+            }
+          }
         ]
       },
       "PaymentRequest": {
