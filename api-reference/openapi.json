@@ -1185,6 +1185,7 @@
           },
           "files": {
             "type": "array",
+            "description": "not required if target_wallet_id is set",
             "items": {
               "type": "object",
               "properties": {
@@ -1200,10 +1201,7 @@
         },
         "required": [
           "walletId",
-          "amount",
-          "currency",
-          "beneficiaryId",
-          "paymentType"
+          "amount"
         ]
       },
       "Wallet": {
