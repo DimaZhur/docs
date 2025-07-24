@@ -1113,8 +1113,8 @@
           },
           "beneficiary_company_name": {
             "type": "string",
-            "description": "AltPay Ltd.",
-            "example": "AltPay Ltd.",
+            "description": "Required if beneficiary_entity_type is 'company'",
+            "example": "Finsei Ltd.",
             "maxLength": 128
           },
           "beneficiary_first_name": {
@@ -1137,22 +1137,6 @@
           "country",
           "currency",
           "beneficiary_entity_type"
-        ],
-        "allOf": [
-          {
-            "if": {
-              "properties": {
-                "beneficiary_entity_type": {
-                  "const": "company"
-                }
-              }
-            },
-            "then": {
-              "required": [
-                "beneficiary_company_name"
-              ]
-            }
-          }
         ]
       },
       "PaymentRequest": {
