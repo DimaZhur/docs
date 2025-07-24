@@ -384,6 +384,110 @@
         }
       }
     },
+    "/v1/beneficiary/{id}": {
+      "get": {
+        "summary": "Get beneficiary by ID",
+        "tags": [
+          "beneficiary"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID of the beneficiary"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Beneficiary data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Beneficiary"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "description": "Beneficiary not found"
+          }
+        }
+      }
+    },
+    "/v1/beneficiary": {
+      "get": {
+        "summary": "Get list of beneficiaries",
+        "tags": [
+          "beneficiary"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "wallet_id",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "country",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/PageNum"
+          },
+          {
+            "$ref": "#/components/parameters/PerPage"
+          },
+          {
+            "$ref": "#/components/parameters/Sort"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of beneficiaries",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Beneficiary"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
     "/v2/beneficiary": {
       "post": {
         "summary": "Create beneficiary",
