@@ -1,5 +1,5 @@
 ---
-title: How can I create JWT token without 2FA?
+title: JWT token without 2FA
 ---
 
 The following functionality can help you avoid an additional step when using the Finsei API - the **sign** API method.
@@ -37,7 +37,7 @@ The tokens can be used to log in via API and to refresh the access token.
 
 ❗ **Please note:**
 
-- If you don’t specify IP addresses, the tokens will expire in **3 months**
+- If you don’t specify IP addresses, the tokens will expire in **3 months** - means no matter how many times you refresh your token during this time, in 3 mounth you won't be able to log in and to refresh your tokens
 - The **access token** is valid for **10 minutes** and should be refreshed using  
   `POST /v2/auth/token/refresh` with the refresh token obtained in step 7
 - The **refresh token** is valid until it is used
