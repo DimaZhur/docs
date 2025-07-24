@@ -1135,7 +1135,8 @@
           "walletId",
           "iban",
           "country",
-          "currency"
+          "currency",
+          "beneficiary_entity_type"
         ]
       },
       "PaymentRequest": {
