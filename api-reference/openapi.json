@@ -369,6 +369,51 @@
         }
       }
     },
+    "/v1/beneficiary/{id}": {
+      "get": {
+        "summary": "Get beneficiary by ID",
+        "tags": [
+          "beneficiary"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID of the beneficiary"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Beneficiary data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Beneficiary"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "description": "Beneficiary not found"
+          }
+        }
+      }
+    },
     "/v2/member": {
       "post": {
         "summary": "Invite sub user",
