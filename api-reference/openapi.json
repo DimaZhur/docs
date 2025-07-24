@@ -1164,17 +1164,21 @@
           },
           "beneficiaryId": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "⚠ NOT REQUIRED if target_wallet_id is set"
           },
           "targetWalletId": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "⚠ NOT USE if beneficiary_id is set"
           },
           "reference": {
-            "type": "string"
+            "type": "string",
+            "description": "⚠ NOT REQUIRED if target_wallet_id is set"
           },
           "purposeCode": {
-            "type": "string"
+            "type": "string",
+            "description": "⚠ REQUIRED when beneficiary country is UAE"
           },
           "paymentType": {
             "type": "string",
@@ -1185,7 +1189,7 @@
           },
           "files": {
             "type": "array",
-            "description": "not required if target_wallet_id is set",
+            "description": "⚠ NOT REQUIRED if target_wallet_id is set",
             "items": {
               "type": "object",
               "properties": {
