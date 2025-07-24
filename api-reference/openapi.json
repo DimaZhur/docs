@@ -1080,7 +1080,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Card"
+                  "$ref": "#/components/schemas/CardIndex"
                 }
               }
             }
@@ -1445,6 +1445,162 @@
                 "type": "string"
               }
             }
+          }
+        }
+      },
+      "CardIndex": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique Card id"
+          },
+          "uuid": {
+            "type": "string",
+            "description": "Unique Card id (UUID string)"
+          },
+          "wallet_id": {
+            "type": "integer",
+            "description": "Wallet ID"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "ChipAndPin",
+              "Virtual",
+              "Disposable"
+            ]
+          },
+          "masked_number": {
+            "type": "string",
+            "description": "Masked Card Number",
+            "example": "474359******5050"
+          },
+          "status": {
+            "type": "string",
+            "description": "Card status",
+            "enum": [
+              "ORDERED",
+              "DISPATCHED",
+              "ACTIVE",
+              "BLOCKED",
+              "CLOSED"
+            ]
+          },
+          "validUntilDate": {
+            "type": "string"
+          },
+          "cardholder_name": {
+            "type": "string",
+            "description": "Cardholder name"
+          },
+          "notification": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "ERROR",
+                  "WARNING",
+                  "INFO"
+                ]
+              },
+              "title": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          },
+          "orderInfo": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "title": {
+                "type": "string",
+                "nullable": true
+              },
+              "message": {
+                "type": "string",
+                "nullable": true
+              },
+              "ordered_at": {
+                "type": "integer"
+              },
+              "dispatched_at": {
+                "type": "integer",
+                "nullable": true
+              },
+              "delivery": {
+                "type": "object",
+                "nullable": true
+              }
+            }
+          },
+          "permissions": {
+            "type": "object",
+            "description": "List of card permissions",
+            "properties": {
+              "canActivate": {
+                "type": "boolean"
+              },
+              "canBlock": {
+                "type": "boolean"
+              },
+              "canUnblock": {
+                "type": "boolean"
+              },
+              "canGetPin": {
+                "type": "boolean"
+              },
+              "canSetPin": {
+                "type": "boolean"
+              },
+              "canGetCvv": {
+                "type": "boolean"
+              },
+              "canGetPassword": {
+                "type": "boolean"
+              },
+              "canSetPassword": {
+                "type": "boolean"
+              },
+              "canGetNumber": {
+                "type": "boolean"
+              },
+              "canClose": {
+                "type": "boolean"
+              },
+              "canSetSmsBalanceNotification": {
+                "type": "boolean"
+              },
+              "canGetLimits": {
+                "type": "boolean"
+              },
+              "canSetLimits": {
+                "type": "boolean"
+              },
+              "canGetOperations": {
+                "type": "boolean"
+              },
+              "canSetOperations": {
+                "type": "boolean"
+              }
+            }
+          },
+          "updatedAtMs": {
+            "type": "integer",
+            "example": 1666666666999
+          },
+          "isSmsBalanceNotification": {
+            "type": "boolean",
+            "example": false
+          },
+          "designId": {
+            "type": "string",
+            "example": "AIV"
           }
         }
       }
