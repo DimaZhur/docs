@@ -1102,7 +1102,7 @@
             "example": 10001,
             "maxLength": 32
           },
-          "beneficiary_entity_type": {
+          "entity_type": {
             "type": "string",
             "description": "Entity type",
             "enum": [
@@ -1111,19 +1111,19 @@
             ],
             "example": "company"
           },
-          "beneficiary_company_name": {
+          "company_name": {
             "type": "string",
-            "description": "⚠ REQUIRED if beneficiary_entity_type is 'company'",
+            "description": "⚠ REQUIRED if entity_type is 'company'",
             "example": "Finsei Ltd.",
             "maxLength": 128
           },
-          "beneficiary_first_name": {
+          "first_name": {
             "type": "string",
             "description": "Beneficiary first name",
             "example": "Aliaksandr",
             "maxLength": 64
           },
-          "beneficiary_last_name": {
+          "last_name": {
             "type": "string",
             "description": "Beneficiary last name",
             "example": "Lastname",
@@ -1135,7 +1135,7 @@
           "iban",
           "country",
           "currency",
-          "beneficiary_entity_type"
+          "entity_type"
         ]
       },
       "PaymentRequest": {
