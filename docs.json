@@ -68,6 +68,7 @@
               "api-reference/endpoint/post-verify-mfa",
               "api-reference/endpoint/post-v2-member",
               "api-reference/endpoint/post-v2-beneficiary",
+              "api-reference/endpoint/get-v1-beneficiary",
               "api-reference/endpoint/post-v3-payment",
               "api-reference/endpoint/get-v2-payment",
               "api-reference/endpoint/get-v2-payment-id",
