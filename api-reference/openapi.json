@@ -1057,7 +1057,7 @@
           },
           "bic_swift": {
             "type": "string",
-            "description": "BIC\\SWIFT number",
+            "description": "BIC\\SWIFT number. ⚠ NOT REQUIRED if SEPA",
             "example": "AGBLLT2X"
           },
           "account_number": {
