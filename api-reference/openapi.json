@@ -1293,7 +1293,7 @@
           },
           "bank_country": {
             "type": "string",
-            "description": "2-char code of country",
+            "description": "2-char code of country.⚠ REQUIRED if the currency is not Euro",
             "example": "LT",
             "maxLength": 2
           },
@@ -1309,10 +1309,12 @@
             "example": "AGBLLT2X"
           },
           "account_number": {
-            "type": "number"
+            "type": "number",
+            "description": "⚠ REQUIRED if the currency is GBP and bank_details_type is local"
           },
           "sort_code": {
-            "type": "number"
+            "type": "number",
+            "description": "⚠ REQUIRED if the bank_details_type is local"
           },
           "bank_details_type": {
             "type": "string",
@@ -1323,30 +1325,30 @@
           },
           "street": {
             "type": "string",
-            "description": "Beneficiary address street",
+            "description": "Beneficiary address street. ⚠ REQUIRED if the currency is not EUR",
             "example": "Gagarina street",
             "maxLength": 64
           },
           "house": {
             "type": "string",
-            "description": "Beneficiary house number",
+            "description": "Beneficiary house number. ⚠ REQUIRED if the currency is not EUR",
             "example": 22,
             "maxLength": 32
           },
           "city": {
             "type": "string",
-            "description": "Beneficiary city",
+            "description": "Beneficiary city. ⚠ REQUIRED if the currency is not EUR",
             "example": "London",
             "maxLength": 64
           },
           "country_id": {
             "type": "string",
-            "description": "Alpha-2 country code",
+            "description": "Alpha-2 country code. ⚠ REQUIRED if the currency is not EUR",
             "example": "GB"
           },
           "postal_code": {
             "type": "string",
-            "description": "Beneficiary postal code",
+            "description": "Beneficiary postal code. ⚠ REQUIRED if the currency is not EUR",
             "example": 10001,
             "maxLength": 32
           },
