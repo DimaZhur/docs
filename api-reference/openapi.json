@@ -1388,7 +1388,7 @@
           },
           "bank_country": {
             "type": "string",
-            "description": "2-char code of country.⚠ REQUIRED if the currency is not Euro",
+            "description": "2-char code of country.⚠ REQUIRED if the currency is not EUR",
             "example": "LT",
             "maxLength": 2
           },
