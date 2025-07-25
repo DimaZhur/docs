@@ -65,6 +65,7 @@
             "pages": [
               "api-reference/endpoint/post-v2-auth",
               "api-reference/endpoint/post-v2-auth-token",
+              "api-reference/endpoint/post-v2-auth-token-refresh",
               "api-reference/endpoint/post-verify-mfa",
               "api-reference/endpoint/post-v2-member",
               "api-reference/endpoint/post-v2-beneficiary",
