@@ -93,12 +93,12 @@
           "icon": "globe"
         },
         {
-          "anchor": "Sandbox",
+          "anchor": "Sandbox App",
           "href": "https://app.sandbox.finsei.com/auth/login",
           "icon": "box"
         },
         {
-          "anchor": "Swagger",
+          "anchor": "Sandbox Swagger",
           "href": "https://api.sandbox.finsei.com",
           "icon": "book"
         }
