@@ -112,11 +112,11 @@
   "navbar": {
     "links": [
       {
-        "label": "Sandbox",
+        "label": "Sandbox App",
         "href": "https://app.sandbox.finsei.com/auth/login"
       },
       {
-        "label": "Swagger",
+        "label": "Sandbox Swagger",
         "href": "https://api.sandbox.finsei.com"
       }
     ]
