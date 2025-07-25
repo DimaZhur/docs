@@ -1367,13 +1367,13 @@
           },
           "first_name": {
             "type": "string",
-            "description": "Beneficiary first name",
+            "description": "Beneficiary first name. ⚠ REQUIRED if entity_type is 'individual'",
             "example": "Aliaksandr",
             "maxLength": 64
           },
           "last_name": {
             "type": "string",
-            "description": "Beneficiary last name",
+            "description": "Beneficiary last name. ⚠ REQUIRED if entity_type is 'individual'",
             "example": "Lastname",
             "maxLength": 64
           }
