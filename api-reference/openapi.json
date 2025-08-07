@@ -251,6 +251,89 @@
         }
       }
     },
+    "/v2/auth/token/refresh": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthRefresh"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthRefresh"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "SUCCESS"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "accessToken": {
+                          "type": "string"
+                        },
+                        "refreshToken": {
+                          "type": "string"
+                        },
+                        "wsToken": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      },
+      "options": {
+        "tags": [
+          "auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Allow": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "POST, OPTIONS"
+              },
+              "Access-Control-Allow-Methods": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "POST, OPTIONS"
+              }
+            }
+          }
+        }
+      }
+    },
     "/v2/auth": {
       "post": {
         "tags": [
@@ -1045,6 +1128,52 @@
         }
       }
     },
+    "/v1/card/{id}/limits": {
+      "get": {
+        "summary": "Get card limits",
+        "operationId": "getCardLimits",
+        "tags": [
+          "card"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Card ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Card limits info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CardLimits"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
     "/v1/card": {
       "get": {
         "summary": "Get list of cards",
@@ -1198,6 +1327,18 @@
           "id"
         ]
       },
+      "AuthRefresh": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Refresh token"
+          }
+        },
+        "required": [
+          "token"
+        ]
+      },
       "MemberInviteV2": {
         "type": "object",
         "properties": {
@@ -1247,7 +1388,7 @@
           },
           "bank_country": {
             "type": "string",
-            "description": "2-char code of country",
+            "description": "2-char code of country.⚠ REQUIRED if the currency is not EUR",
             "example": "LT",
             "maxLength": 2
           },
@@ -1263,10 +1404,12 @@
             "example": "AGBLLT2X"
           },
           "account_number": {
-            "type": "number"
+            "type": "number",
+            "description": "⚠ REQUIRED if the currency is GBP and bank_details_type is local"
           },
           "sort_code": {
-            "type": "number"
+            "type": "number",
+            "description": "⚠ REQUIRED if the bank_details_type is local"
           },
           "bank_details_type": {
             "type": "string",
@@ -1277,30 +1420,30 @@
           },
           "street": {
             "type": "string",
-            "description": "Beneficiary address street",
+            "description": "Beneficiary address street. ⚠ REQUIRED if the currency is not EUR",
             "example": "Gagarina street",
             "maxLength": 64
           },
           "house": {
             "type": "string",
-            "description": "Beneficiary house number",
+            "description": "Beneficiary house number. ⚠ REQUIRED if the currency is not EUR",
             "example": 22,
             "maxLength": 32
           },
           "city": {
             "type": "string",
-            "description": "Beneficiary city",
+            "description": "Beneficiary city. ⚠ REQUIRED if the currency is not EUR",
             "example": "London",
             "maxLength": 64
           },
           "country_id": {
             "type": "string",
-            "description": "Alpha-2 country code",
+            "description": "Alpha-2 country code. ⚠ REQUIRED if the currency is not EUR",
             "example": "GB"
           },
           "postal_code": {
             "type": "string",
-            "description": "Beneficiary postal code",
+            "description": "Beneficiary postal code. ⚠ REQUIRED if the currency is not EUR",
             "example": 10001,
             "maxLength": 32
           },
@@ -1321,13 +1464,13 @@
           },
           "first_name": {
             "type": "string",
-            "description": "Beneficiary first name",
+            "description": "Beneficiary first name. ⚠ REQUIRED if entity_type is 'individual'",
             "example": "Aliaksandr",
             "maxLength": 64
           },
           "last_name": {
             "type": "string",
-            "description": "Beneficiary last name",
+            "description": "Beneficiary last name. ⚠ REQUIRED if entity_type is 'individual'",
             "example": "Lastname",
             "maxLength": 64
           }
@@ -1660,6 +1803,37 @@
           }
         }
       },
+      "CardLimits": {
+        "type": "object",
+        "properties": {
+          "atmLimit": {
+            "type": "integer"
+          },
+          "posLimit": {
+            "type": "integer"
+          },
+          "cardNotPresentLimit": {
+            "type": "integer"
+          },
+          "contactlessLimit": {
+            "type": "integer"
+          },
+          "monthlyLimit": {
+            "type": "integer"
+          },
+          "currency": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "atmLimit",
+          "posLimit",
+          "cardNotPresentLimit",
+          "contactlessLimit",
+          "monthlyLimit",
+          "currency"
+        ]
+      },
       "CardView": {
         "allOf": [
           {
@@ -1884,6 +2058,29 @@
               "error": {
                 "code": 404,
                 "message": "Not Found"
+              }
+            }
+          }
+        }
+      },
+      "TooManyRequests": {
+        "description": "Too Many Requests",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Too Many Requests"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "integer",
+                  "example": 429
+                }
               }
             }
           }

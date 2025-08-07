@@ -65,6 +65,7 @@
             "pages": [
               "api-reference/endpoint/post-v2-auth",
               "api-reference/endpoint/post-v2-auth-token",
+              "api-reference/endpoint/post-v2-auth-token-refresh",
               "api-reference/endpoint/post-verify-mfa",
               "api-reference/endpoint/post-v2-member",
               "api-reference/endpoint/post-v2-beneficiary",
@@ -77,7 +78,8 @@
               "api-reference/endpoint/get-v3-wallet-id",
               "api-reference/endpoint/post-v2-card",
               "api-reference/endpoint/get-v1-card",
-              "api-reference/endpoint/get-v1-card-id"
+              "api-reference/endpoint/get-v1-card-id",
+              "api-reference/endpoint/get-v1-card-id-limits"
             ]
           }
         ]
@@ -91,12 +93,12 @@
           "icon": "globe"
         },
         {
-          "anchor": "Sandbox",
+          "anchor": "Sandbox App",
           "href": "https://app.sandbox.finsei.com/auth/login",
           "icon": "box"
         },
         {
-          "anchor": "Swagger",
+          "anchor": "Sandbox Swagger",
           "href": "https://api.sandbox.finsei.com",
           "icon": "book"
         }
@@ -110,11 +112,11 @@
   "navbar": {
     "links": [
       {
-        "label": "Sandbox",
+        "label": "Sandbox App",
         "href": "https://app.sandbox.finsei.com/auth/login"
       },
       {
-        "label": "Swagger",
+        "label": "Sandbox Swagger",
         "href": "https://api.sandbox.finsei.com"
       }
     ]
