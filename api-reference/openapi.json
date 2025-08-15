@@ -154,9 +154,6 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "Validation failed"
           }
         },
         "security": [
@@ -235,12 +232,21 @@
                       }
                     },
                     {
-                      "$ref": "#/components/responses/ErrorFormResponse"
+                      "$ref": "#/components/schemas/ErrorFormResponse"
                     },
                     {
-                      "$ref": "#/components/responses/SignFormResponse"
+                      "$ref": "#/components/schemas/SignFormResponse"
                     }
                   ]
+                },
+                "examples": {
+                  "mfaRequired": {
+                    "summary": "Mfa Required",
+                    "value": {
+                      "status": "MFA_REQUIRED",
+                      "mfaToken": "string"
+                    }
+                  }
                 }
               }
             }
@@ -389,6 +395,12 @@
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
           }
         }
       }
@@ -445,13 +457,13 @@
                 "schema": {
                   "oneOf": [
                     {
-                      "$ref": "#/components/responses/SuccessFormResponse"
+                      "$ref": "#/components/schemas/SuccessFormResponse"
                     },
                     {
-                      "$ref": "#/components/responses/ErrorFormResponse"
+                      "$ref": "#/components/schemas/ErrorFormResponse"
                     },
                     {
-                      "$ref": "#/components/responses/SignFormResponse"
+                      "$ref": "#/components/schemas/SignFormResponse"
                     }
                   ]
                 }
@@ -507,7 +519,7 @@
             "$ref": "#/components/responses/Forbidden"
           },
           "404": {
-            "description": "Beneficiary not found"
+            "$ref": "#/components/responses/NotFound"
           }
         }
       }
@@ -565,6 +577,9 @@
           "401": {
             "$ref": "#/components/responses/Unauthorized"
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
           "403": {
             "$ref": "#/components/responses/Forbidden"
           }
@@ -600,12 +615,21 @@
                 "schema": {
                   "oneOf": [
                     {
-                      "$ref": "#/components/responses/SuccessFormResponse"
+                      "$ref": "#/components/schemas/SuccessFormResponse"
                     },
                     {
-                      "$ref": "#/components/responses/ErrorFormResponse"
+                      "$ref": "#/components/schemas/ErrorFormResponse"
                     }
                   ]
+                },
+                "examples": {
+                  "success": {
+                    "summary": "Success",
+                    "value": {
+                      "status": "SUCCESS",
+                      "message": "Operation completed successfully"
+                    }
+                  }
                 }
               }
             }
@@ -1996,6 +2020,48 @@
             }
           }
         }
+      },
+      "SuccessFormResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "ErrorFormResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "ERROR"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SignFormResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "MFA_REQUIRED"
+          },
+          "mfaToken": {
+            "type": "string"
+          }
+        }
       }
     },
     "responses": {
@@ -2025,11 +2091,32 @@
         "description": "Unauthorized",
         "content": {
           "application/json": {
-            "example": {
-              "status": "ERROR",
-              "error": {
-                "code": 401,
-                "message": "Unauthorized"
+            "examples": {
+              "default": {
+                "value": {
+                  "status": "ERROR",
+                  "error": {
+                    "code": 401,
+                    "message": "Unauthorized"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Unauthorized"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Your request was made with invalid credentials."
+                },
+                "status": {
+                  "type": "integer",
+                  "example": 401
+                }
               }
             }
           }
@@ -2039,6 +2126,36 @@
         "description": "Forbidden",
         "content": {
           "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "error"
+              ],
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "ERROR"
+                },
+                "error": {
+                  "type": "object",
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 403
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Forbidden"
+                    }
+                  }
+                }
+              }
+            },
             "example": {
               "status": "ERROR",
               "error": {
@@ -2053,6 +2170,23 @@
         "description": "Not Found",
         "content": {
           "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Not Found"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "The requested resource could not be found."
+                },
+                "status": {
+                  "type": "integer",
+                  "example": 404
+                }
+              }
+            },
             "example": {
               "status": "ERROR",
               "error": {
@@ -2082,6 +2216,15 @@
                   "example": 429
                 }
               }
+            },
+            "examples": {
+              "default": {
+                "value": {
+                  "name": "Too Many Requests",
+                  "message": "string",
+                  "status": 429
+                }
+              }
             }
           }
         }
@@ -2090,15 +2233,46 @@
         "description": "Validation error",
         "content": {
           "application/json": {
-            "example": {
-              "status": "ERROR",
-              "error": {
-                "code": 422,
-                "message": "Validation failed",
-                "details": [
-                  "amount is required",
-                  "currency must be EUR or USD"
-                ]
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "error"
+              ],
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "error": {
+                  "type": "object",
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "default": {
+                "value": {
+                  "status": "ERROR",
+                  "error": {
+                    "code": 422,
+                    "message": "Validation failed",
+                    "details": [
+                      "amount is required",
+                      "currency must be EUR or USD"
+                    ]
+                  }
+                }
               }
             }
           }
@@ -2119,8 +2293,24 @@
         "description": "Validation success",
         "content": {
           "application/json": {
-            "example": {
-              "status": "SUCCESS"
+            "examples": {
+              "default": {
+                "value": {
+                  "status": "SUCCESS"
+                }
+              }
+            },
+            "schema": {
+              "type": "object",
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "SUCCESS"
+                }
+              }
             }
           }
         }
@@ -2129,10 +2319,39 @@
         "description": "Resource created",
         "content": {
           "application/json": {
-            "example": {
-              "status": "SUCCESS",
-              "data": {
-                "id": "abc123"
+            "examples": {
+              "default": {
+                "value": {
+                  "status": "SUCCESS",
+                  "data": {
+                    "id": "abc123"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "SUCCESS"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "id"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "abc123"
+                    }
+                  }
+                }
               }
             }
           }
@@ -2142,9 +2361,30 @@
         "description": "MFA sign required",
         "content": {
           "application/json": {
-            "example": {
-              "status": "MFA_REQUIRED",
-              "mfaToken": "def456"
+            "examples": {
+              "default": {
+                "value": {
+                  "status": "MFA_REQUIRED",
+                  "mfaToken": "def456"
+                }
+              }
+            },
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "mfaToken"
+              ],
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "MFA_REQUIRED"
+                },
+                "mfaToken": {
+                  "type": "string",
+                  "example": "def456"
+                }
+              }
             }
           }
         }
@@ -2153,11 +2393,32 @@
         "description": "Bad request",
         "content": {
           "application/json": {
-            "example": {
-              "status": "ERROR",
-              "error": {
-                "code": 400,
-                "message": "Bad request"
+            "examples": {
+              "default": {
+                "value": {
+                  "status": "ERROR",
+                  "error": {
+                    "code": 400,
+                    "message": "Bad request"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Bad Request"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Invalid request parameters."
+                },
+                "status": {
+                  "type": "integer",
+                  "example": 400
+                }
               }
             }
           }
