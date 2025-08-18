@@ -231,22 +231,8 @@
                         }
                       }
                     },
-                    {
-                      "$ref": "#/components/schemas/ErrorFormResponse"
-                    },
-                    {
-                      "$ref": "#/components/schemas/SignFormResponse"
-                    }
+                    
                   ]
-                },
-                "examples": {
-                  "mfaRequired": {
-                    "summary": "Mfa Required",
-                    "value": {
-                      "status": "MFA_REQUIRED",
-                      "mfaToken": "string"
-                    }
-                  }
                 }
               }
             }
@@ -391,7 +377,7 @@
             "$ref": "#/components/responses/Sign"
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest"
+            "$ref": "#/components/responses/BadRequestV2"
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
@@ -2045,8 +2031,9 @@
           },
           "errors": {
             "type": "array",
-            "items": {
-              "type": "string"
+            "example": {
+              "email": "Email cannot be blank.",
+              "password": "Password cannot be blank."
             }
           }
         }
@@ -2056,9 +2043,9 @@
         "properties": {
           "status": {
             "type": "string",
-            "example": "MFA_REQUIRED"
+            "example": "SIGN"
           },
-          "mfaToken": {
+          "signId": {
             "type": "string"
           }
         }
@@ -2230,47 +2217,20 @@
         }
       },
       "ValidationError": {
-        "description": "Validation error",
+        "description": "Validation Error",
         "content": {
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "status",
-                "error"
-              ],
               "properties": {
                 "status": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "ERROR"
                 },
-                "error": {
+                "errors": {
                   "type": "object",
-                  "required": [
-                    "code",
-                    "message"
-                  ],
-                  "properties": {
-                    "code": {
-                      "type": "integer"
-                    },
-                    "message": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            },
-            "examples": {
-              "default": {
-                "value": {
-                  "status": "ERROR",
-                  "error": {
-                    "code": 422,
-                    "message": "Validation failed",
-                    "details": [
-                      "amount is required",
-                      "currency must be EUR or USD"
-                    ]
+                  "example": {
+                    "email": "Email cannot be blank."
                   }
                 }
               }
@@ -2290,25 +2250,21 @@
         }
       },
       "Validate": {
-        "description": "Validation success",
+        "description": "Validate data",
         "content": {
           "application/json": {
-            "examples": {
-              "default": {
-                "value": {
-                  "status": "SUCCESS"
-                }
-              }
-            },
             "schema": {
               "type": "object",
-              "required": [
-                "status"
-              ],
               "properties": {
                 "status": {
                   "type": "string",
-                  "example": "SUCCESS"
+                  "example": "VALIDATE"
+                },
+                "errors": {
+                  "type": "object",
+                  "example": {
+                    "email": "Email cannot be blank."
+                  }
                 }
               }
             }
@@ -2316,41 +2272,20 @@
         }
       },
       "Created": {
-        "description": "Resource created",
+        "description": "Created",
         "content": {
           "application/json": {
-            "examples": {
-              "default": {
-                "value": {
-                  "status": "SUCCESS",
-                  "data": {
-                    "id": "abc123"
-                  }
-                }
-              }
-            },
             "schema": {
               "type": "object",
-              "required": [
-                "status",
-                "data"
-              ],
               "properties": {
                 "status": {
                   "type": "string",
-                  "example": "SUCCESS"
+                  "example": "CREATED"
                 },
-                "data": {
-                  "type": "object",
-                  "required": [
-                    "id"
-                  ],
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "example": "abc123"
-                    }
-                  }
+                "id": {
+                  "type": "string",
+                  "example": "00000000-0000-0000-0000-000000000000",
+                  "description": "ID of the new entity"
                 }
               }
             }
@@ -2390,20 +2325,9 @@
         }
       },
       "BadRequest": {
-        "description": "Bad request",
+        "description": "Bad Request",
         "content": {
           "application/json": {
-            "examples": {
-              "default": {
-                "value": {
-                  "status": "ERROR",
-                  "error": {
-                    "code": 400,
-                    "message": "Bad request"
-                  }
-                }
-              }
-            },
             "schema": {
               "type": "object",
               "properties": {
@@ -2412,12 +2336,35 @@
                   "example": "Bad Request"
                 },
                 "message": {
-                  "type": "string",
-                  "example": "Invalid request parameters."
+                  "type": "string"
                 },
                 "status": {
                   "type": "integer",
                   "example": 400
+                }
+              }
+            }
+          }
+        }
+      },
+      "BadRequestV2": {
+        "description": "Bad Request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "query": {
+                  "type": "object",
+                  "example": {
+                    "id": "The provided 'ID' is not a valid UUID."
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "example": {
+                    "email": "Email cannot be blank."
+                  }
                 }
               }
             }
