@@ -1,0 +1,27 @@
+---
+title: Rate Limiting and 429 Response
+---
+
+Some API methods are protected with rate limiting to prevent abuse and ensure fair usage.
+When too many requests are sent in a short period of time, the API will respond with:
+
+`HTTP 429 Too Many Requests`
+
+This means that the client has reached the allowed request limit for a given time window.
+Further requests to the same endpoint should be delayed until the limit resets.
+
+## Endpoints Affected by Rate Limiting
+
+The following endpoints may return 429 Too Many Requests if called too frequently:
+
+- `POST /v2/auth/refresh`
+
+- `POST /v2/auth/token/refresh`
+
+- `POST /v3/payment`
+
+- `POST /v2/card/{id}/calculate/limits`
+
+- `PATCH /v2/card/{id}/limits`
+
+*Please note that: POST /v3/payment method allows to create around 10 payments in a second in case all the data is the same in request body. After reaching limit in 10 payments per second you may get 429 error code.
