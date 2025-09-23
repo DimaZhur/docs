@@ -80,7 +80,10 @@
               "api-reference/endpoint/post-v2-card",
               "api-reference/endpoint/get-v1-card",
               "api-reference/endpoint/get-v1-card-id",
-              "api-reference/endpoint/get-v1-card-id-limits"
+              "api-reference/endpoint/get-v1-card-id-limits",
+              "api-reference/endpoint/get-v2-webhook",
+              "api-reference/endpoint/patch-v2-webhook",
+              "api-reference/endpoint/get-v2-webhook-event"
             ]
           }
         ]

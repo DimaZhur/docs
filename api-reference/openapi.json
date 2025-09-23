@@ -230,8 +230,7 @@
                           }
                         }
                       }
-                    },
-                    
+                    }
                   ]
                 }
               }
@@ -1288,8 +1287,230 @@
           }
         }
       }
+    },
+    "/v2/webhook": {
+      "get": {
+        "tags": [
+          "webhook"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "enable": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "rateLimit": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                    "minimum": 1,
+                    "example": 300
+                  },
+                  "events": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "description": "List event.id from /v2/webhook/event",
+                    "items": {
+                      "type": "string",
+                      "example": "v1.payment.create"
+                    }
+                  },
+                  "createdAt": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "updatedAt": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "publicJwk": {
+                    "type": "object",
+                    "properties": {
+                      "kty": {
+                        "type": "string"
+                      },
+                      "alg": {
+                        "type": "string"
+                      },
+                      "e": {
+                        "type": "string"
+                      },
+                      "n": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "$ref": "#/components/responses/Unauthorized"
+        },
+        "403": {
+          "$ref": "#/components/responses/Forbidden"
+        }
+      }
+    },
+    "patch": {
+      "tags": [
+        "webhook"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "example": "https://api.site.com/webhook"
+                },
+                "enable": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "rateLimit": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 1,
+                  "example": 300,
+                  "description": "Request per second"
+                },
+                "events": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "description": "List event.id from /v2/webhook/event",
+                  "items": {
+                    "type": "string",
+                    "example": "v1.payment.create"
+                  }
+                }
+              },
+              "required": [
+                "url"
+              ]
+            }
+          }
+        }
+      },
+      "responses": {
+        "204": {
+                "$ref": "#/components/responses/OKResponse"
+        },
+        "400": {
+          "$ref": "#/components/responses/BadRequest"
+        },
+        "401": {
+          "$ref": "#/components/responses/Unauthorized"
+        },
+        "403": {
+          "$ref": "#/components/responses/Forbidden"
+        },
+        "409": {
+          "$ref": "#/components/responses/Conflict"
+        },
+        "422": {
+          "$ref": "#/components/responses/ValidationError"
+        },
+        "429": {
+          "$ref": "#/components/responses/TooManyRequests"
+        }
+      }
     }
   },
+  "/v2/webhook/event": {
+    "get": {
+      "description": "List of events you can sign up for",
+      "tags": [
+        "webhook"
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "parameters": [
+        {
+          "in": "query",
+          "name": "limit",
+          "schema": {
+            "type": "integer"
+          }
+        },
+        {
+          "in": "query",
+          "name": "iterator",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "v1.payment.create"
+                    },
+                    "deprecated": {
+                      "type": "boolean",
+                      "example": false
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "deprecated"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "403": {
+          "$ref": "#/components/responses/Forbidden"
+        }
+      }
+    }
+  }
+},
   "components": {
     "schemas": {
       "Login": {
@@ -2098,6 +2319,9 @@
           }
         }
       },
+      "OKResponse": {
+        "description": "OK"
+      },
       "Forbidden": {
         "description": "Forbidden",
         "content": {
@@ -2173,6 +2397,26 @@
           }
         }
       },
+  "Conflict": {
+    "description": "Conflict",
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "example": "The entity already exists"
+            },
+            "status": {
+              "type": "integer",
+              "example": 409
+            }
+          }
+        }
+      }
+    }
+  },
       "TooManyRequests": {
         "description": "Too Many Requests",
         "content": {

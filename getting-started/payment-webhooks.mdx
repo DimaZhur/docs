@@ -1,9 +1,319 @@
 ---
-title: How can I get webhooks about payment status?
+title: How can I get webhooks?
 ---
 
-**Currently, webhook messages are unavailable.**
+## Webhook subscription setup
 
-To check payment status you should execute 
-[`GET /v2/payment`](/api-reference/endpoint/get-v2-payment) or 
-[`GET /v2/payment/{id}`](/api-reference/endpoint/get-v2-payment-id) method periodically.
+To setup endpoint and subscribe to webhook events you should execute [`PATCH /v2/webhook`](/api-reference/endpoint/patch-v2-webhook) method. The following parameters should be specified in request body:
+- **url** - the path to the service you'll receive your webhooks on
+- **enable** - whether or not webhook send is enabled
+- **rateLimit** - amount of events per second
+- **events** - the list of events you subscribe to
+
+>*The list of available events can be obtained in [`GET /v2/webhook/event`](/api-reference/endpoint/get-v2-webhook-event) method.*
+
+In order to check if everything is configured correctly, execute [`GET /v2/webhook`](/api-reference/endpoint/get-v2-webhook) method.
+
+>*Please note that only user with full access can execute mentioned methods.*
+
+## Webhook example values
+
+- **v2.payment.create**
+```json
+{
+  "id": 0,
+  "uuid": "string",
+  "status": "new",
+  "type": "string",
+  "fee": {
+    "amount": 0,
+    "currencyId": "str"
+  },
+  "amount": 0,
+  "total": 0,
+  "counterparty": {
+    "name": "string",
+    "accountHolderName": "string",
+    "bic": "string",
+    "iban": "string"
+  },
+  "beneficiaryId": 0,
+  "walletId": 0,
+  "walletUuid": "string",
+  "icon": "CONVERT",
+  "entity": "PAYMENT",
+  "currencyId": "str",
+  "currencyExchangeId": 0,
+  "currencyExchangeUuid": "string",
+  "reference": "string",
+  "transactionAmount": 0,
+  "transactionCurrencyId": "str",
+  "transactionExchangeRate": "string",
+  "retrievalReferenceNumber": "string",
+  "rejectReason": "string",
+  "purposeCode": {
+    "code": "string",
+    "purpose": "string"
+  },
+  "createdAt": 1666666666999,
+  "updatedAt": 1666666666999,
+  "completedAt": 1667404598000
+}
+```
+- **v2.payment.update**
+```json
+{
+  "id": 0,
+  "uuid": "string",
+  "status": "new",
+  "type": "string",
+  "fee": {
+    "amount": 0,
+    "currencyId": "str"
+  },
+  "amount": 0,
+  "total": 0,
+  "counterparty": {
+    "name": "string",
+    "accountHolderName": "string",
+    "bic": "string",
+    "iban": "string"
+  },
+  "beneficiaryId": 0,
+  "walletId": 0,
+  "walletUuid": "string",
+  "icon": "CONVERT",
+  "entity": "PAYMENT",
+  "currencyId": "str",
+  "currencyExchangeId": 0,
+  "currencyExchangeUuid": "string",
+  "reference": "string",
+  "transactionAmount": 0,
+  "transactionCurrencyId": "str",
+  "transactionExchangeRate": "string",
+  "retrievalReferenceNumber": "string",
+  "rejectReason": "string",
+  "purposeCode": {
+    "code": "string",
+    "purpose": "string"
+  },
+  "createdAt": 1666666666999,
+  "updatedAt": 1666666666999,
+  "completedAt": 1667404598000
+}
+```
+- **v2.payment.delete**
+```json
+{
+"id": 0,
+"uuid": "string",
+"walletId": 0,
+"walletUuid": "string"
+}
+```
+- **v3.wallet.create**
+```json
+{
+  "id": 0,
+  "uuid": "string",
+  "balance": 0,
+  "balanceLock": 0,
+  "balanceInProgress": 0,
+  "currencyId": "str",
+  "description": "string",
+  "data": {
+    "type": "BANK",
+    "accountId": "string",
+    "details": [
+      {
+        "id": "string",
+        "isMain": true,
+        "label": "string",
+        "iban": "string",
+        "bicSwift": "string",
+        "bank": {
+          "accountHolderName": "string",
+          "name": "string",
+          "address": "string"
+        }
+      }
+    ]
+  },
+  "flags": {
+    "isVisible": true,
+    "isFavourite": true
+  },
+  "status": "ACTIVE",
+  "color": "string",
+  "name": "string",
+  "updatedAt": 1666666666999
+}
+```
+- **v3.wallet.update**
+```json
+{
+  "id": 0,
+  "uuid": "string",
+  "balance": 0,
+  "balanceLock": 0,
+  "balanceInProgress": 0,
+  "currencyId": "str",
+  "description": "string",
+  "data": {
+    "type": "BANK",
+    "accountId": "string",
+    "details": [
+      {
+        "id": "string",
+        "isMain": true,
+        "label": "string",
+        "iban": "string",
+        "bicSwift": "string",
+        "bank": {
+          "accountHolderName": "string",
+          "name": "string",
+          "address": "string"
+        }
+      }
+    ]
+  },
+  "flags": {
+    "isVisible": true,
+    "isFavourite": true
+  },
+  "status": "ACTIVE",
+  "color": "string",
+  "name": "string",
+  "updatedAt": 1666666666999
+}
+```
+- **v1.card.create**
+```json
+{
+  "id": 0,
+  "uuid": "string",
+  "wallet_id": 0,
+  "wallet_uuid": "string",
+  "type": "ChipAndPin",
+  "masked_number": "474359******5050",
+  "status": "ORDERED",
+  "validUntilDate": "string",
+  "cardholder_name": "string",
+  "notification": {
+    "type": "ERROR",
+    "title": "string",
+    "message": "string"
+  },
+  "orderInfo": {
+    "title": "string",
+    "message": "string",
+    "ordered_at": 0,
+    "dispatched_at": 0,
+    "delivery": {}
+  },
+  "updatedAtMs": 1666666666999,
+  "isSmsBalanceNotification": false,
+  "designId": "AIV"
+}
+```
+- **v1.card.update**
+```json
+{
+  "id": 0,
+  "uuid": "string",
+  "wallet_id": 0,
+  "wallet_uuid": "string",
+  "type": "ChipAndPin",
+  "masked_number": "474359******5050",
+  "status": "ORDERED",
+  "validUntilDate": "string",
+  "cardholder_name": "string",
+  "notification": {
+    "type": "ERROR",
+    "title": "string",
+    "message": "string"
+  },
+  "orderInfo": {
+    "title": "string",
+    "message": "string",
+    "ordered_at": 0,
+    "dispatched_at": 0,
+    "delivery": {}
+  },
+  "updatedAtMs": 1666666666999,
+  "isSmsBalanceNotification": false,
+  "designId": "AIV"
+}
+```
+- **v2.cardLimits.calculate**
+```json
+{
+  "purchase": {
+    "transaction": {
+      "value": 100
+    },
+    "daily": {
+      "value": 200
+    },
+    "monthly": {
+      "value": 300
+    }
+  },
+  "withdrawal": {
+    "switch": {
+      "value": true
+    },
+    "transaction": {
+      "value": 100
+    },
+    "daily": {
+      "value": 200
+    },
+    "monthly": {
+      "value": 300
+    }
+  },
+  "internetPurchase": {
+    "switch": {
+      "value": true
+    },
+    "transaction": {
+      "value": 100
+    },
+    "daily": {
+      "value": 200
+    },
+    "monthly": {
+      "value": 300
+    }
+  },
+  "contactlessPurchase": {
+    "switch": {
+      "value": true
+    },
+    "transaction": {
+      "value": 100
+    },
+    "daily": {
+      "value": 200
+    },
+    "monthly": {
+      "value": 300
+    }
+  }
+}
+```
+- **v2.cardLimits.updated**
+```json
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "updatedAt": 1667484942666
+}
+```
+- **v2.cardLimits.updateError**
+```json
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "message": "string"
+}
+```
