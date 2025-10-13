@@ -2321,11 +2321,12 @@
                 "status": {
                   "type": "integer",
                   "example": 401
-              }
-            }
-          }
-        }
-      },
+               }
+             }
+           }
+         }
+       }
+     },
       "OKResponse": {
         "description": "OK"
       },
@@ -2693,9 +2694,8 @@
         "schema": {
           "type": "integer",
           "example": 113
-         }
-       }
-     }
-   }
- }
+        }
+      }
+    }
+  }
 }
