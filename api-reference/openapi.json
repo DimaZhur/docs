@@ -2318,18 +2318,9 @@
                   "type": "string",
                   "example": "Your request was made with invalid credentials."
                 },
-                "code": {
-                  "type": "integer",
-                  "example": 0
-                },
                 "status": {
                   "type": "integer",
                   "example": 401
-                },
-                "type": {
-                  "type": "string",
-                  "example": "yii\\web\\UnauthorizedHttpException"
-                }
               }
             }
           }
@@ -2339,7 +2330,7 @@
         "description": "OK"
       },
       "Forbidden": {
-        "description": "Unauthorized",
+        "description": "Forbidden",
         "content": {
           "application/json": {
             "schema": {
