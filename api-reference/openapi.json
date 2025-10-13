@@ -611,8 +611,16 @@
                   "success": {
                     "summary": "Success",
                     "value": {
-                      "status": "SUCCESS",
-                      "message": "Operation completed successfully"
+                      "errors": {
+                        "email": "Email cannot be blank."
+                      },
+                      "notice": {
+                      "iban": "It looks like you entered an invalid IBAN number."
+                      },
+                      "data": {
+                        "id": 0,
+                        "uuid": "string"
+                      }
                     }
                   }
                 }
@@ -2310,9 +2318,17 @@
                   "type": "string",
                   "example": "Your request was made with invalid credentials."
                 },
+                "code": {
+                  "type": "integer",
+                  "example": 0
+                },
                 "status": {
                   "type": "integer",
                   "example": 401
+                },
+                "type": {
+                  "type": "string",
+                  "example": "yii\\web\\UnauthorizedHttpException"
                 }
               }
             }
@@ -2323,44 +2339,24 @@
         "description": "OK"
       },
       "Forbidden": {
-        "description": "Forbidden",
+        "description": "Unauthorized",
         "content": {
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "status",
-                "error"
-              ],
               "properties": {
-                "status": {
+                "name": {
                   "type": "string",
-                  "example": "ERROR"
+                  "example": "Forbidden"
                 },
-                "error": {
-                  "type": "object",
-                  "required": [
-                    "code",
-                    "message"
-                  ],
-                  "properties": {
-                    "code": {
-                      "type": "integer",
-                      "example": 403
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Forbidden"
-                    }
-                  }
+                "message": {
+                  "type": "string",
+                  "example": "String"
+                },
+                  "status": {
+                  "type": "integer",
+                  "example": 403
                 }
-              }
-            },
-            "example": {
-              "status": "ERROR",
-              "error": {
-                "code": 403,
-                "message": "Forbidden"
               }
             }
           }
