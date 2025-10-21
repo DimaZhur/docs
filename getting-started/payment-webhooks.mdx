@@ -16,6 +16,49 @@ In order to check if everything is configured correctly, execute [`GET /v2/webho
 
 >*Please note that only user with full access can execute mentioned methods.*
 
+## Webhook Headers
+
+Each webhook request sent from Finsei includes several HTTP headers that help ensure security, integrity, and traceability of events.
+
+<table className="custom-table">
+  <thead>
+    <tr>
+      <th>Header</th>
+      <th>Description</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Content-Type</code></td>
+      <td>Specifies the media type of the webhook payload.</td>
+      <td><code>application/json</code></td>
+    </tr>
+    <tr>
+      <td><code>User-Agent</code></td>
+      <td>Identifies the Finsei webhook service version.</td>
+      <td><code>Finsei-Webhook/1.0.0 (https://api.finsei.com/doc/webhook.md)</code></td>
+    </tr>
+    <tr>
+      <td><code>Webhook-Id</code></td>
+      <td>Unique identifier of the webhook delivery attempt. Useful for idempotency or debugging.</td>
+      <td><code>0199e36e-30b8-7063-8831-1af941108e25</code></td>
+    </tr>
+    <tr>
+      <td><code>Webhook-Timestamp</code></td>
+      <td>UNIX timestamp (seconds) when the webhook was created by Finsei.</td>
+      <td><code>1760457280</code></td>
+    </tr>
+    <tr>
+      <td><code>Webhook-Signature</code></td>
+      <td>HMAC-based signature to verify the authenticity and integrity of the payload.</td>
+      <td><code>aqpd2Y8elIDUwXcouBeD7bSMEb8ttedxNXif8pWq19Ghiu3rR5JbPV2gNDhNKAm...</code></td>
+    </tr>
+  </tbody>
+</table>
+
+
+
 ## Webhook example values
 
 - **v2.payment.create**
