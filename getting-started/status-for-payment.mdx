@@ -35,8 +35,8 @@ The most typical flows of status change for outgoing payments are the following:
 
 The 'Draft' and 'Compliance' statuses are optional.
 
-Status 'Cancelled' is final and can be performed by the user via POST /v1/payment/{id}/cancel method. Only payments in status 'New' can be cancelled.
+Status 'Cancelled' is final and can be performed by the user via the POST /v1/payment/id/cancel method. Only payments in status 'New' can be cancelled.
 
 'Completed' and 'Rejected' statuses are final.
 
->*Please note that if you have not received any of the final statuses mentioned above, you cannot position the payment as completed.*
+>*Please note that if you have not received any of the final statuses mentioned above, you cannot position the payment as executed. In case you get an error or any response that doesn't allow you to identify the payment as executed, please contact support.*
