@@ -33,6 +33,10 @@ The most typical flows of status change for outgoing payments are the following:
   <span style={{ backgroundColor: '#fbd38d', padding: '2px 6px', borderRadius: '4px' }}>Compliance</span> →
   <span style={{ backgroundColor: '#feb2b2', padding: '2px 6px', borderRadius: '4px' }}>Rejected</span>
 
-  Note:
-The Draft and Compliance statuses are optional.
+The 'Draft' and 'Compliance' statuses are optional.
 
+Status 'Cancelled' is final and can be performed by the user via POST /v1/payment/{id}/cancel method. Only payments in status 'New' can be cancelled.
+
+'Completed' and 'Rejected' statuses are final.
+
+>*Please note that if you have not received any of the final statuses mentioned above, you cannot position the payment as completed.*
