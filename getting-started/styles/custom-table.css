@@ -1,0 +1,60 @@
+/* === Custom Table Styles for Finsei Docs === */
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  table-layout: auto; /* <--- это ключ: ширина колонок определяется контентом */
+}
+
+/* Заголовки таблицы */
+.custom-table th {
+  text-align: left;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.03);
+  white-space: nowrap; /* чтобы названия колонок не переносились */
+}
+
+/* Ячейки */
+.custom-table td {
+  padding: 10px 14px;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  word-break: break-word; /* перенос длинных слов или ссылок */
+}
+
+/* Подсветка строк при наведении */
+.custom-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+/* Кодовые блоки */
+.custom-table code {
+  background: rgba(255, 255, 255, 0.07);
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+/* --- Светлая тема --- */
+[data-theme='light'] .custom-table th {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+[data-theme='light'] .custom-table td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='light'] .custom-table tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+[data-theme='light'] .custom-table code {
+  background: rgba(0, 0, 0, 0.06);
+}
+
