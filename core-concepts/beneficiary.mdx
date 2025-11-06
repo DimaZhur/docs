@@ -19,7 +19,7 @@ Crucial attributes while creating beneficiary are: currency, IBAN and entity_typ
 
 The combination of **Currency + IBAN** must be unique. You cannot create a beneficiary with the same IBAN and currency as an existing one - such attempts will be rejected.
 
-Based on the currency you chose during beneficiary creation, additional fields can become required to fill in.
+Based on the currency you chose during beneficiary creation, additional fields can become required to fill in. If the currency is EUR but the beneficiary is not located in a SEPA country, the payment will be processed as a SWIFT transfer instead of SEPA, and more information will be required.
 
 
 After creating a beneficiary, the following actions are available:
