@@ -22,7 +22,8 @@
             "pages": [
               "index",
               "who-is-this-for",
-              "support"
+              "support",
+              "status-page"
             ]
           },
           {
@@ -38,7 +39,7 @@
               "getting-started/get-sandbox-account",
               "getting-started/create-sub-user",
               "getting-started/create-jwt-token",
-              "getting-started/check-my-wallet-account details",
+              "getting-started/check-my-wallet-account-details",
               "getting-started/create-debit-to-ben",
               "getting-started/create-debit-another-finsei-wallet",
               "getting-started/status-for-payment",
@@ -106,6 +107,11 @@
           "anchor": "Sandbox Swagger",
           "href": "https://api.sandbox.finsei.com",
           "icon": "book"
+        },
+        {
+          "anchor": "Status page",
+          "href": "https://status.finsei.com/",
+          "icon": "signal"
         }
       ]
     }
