@@ -210,6 +210,7 @@
         }
       },
       "put": {
+        "security": [],
         "tags": [
           "auth"
         ],
@@ -521,6 +522,7 @@
     },
     "/v2/auth/token/refresh": {
       "post": {
+        "security": [],
          "deprecated": false,
          "summary": "Get auth token (deprecated)",
          "description": "**Deprecated**\n\nThis method is deprecated and will be removed in future API versions. Use [`PUT /v3/auth/token`](/api-reference/endpoint/put-v3-auth-token) instead.",
