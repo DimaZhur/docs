@@ -7,8 +7,6 @@ The following functionality can help you avoid an additional step when using the
 > ⚠️ **Important!:**  
 > **JWT token creation is only available for [sub-users](/getting-started/create-sub-user).**
 
-
-
 To generate a JWT token without 2FA, follow the steps below and set the **"Enable 2FA"** parameter to `false`.
 
 **Steps:**
@@ -17,7 +15,7 @@ To generate a JWT token without 2FA, follow the steps below and set the **"Enabl
 
 ![Add user](../images/jwt-token/jwt1.png)
 
-2. Go to **Security** tab  
+2. Go to **Security** tab
 3. Click **"Create token pair"** under **"JSON Web Token"** section
 
 ![Add user](../images/jwt-token/jwt2.png)
@@ -30,8 +28,8 @@ To generate a JWT token without 2FA, follow the steps below and set the **"Enabl
 
 ![Add user](../images/jwt-token/jwt3.png)
 
-5. Click the **"Confirm"** button  
-6. Enter the **2FA code**  
+5. Click the **"Confirm"** button
+6. Enter the **2FA code**
 7. Save the generated **access** and **refresh** tokens
 
 ![Add user](../images/jwt-token/jwt4.png)
@@ -42,6 +40,7 @@ The tokens can be used to log in via API and to refresh the access token.
 
 - If you don’t specify IP addresses, the tokens will expire in **3 months** - means no matter how many times you refresh your token during this time, in 3 mounth you won't be able to log in and to refresh your tokens
 - The **access token** is valid for **10 minutes** and should be refreshed using 
-[`POST /v2/auth/token/refresh`](/api-reference/endpoint/post-v2-auth-token-refresh) 
+[`PUT /v3/auth/token`](/api-reference/endpoint/put-v3-auth-token) 
 with the refresh token obtained in step 7
-- The **refresh token** is valid until it is used
+- The **refresh token** is valid for 90 days from the moment of its refresh or use
+

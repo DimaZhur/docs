@@ -19,6 +19,280 @@
     }
   ],
   "paths": {
+    "/v3/auth/web-socket": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Get WebSocket token",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    },
+                    "expiredAt": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "expiresIn": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/v3/auth/token": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Login and get authorization token",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "validate",
+            "schema": {
+              "default": 0,
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "signToken",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fingerprint": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "default": "",
+                    "description": "Device fingerprint",
+                    "maxLength": 64
+                  }
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fingerprint": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "default": "",
+                    "description": "Device fingerprint",
+                    "maxLength": 64
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "access": {
+                          "type": "object",
+                          "properties": {
+                            "token": {
+                              "type": "string"
+                            },
+                            "expiredAt": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            },
+                            "expiresIn": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            }
+                          }
+                        },
+                        "refresh": {
+                          "type": "object",
+                          "properties": {
+                            "token": {
+                              "type": "string"
+                            },
+                            "expiredAt": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            },
+                            "expiresIn": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "$ref": "#/components/responses/Validate"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "202": {
+            "$ref": "#/components/responses/Sign"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestV2"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Refresh authorization token",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthRefresh"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthRefresh"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access": {
+                      "type": "object",
+                      "properties": {
+                        "token": {
+                          "type": "string"
+                        },
+                        "expiredAt": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ]
+                        },
+                        "expiresIn": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ]
+                        }
+                      }
+                    },
+                    "refresh": {
+                      "type": "object",
+                      "properties": {
+                        "token": {
+                          "type": "string"
+                        },
+                        "expiredAt": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ]
+                        },
+                        "expiresIn": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestV2"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundWithoutResponse"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
     "/v3/payment": {
       "post": {
         "summary": "Create new payment",
@@ -165,6 +439,9 @@
     },
     "/v2/auth/token": {
       "post": {
+         "deprecated": true,
+         "summary": "Get auth token (deprecated)",
+         "description": "⚠️ **Deprecated**\n\nThis method is deprecated and will be removed in future API versions. Use [`POST /v3/auth/token`](/api-reference/endpoint/post-v3-auth-token) instead.",
         "tags": [
           "auth"
         ],
@@ -244,6 +521,9 @@
     },
     "/v2/auth/token/refresh": {
       "post": {
+         "deprecated": true,
+         "summary": "Get auth token (deprecated)",
+         "description": "⚠️ **Deprecated**\n\nThis method is deprecated and will be removed in future API versions. Use [`PUT /v3/auth/token`](/api-reference/endpoint/put-v3-auth-token) instead.",
         "tags": [
           "auth"
         ],
@@ -2350,6 +2630,25 @@
                   "example": 403
                 }
               }
+            }
+          }
+        }
+      },
+      "NotFoundWithoutResponse": {
+        "description": "Not Found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Not Found"
+                }
+              }
+            },
+            "example": {
+              "message": "Not Found"
             }
           }
         }
