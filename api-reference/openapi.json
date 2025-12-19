@@ -365,7 +365,7 @@
         "description": "Submits an MFA verification code to retrieve a signToken.",
         "security": [
           {
-            "basicAuth": []
+            "BasicAuth": []
           }
         ],
         "parameters": [
