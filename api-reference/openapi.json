@@ -363,6 +363,11 @@
       "post": {
         "summary": "Verify MFA Code",
         "description": "Submits an MFA verification code to retrieve a signToken.",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "type",
@@ -430,12 +435,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
+        }
       }
     },
     "/v2/auth/token": {
