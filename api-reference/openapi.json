@@ -72,7 +72,7 @@
         "summary": "Login and get authorization token",
         "security": [
           {
-            "basicAuth": []
+            "BasicAuth": []
           }
         ],
         "parameters": [
