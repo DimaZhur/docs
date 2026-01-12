@@ -34,6 +34,7 @@ The most typical flows of status change for outgoing payments are the following:
   <span style={{ backgroundColor: '#feb2b2', padding: '2px 6px', borderRadius: '4px' }}>Rejected</span>
 
 The 'Draft' and 'Compliance' statuses are optional.
+A payment in 'Draft' status is a preliminary record that is not yet ready for execution. It serves as a placeholder or template for the intended payment. To progress the payment through the system, it must be signed using the POST /v3/payment/sign method. Only after successful signing will the payment transition to the next stage of the processing lifecycle.
 
 Status 'Cancelled' is final and can be performed by the user via the POST /v1/payment/id/cancel method. Only payments in status 'New' can be cancelled.
 
