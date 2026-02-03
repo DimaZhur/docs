@@ -2129,6 +2129,9 @@
               "PHYSICAL"
             ]
           },
+          "password": {
+            "type": "string"
+          },
           "currency": {
             "type": "string"
           },
@@ -2140,7 +2143,8 @@
           "walletId",
           "cardType",
           "currency",
-          "nameOnCard"
+          "nameOnCard",
+          "password"
         ]
       },
       "CardIndex": {
