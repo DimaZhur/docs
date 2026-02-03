@@ -2,13 +2,10 @@
 title: How can I create a card?
 ---
 
-1. If you have no card wallet, it can be created with your first card. To order card together with card wallet execute 
-[`POST /v2/card`](/api-reference/endpoint/post-v2-card) 
-with no data in walletId parameter
-2. If you already have a card wallet, execute 
-[`POST /v2/card`](/api-reference/endpoint/post-v2-card)  
-with id of the card wallet in walletId parameter
-If you get the following response then card was created successfully
+1. If you have no card wallet, it can be created with your first card. To order card together with card wallet execute [`POST /v2/card`](/api-reference/endpoint/post-v2-card) with no data in walletId parameter
+2. If you already have a card wallet, execute [`POST /v2/card`](/api-reference/endpoint/post-v2-card) with id of the card wallet in walletId parameter
+
+If you get the following response then card was created successfully:
 
 ```json
 {
@@ -18,3 +15,8 @@ If you get the following response then card was created successfully
   }
 }
 ```
+⚠️ Please be aware that there may be a propagation delay between the initial creation of a card and its final activation. A card is not immediately ready for transactions the moment the creation request is successful.
+
+To ensure that a card is fully activated and ready for use, you should not rely on polling. Instead, we recommend implementing a webhook listener. You must [subscribe](/getting-started/payment-webhooks) to the [v1.card.update](/getting-started/payment-webhooks#v1-card-update) event and wait for a notification containing the appropriate card status (e.g., ACTIVE).
+
+Processing should only continue once your system receives this specific event, confirming that the card has been successfully provisioned in the banking core.
