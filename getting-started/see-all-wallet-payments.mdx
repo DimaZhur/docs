@@ -1,7 +1,20 @@
 ---
-title: How can I see all payments related to some specific wallet?
+title: How can I check all payments related to some specific wallet?
 ---
 
 To check all payments related to the wallet, execute 
 [`GET /v2/payment`](/api-reference/endpoint/get-v2-payment) 
 method with `walletId` parameter where `walletId = id` of the wallet you want to check payments for.
+
+**Payment direction (type)**
+
+The type field represents the direction of the payment.
+
+Possible values:
+
+- debit - outgoing transaction (funds deducted from wallet)
+
+- credit - incoming transaction (funds added to wallet)
+
+❗ Only these two values are possible.
+No other values are returned by the API.

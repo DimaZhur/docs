@@ -440,9 +440,9 @@
     },
     "/v2/auth/token": {
       "post": {
-         "deprecated": false,
-         "summary": "Get auth token (deprecated)",
-         "description": " **Deprecated**\n\nThis method is deprecated and will be removed in future API versions. Use [`POST /v3/auth/token`](/api-reference/endpoint/post-v3-auth-token) instead.",
+        "deprecated": false,
+        "summary": "Get auth token (deprecated)",
+        "description": " **Deprecated**\n\nThis method is deprecated and will be removed in future API versions. Use [`POST /v3/auth/token`](/api-reference/endpoint/post-v3-auth-token) instead.",
         "tags": [
           "auth"
         ],
@@ -523,9 +523,9 @@
     "/v2/auth/token/refresh": {
       "post": {
         "security": [],
-         "deprecated": false,
-         "summary": "Get auth token (deprecated)",
-         "description": "**Deprecated**\n\nThis method is deprecated and will be removed in future API versions. Use [`PUT /v3/auth/token`](/api-reference/endpoint/put-v3-auth-token) instead.",
+        "deprecated": false,
+        "summary": "Get auth token (deprecated)",
+        "description": "**Deprecated**\n\nThis method is deprecated and will be removed in future API versions. Use [`PUT /v3/auth/token`](/api-reference/endpoint/put-v3-auth-token) instead.",
         "tags": [
           "auth"
         ],
@@ -897,7 +897,7 @@
                         "email": "Email cannot be blank."
                       },
                       "notice": {
-                      "iban": "It looks like you entered an invalid IBAN number."
+                        "iban": "It looks like you entered an invalid IBAN number."
                       },
                       "data": {
                         "id": 0,
@@ -1045,17 +1045,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/PaymentResponse"
-                      }
-                    }
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PaymentResponse"
                   }
                 }
               }
@@ -1064,8 +1056,8 @@
           "401": {
             "$ref": "#/components/responses/Unauthorized"
           },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
+          "400": {
+            "$ref": "#/components/responses/BadRequestPayment"
           }
         }
       }
@@ -1106,11 +1098,8 @@
           "401": {
             "$ref": "#/components/responses/Unauthorized"
           },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          },
           "404": {
-            "$ref": "#/components/responses/NotFound"
+            "$ref": "#/components/responses/NotFoundPayment"
           }
         }
       }
@@ -1611,8 +1600,91 @@
                         "integer",
                         "null"
                       ],
+                      "minimum": 1,
+                      "example": 300
+                    },
+                    "events": {
+                      "type": "array",
+                      "uniqueItems": true,
+                      "description": "List event.id from /v2/webhook/event",
+                      "items": {
+                        "type": "string",
+                        "example": "v1.payment.create"
+                      }
+                    },
+                    "createdAt": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "updatedAt": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "publicJwk": {
+                      "type": "object",
+                      "properties": {
+                        "kty": {
+                          "type": "string"
+                        },
+                        "alg": {
+                          "type": "string"
+                        },
+                        "e": {
+                          "type": "string"
+                        },
+                        "n": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "webhook"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "example": "https://api.site.com/webhook"
+                  },
+                  "enable": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "rateLimit": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
                     "minimum": 1,
-                    "example": 300
+                    "example": 300,
+                    "description": "Request per second"
                   },
                   "events": {
                     "type": "array",
@@ -1622,185 +1694,102 @@
                       "type": "string",
                       "example": "v1.payment.create"
                     }
-                  },
-                  "createdAt": {
-                    "type": [
-                      "integer",
-                      "null"
-                    ]
-                  },
-                  "updatedAt": {
-                    "type": [
-                      "integer",
-                      "null"
-                    ]
-                  },
-                  "publicJwk": {
-                    "type": "object",
-                    "properties": {
-                      "kty": {
-                        "type": "string"
-                      },
-                      "alg": {
-                        "type": "string"
-                      },
-                      "e": {
-                        "type": "string"
-                      },
-                      "n": {
-                        "type": "string"
-                      }
-                    }
                   }
-                }
+                },
+                "required": [
+                  "url"
+                ]
               }
             }
           }
         },
-        "401": {
-          "$ref": "#/components/responses/Unauthorized"
-        },
-        "403": {
-          "$ref": "#/components/responses/Forbidden"
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/OKResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
         }
       }
     },
-    "patch": {
-      "tags": [
-        "webhook"
-      ],
-      "security": [
-        {
-          "BearerAuth": []
-        }
-      ],
-      "requestBody": {
-        "content": {
-          "application/json": {
+    "/v2/webhook/event": {
+      "get": {
+        "description": "List of events you can sign up for",
+        "tags": [
+          "webhook"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
             "schema": {
-              "type": "object",
-              "properties": {
-                "url": {
-                  "type": "string",
-                  "example": "https://api.site.com/webhook"
-                },
-                "enable": {
-                  "type": "boolean",
-                  "default": true
-                },
-                "rateLimit": {
-                  "type": [
-                    "integer",
-                    "null"
-                  ],
-                  "minimum": 1,
-                  "example": 300,
-                  "description": "Request per second"
-                },
-                "events": {
-                  "type": "array",
-                  "uniqueItems": true,
-                  "description": "List event.id from /v2/webhook/event",
-                  "items": {
-                    "type": "string",
-                    "example": "v1.payment.create"
-                  }
-                }
-              },
-              "required": [
-                "url"
-              ]
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "iterator",
+            "schema": {
+              "type": "string"
             }
           }
-        }
-      },
-      "responses": {
-        "204": {
-                "$ref": "#/components/responses/OKResponse"
-        },
-        "400": {
-          "$ref": "#/components/responses/BadRequest"
-        },
-        "401": {
-          "$ref": "#/components/responses/Unauthorized"
-        },
-        "403": {
-          "$ref": "#/components/responses/Forbidden"
-        },
-        "409": {
-          "$ref": "#/components/responses/Conflict"
-        },
-        "422": {
-          "$ref": "#/components/responses/ValidationError"
-        },
-        "429": {
-          "$ref": "#/components/responses/TooManyRequests"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "v1.payment.create"
+                      },
+                      "deprecated": {
+                        "type": "boolean",
+                        "example": false
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "deprecated"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
         }
       }
     }
   },
-  "/v2/webhook/event": {
-    "get": {
-      "description": "List of events you can sign up for",
-      "tags": [
-        "webhook"
-      ],
-      "security": [
-        {
-          "BearerAuth": []
-        }
-      ],
-      "parameters": [
-        {
-          "in": "query",
-          "name": "limit",
-          "schema": {
-            "type": "integer"
-          }
-        },
-        {
-          "in": "query",
-          "name": "iterator",
-          "schema": {
-            "type": "string"
-          }
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "OK",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "example": "v1.payment.create"
-                    },
-                    "deprecated": {
-                      "type": "boolean",
-                      "example": false
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "deprecated"
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "403": {
-          "$ref": "#/components/responses/Forbidden"
-        }
-      }
-    }
-  }
-},
   "components": {
     "schemas": {
       "Login": {
@@ -2090,20 +2079,380 @@
       "PaymentResponse": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "uuid": {
+            "type": "string"
+          },
           "status": {
             "type": "string"
           },
-          "data": {
+          "type": {
+            "type": "string"
+          },
+          "fee": {
             "type": "object",
             "properties": {
-              "paymentId": {
+              "amount": {
+                "type": "number"
+              },
+              "currencyId": {
+                "type": "string"
+              }
+            }
+          },
+          "amount": {
+            "type": "number"
+          },
+          "total": {
+            "type": "number"
+          },
+          "counterparty": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "accountHolderName": {
+                "type": "string"
+              },
+              "bic": {
+                "type": "string"
+              },
+              "iban": {
+                "type": "string"
+              }
+            }
+          },
+          "beneficiaryId": {
+            "type": "integer"
+          },
+          "walletId": {
+            "type": "integer"
+          },
+          "walletUuid": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "entity": {
+            "type": "string"
+          },
+          "currencyId": {
+            "type": "string"
+          },
+          "currencyExchangeId": {
+            "type": "integer"
+          },
+          "currencyExchangeUuid": {
+            "type": "string"
+          },
+          "reference": {
+            "type": "string"
+          },
+          "transactionAmount": {
+            "type": "number"
+          },
+          "transactionCurrencyId": {
+            "type": "string"
+          },
+          "transactionExchangeRate": {
+            "type": "string"
+          },
+          "retrievalReferenceNumber": {
+            "type": "string"
+          },
+          "rejectReason": {
+            "type": "string"
+          },
+          "purposeCode": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "purpose": {
+                "type": "string"
+              }
+            }
+          },
+          "createdAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "updatedAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "completedAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "permissions": {
+            "type": "object",
+            "properties": {
+              "canCancel": {
+                "type": "boolean"
+              },
+              "canSign": {
+                "type": "boolean"
+              },
+              "canDelete": {
+                "type": "boolean"
+              },
+              "canDownloadConfirmation": {
+                "type": "boolean"
+              }
+            }
+          },
+          "currency": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "currencyExchange": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "uuid": {
                 "type": "string"
               },
               "status": {
                 "type": "string"
+              },
+              "debitCurrencyId": {
+                "type": "string"
+              },
+              "creditCurrencyId": {
+                "type": "string"
+              },
+              "debitAmount": {
+                "type": "number"
+              },
+              "creditAmount": {
+                "type": "number"
+              },
+              "fee": {
+                "type": "number"
+              },
+              "total": {
+                "type": "number"
+              },
+              "rate": {
+                "type": "number"
+              },
+              "createdAt": {
+                "type": "integer"
+              },
+              "createdAtMs": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "updatedAtMs": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "completedAt": {
+                "type": "integer"
+              }
+            }
+          },
+          "merchant": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "externalId": {
+                "type": "string"
+              },
+              "categoryCode": {
+                "type": "string"
+              },
+              "categoryName": {
+                "type": "string"
+              },
+              "groupId": {
+                "type": "string"
+              },
+              "groupName": {
+                "type": "string"
+              },
+              "address": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "domain": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "iconUrl": {
+                "type": "string"
+              }
+            }
+          },
+          "card": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "maskedNumber": {
+                "type": "string"
+              }
+            }
+          },
+          "cardholder": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "channel": {
+                "type": "string"
+              },
+              "cardNumber": {
+                "type": "string"
+              }
+            }
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "originalName": {
+                  "type": "string"
+                }
               }
             }
           }
+        },
+        "example": {
+          "id": 0,
+          "uuid": "string",
+          "status": "new",
+          "type": "string",
+          "fee": {
+            "amount": 0,
+            "currencyId": "str"
+          },
+          "amount": 0,
+          "total": 0,
+          "counterparty": {
+            "name": "string",
+            "accountHolderName": "string",
+            "bic": "string",
+            "iban": "string"
+          },
+          "beneficiaryId": 0,
+          "walletId": 0,
+          "walletUuid": "string",
+          "icon": "CONVERT",
+          "entity": "PAYMENT",
+          "currencyId": "str",
+          "currencyExchangeId": 0,
+          "currencyExchangeUuid": "string",
+          "reference": "string",
+          "transactionAmount": 0,
+          "transactionCurrencyId": "str",
+          "transactionExchangeRate": "string",
+          "retrievalReferenceNumber": "string",
+          "rejectReason": "string",
+          "purposeCode": {
+            "code": "string",
+            "purpose": "string"
+          },
+          "createdAt": 1666666666999,
+          "updatedAt": 1666666666999,
+          "completedAt": 1667404598000,
+          "permissions": {
+            "canCancel": true,
+            "canSign": true,
+            "canDelete": true,
+            "canDownloadConfirmation": true
+          },
+          "currency": {
+            "id": "string",
+            "name": "str"
+          },
+          "currencyExchange": {
+            "id": 0,
+            "uuid": "string",
+            "status": "NEW",
+            "debitCurrencyId": "EUR",
+            "creditCurrencyId": "USD",
+            "debitAmount": 0,
+            "creditAmount": 0,
+            "fee": 0,
+            "total": 0,
+            "rate": 0,
+            "createdAt": 1667404598,
+            "createdAtMs": 1666666666999,
+            "updatedAtMs": 1666666666999,
+            "completedAt": 1667404598
+          },
+          "merchant": {
+            "id": 0,
+            "name": "string",
+            "externalId": "string",
+            "categoryCode": "stri",
+            "categoryName": "string",
+            "groupId": "string",
+            "groupName": "string",
+            "address": "string",
+            "url": "https://ebay.com",
+            "domain": "ebay.com",
+            "phone": "0800 358 6551",
+            "iconUrl": "https://ir.ebaystatic.com/pictures/aw/pics/announcements/new/logo/logo-inline.png"
+          },
+          "card": {
+            "id": 0,
+            "maskedNumber": "string"
+          },
+          "cardholder": {
+            "id": 0,
+            "name": "string",
+            "channel": "VISA",
+            "cardNumber": "string"
+          },
+          "files": [
+            {
+              "name": "5fb3ea0c68147.png",
+              "type": "invoice",
+              "url": "https://website.com/v1/payment/100/download/5fb3ea0c68147.pdf",
+              "originalName": "test.jpg"
+            }
+          ]
         }
       },
       "PaymentExpand": {
@@ -2607,12 +2956,12 @@
                 "status": {
                   "type": "integer",
                   "example": 401
-               }
-             }
-           }
-         }
-       }
-     },
+                }
+              }
+            }
+          }
+        }
+      },
       "OKResponse": {
         "description": "OK"
       },
@@ -2631,9 +2980,33 @@
                   "type": "string",
                   "example": "String"
                 },
-                  "status": {
+                "status": {
                   "type": "integer",
                   "example": 403
+                }
+              }
+            }
+          }
+        }
+      },
+      "BadRequestPayment": {
+        "description": "Bad Request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Bad Request"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "status": {
+                  "type": "integer",
+                  "example": 400
                 }
               }
             }
@@ -2690,26 +3063,58 @@
           }
         }
       },
-  "Conflict": {
-    "description": "Conflict",
-    "content": {
-      "application/json": {
-        "schema": {
-          "type": "object",
-          "properties": {
-            "message": {
-              "type": "string",
-              "example": "The entity already exists"
-            },
-            "status": {
-              "type": "integer",
-              "example": 409
+      "NotFoundPayment": {
+        "description": "Not Found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Not Found"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Page not found."
+                },
+                "code": {
+                  "type": "integer",
+                  "example": 0
+                },
+                "status": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "type": {
+                  "type": "string",
+                  "example": "yii\\web\\NotFoundHttpException"
+                }
+              }
             }
           }
         }
-      }
-    }
-  },
+      },
+      "Conflict": {
+        "description": "Conflict",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "The entity already exists"
+                },
+                "status": {
+                  "type": "integer",
+                  "example": 409
+                }
+              }
+            }
+          }
+        }
+      },
       "TooManyRequests": {
         "description": "Too Many Requests",
         "content": {
