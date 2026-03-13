@@ -893,15 +893,11 @@
                   "success": {
                     "summary": "Success",
                     "value": {
-                      "errors": {
-                        "email": "Email cannot be blank."
-                      },
-                      "notice": {
-                        "iban": "It looks like you entered an invalid IBAN number."
-                      },
+                      "errors": [],
+                      "notice": [],
                       "data": {
-                        "id": 0,
-                        "uuid": "string"
+                        "id": 84,
+                        "uuid": "019ce5b3-6a71-724a-8a44-267480d63534"
                       }
                     }
                   }
@@ -1886,7 +1882,7 @@
           },
           "name": {
             "type": "string",
-            "description": "Name of beneficiary",
+            "description": "Beneficiary template name",
             "example": "Aliaksandr",
             "maxLength": 255
           },
